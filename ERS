@@ -1,12 +1,7 @@
-Perfeito — ajustarei o **Documento de Especificação de Requisitos de Software (ERS)** para refletir que o sistema **não será web**, mas sim uma **aplicação desktop** desenvolvida em **Java**, utilizando **Maven** como gerenciador de dependências e **Scene Builder + JavaFX** para construção da interface gráfica.
-
-A seguir está a versão revisada:
-
----
 
 # **Documento de Especificação de Requisitos de Software (ERS)**
 
-## **Sistema de Gestão e Digitalização de Acervos do Museu Treze de Maio (Aplicação Desktop JavaFX)**
+## **Sistema de Gestão  de Acervos do Museu Treze de Maio (Aplicação Desktop JavaFX)**
 
 ### **Versão:** 1.1
 
@@ -20,14 +15,14 @@ A seguir está a versão revisada:
 
 ## **1.1 Propósito**
 
-Especificar os requisitos funcionais e não funcionais para o desenvolvimento de um **software desktop** destinado à digitalização, catalogação e gestão do acervo histórico e da biblioteca comunitária do Museu Treze de Maio.
+Especificar os requisitos funcionais e não funcionais para o desenvolvimento de um **software desktop** destinado à catalogação e gestão do acervo histórico e da biblioteca comunitária do Museu Treze de Maio.
 
 ## **1.2 Escopo**
 
 O sistema será uma **aplicação desktop**, rodando localmente em computadores do museu, com possibilidade de integração futura com backups em nuvem.
 Ele permitirá:
 
-* Digitalizar, catalogar e consultar o acervo histórico (fotos, documentos, jornais, cartas etc.).
+* Catalogar e consultar o acervo histórico (fotos, documentos, jornais, cartas etc.).
 * Controlar o acervo da biblioteca comunitária (livros, revistas).
 * Acessar o conteúdo digital de forma organizada e segura.
 * Controlar empréstimos e devoluções.
@@ -38,8 +33,8 @@ Ele permitirá:
 * **JavaFX** (interface gráfica)
 * **Scene Builder** (construção das telas)
 * **Maven** (gerenciamento do projeto)
-* **SQLite ou PostgreSQL** (sugerido)
-* **OCR opcional** via lib Tesseract
+* **MySQL ou SQLServer** (sugerido)
+
 
 ---
 
@@ -49,7 +44,7 @@ Ele permitirá:
 
 O software será **instalado em computadores do museu**, podendo operar offline. Será composto de:
 
-* **Módulo de administração** (cadastro e digitalização)
+* **Módulo de administração** (cadastro)
 * **Módulo de consulta**
 * **Módulo de biblioteca**
 * **Banco de dados local**
@@ -58,9 +53,8 @@ Não haverá acesso via navegador.
 
 ## **2.2 Funcionalidades Principais**
 
-* Cadastro e digitalização do acervo histórico.
+* Cadastro o do acervo histórico.
 * Catalogação e classificação por metadados.
-* Busca por metadados e busca textual (OCR opcional).
 * Gerenciamento de biblioteca (cadastro, empréstimos, reservas).
 * Interface gráfica criada via JavaFX/Scene Builder.
 
@@ -74,8 +68,8 @@ Não haverá acesso via navegador.
 ## **2.4 Restrições**
 
 * Uso estrito de Java + Maven + JavaFX.
-* Utilização de banco local (SQLite ou PostgreSQL).
-* Interface deve rodar em Windows ou Linux.
+* Utilização de banco local (MySQL ou SQLServer).
+* Interface deve rodar em Windows.
 
 ---
 
@@ -96,19 +90,8 @@ Cadastrar itens com:
 * categoria
 * origem/procedência
 
-### **RF002 – Digitalização / Upload**
 
-Permitir anexar arquivos digitalizados:
-
-* PDF
-* JPEG/PNG/TIFF
-* Áudio ou vídeo (se houver)
-
-### **RF003 – OCR (Opcional)**
-
-Permitir extrair texto de imagens e PDFs via biblioteca Tesseract.
-
-### **RF004 – Pesquisa e Filtro**
+### **RF002 – Pesquisa e Filtro**
 
 O sistema deve permitir busca:
 
@@ -116,21 +99,20 @@ O sistema deve permitir busca:
 * por data
 * por autor
 * por tipo de documento
-* por texto (OCR)
 
-### **RF005 – Visualização de Itens**
+### **RF003 – Visualização de Itens**
 
 Exibir miniatura, dados e arquivos associados no próprio aplicativo (sem navegador).
 
-### **RF006 – Controle de Acesso Local**
+### **RF004 – Controle de Acesso Local**
 
 Perfis com níveis diferentes de permissão.
 
-### **RF007 – Cadastro da Biblioteca Comunitária**
+### **RF005 – Cadastro da Biblioteca Comunitária**
 
 Cadastrar livros e revistas com campos: título, autor, editora, ano, ISBN, categoria, estado de conservação.
 
-### **RF008 – Empréstimos e Devoluções**
+### **RF006 – Empréstimos e Devoluções**
 
 Registrar:
 
@@ -139,19 +121,19 @@ Registrar:
 * data prevista para devolução
 * status do item
 
-### **RF009 – Reservas**
+### **RF007 – Reservas**
 
 Registrar solicitações de reserva feitas por usuários internos.
 
-### **RF010 – Backup Local**
+### **RF08 – Backup Local**
 
 Gerar backup do banco de dados e arquivos digitalizados em pasta definida.
 
-### **RF011 – Logs de Ações**
+### **RF09 – Logs de Ações**
 
 Registrar alterações feitas pelos usuários administradores.
 
-### **RF012 – Relatórios**
+### **RF10 – Relatórios**
 
 * Itens cadastrados por categoria
 * Empréstimos ativos
@@ -168,17 +150,17 @@ A interface deve ser construída com JavaFX/Scene Builder, com navegação simpl
 
 ### **RNF002 – Desempenho**
 
-* O sistema deve abrir em até 5 segundos.
+* O sistema deve abrir em até 10 segundos.
 * Arquivos de até 500 MB devem ser aceitos.
 
 ### **RNF003 – Armazenamento**
 
-* Banco de dados local (SQLite recomendado para simplicidade).
+* Banco de dados local (SQLServer ou MySQL).
 * Pasta de armazenamento dos arquivos digitalizados.
 
 ### **RNF004 – Segurança**
 
-* Senha local criptografada no banco.
+* Senha local criptografada no banco. ??????????
 * Dados de backup protegidos por senha.
 
 ### **RNF005 – Confiabilidade**
@@ -191,7 +173,7 @@ A interface deve ser construída com JavaFX/Scene Builder, com navegação simpl
 Compatível com:
 
 * **Windows 10+**
-* **Linux Ubuntu 20+**
+
 
 ---
 
@@ -275,11 +257,3 @@ Posso gerar este diagrama visual se desejar.
 * Fluxogramas de uso
 
 ---
-
-Se quiser, posso complementar com:
-✅ Diagramas UML (casos de uso, classes, sequência)
-✅ Template pronto de projeto Maven (com pastas, controllers, views, models)
-✅ Modelo de banco (SQL)
-✅ Protótipos visuais das telas em JavaFX/Scene Builder
-
-Deseja que eu gere algum desses componentes?
