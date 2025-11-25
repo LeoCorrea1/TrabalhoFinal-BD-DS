@@ -1,0 +1,140 @@
+A seguir apresento o **Diagrama de Casos de Uso** do sistema, no formato **Mermaid UML**, ideal para visualização em ferramentas como Mermaid Live Editor.
+
+Se desejar, posso gerar também em **PlantUML**.
+
+---
+
+# **📘 Diagrama de Casos de Uso — Sistema de Gestão e Digitalização de Acervos (JavaFX)**
+
+```mermaid
+usecaseDiagram
+
+actor "Administrador" as Admin
+actor "Bibliotecário" as Biblio
+actor "Pesquisador" as Pesq
+actor "Visitante" as Visit
+
+rectangle Sistema {
+    
+    usecase "Cadastrar Item do Acervo" as UC01
+    usecase "Editar/Excluir Item do Acervo" as UC02
+    usecase "Digitalizar/Anexar Arquivos" as UC03
+    usecase "Executar OCR" as UC04
+    usecase "Pesquisar no Acervo" as UC05
+    usecase "Visualizar Item do Acervo" as UC06
+
+    usecase "Cadastrar Livro" as UC07
+    usecase "Editar/Excluir Livro" as UC08
+    usecase "Registrar Empréstimo" as UC09
+    usecase "Registrar Devolução" as UC10
+    usecase "Reservar Livro" as UC11
+
+    usecase "Gerenciar Usuários" as UC12
+    usecase "Gerar Relatórios" as UC13
+    usecase "Executar Backup" as UC14
+    usecase "Gerenciar Configurações" as UC15
+}
+
+%% ASSOCIAÇÕES
+
+Admin --> UC01
+Admin --> UC02
+Admin --> UC03
+Admin --> UC04
+Admin --> UC05
+Admin --> UC06
+Admin --> UC07
+Admin --> UC08
+Admin --> UC09
+Admin --> UC10
+Admin --> UC11
+Admin --> UC12
+Admin --> UC13
+Admin --> UC14
+Admin --> UC15
+
+Biblio --> UC07
+Biblio --> UC08
+Biblio --> UC09
+Biblio --> UC10
+Biblio --> UC11
+Biblio --> UC05
+Biblio --> UC06
+
+Pesq --> UC05
+Pesq --> UC06
+Pesq --> UC11
+
+Visit --> UC05
+Visit --> UC06
+```
+
+---
+
+# ✔️ Descrição dos Principais Casos de Uso
+
+### **UC01 – Cadastrar Item do Acervo**
+
+Permite criar novos registros do acervo histórico, com metadados completos.
+
+### **UC02 – Editar/Excluir Item**
+
+Administradores gerenciam itens existentes.
+
+### **UC03 – Digitalizar/Anexar Arquivos**
+
+Upload de imagens, PDFs, áudios ou vídeos associados ao item.
+
+### **UC04 – Executar OCR**
+
+Processa arquivos digitalizados para extrair texto pesquisável.
+
+### **UC05 – Pesquisar no Acervo**
+
+Busca por palavra-chave, autor, data, categoria ou texto OCR.
+
+### **UC06 – Visualizar Item**
+
+Exibe metadados e arquivos digitalizados.
+
+### **UC07/UC08 – Gerência da Biblioteca**
+
+Cadastro, edição e exclusão de livros e revistas.
+
+### **UC09 – Registrar Empréstimo**
+
+Bibliotecário empresta um livro ao pesquisador/usuário interno.
+
+### **UC10 – Registrar Devolução**
+
+Atualiza o status do item.
+
+### **UC11 – Reservar Livro**
+
+Pesquisador agenda reserva de um título.
+
+### **UC12 – Gerenciar Usuários**
+
+Cadastro, edição e bloqueio de usuários do sistema.
+
+### **UC13 – Gerar Relatórios**
+
+Relatórios de uso, acervo, empréstimos, consultas.
+
+### **UC14 – Executar Backup**
+
+Criação de backup local do banco de dados e arquivos.
+
+### **UC15 – Gerenciar Configurações**
+
+Define pasta de armazenamento, preferências e opções do sistema.
+
+---
+
+Se quiser, posso complementar com:
+
+✅ **Descrição textual detalhada de cada Caso de Uso (padrão UML)**
+✅ **Diagrama de Sequência por caso de uso**
+✅ **Diagrama de Pacotes (arquitetura em camadas MVC para JavaFX)**
+
+Deseja algum desses?
