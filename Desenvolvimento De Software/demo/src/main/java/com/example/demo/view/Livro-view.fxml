@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.demo.controller.LivroController"
+      alignment="TOP_CENTER">
+
+    <padding>
+        <Insets top="15" right="15" bottom="15" left="15"/>
+    </padding>
+
+    <!-- Campos -->
+    <HBox spacing="10">
+        <VBox spacing="5">
+            <Label text="Título"/>
+            <TextField fx:id="txtTitulo"/>
+        </VBox>
+
+        <VBox spacing="5">
+            <Label text="Ano"/>
+            <TextField fx:id="txtAno"/>
+        </VBox>
+
+        <VBox spacing="5">
+            <Label text="ISBN"/>
+            <TextField fx:id="txtISBN"/>
+        </VBox>
+    </HBox>
+
+    <HBox spacing="10">
+        <VBox spacing="5">
+            <Label text="ID Autor"/>
+            <TextField fx:id="txtAutor"/>
+        </VBox>
+
+        <VBox spacing="5">
+            <Label text="ID Assunto"/>
+            <TextField fx:id="txtAssunto"/>
+        </VBox>
+    </HBox>
+
+    <!-- Botões -->
+    <HBox spacing="15" alignment="CENTER">
+        <Button text="Salvar"    onAction="#salvarLivro"/>
+        <Button text="Atualizar" onAction="#atualizarLivro"/>
+        <Button text="Deletar"   onAction="#deletarLivro"/>
+    </HBox>
+
+    <!-- Tabela -->
+    <TableView fx:id="tabelaLivros" prefHeight="300">
+
+        <columns>
+            <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
+            <TableColumn fx:id="colTitulo" text="Título" prefWidth="150"/>
+            <TableColumn fx:id="colAno" text="Ano" prefWidth="70"/>
+            <TableColumn fx:id="colIsbn" text="ISBN" prefWidth="120"/>
+            <TableColumn fx:id="colAutor" text="Autor" prefWidth="70"/>
+            <TableColumn fx:id="colAssunto" text="Assunto" prefWidth="80"/>
+        </columns>
+
+    </TableView>
+
+</VBox>
