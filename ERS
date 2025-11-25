@@ -1,140 +1,285 @@
-A seguir apresento o **Diagrama de Casos de Uso** do sistema, no formato **Mermaid UML**, ideal para visualização em ferramentas como Mermaid Live Editor.
+Perfeito — ajustarei o **Documento de Especificação de Requisitos de Software (ERS)** para refletir que o sistema **não será web**, mas sim uma **aplicação desktop** desenvolvida em **Java**, utilizando **Maven** como gerenciador de dependências e **Scene Builder + JavaFX** para construção da interface gráfica.
 
-Se desejar, posso gerar também em **PlantUML**.
-
----
-
-# **📘 Diagrama de Casos de Uso — Sistema de Gestão e Digitalização de Acervos (JavaFX)**
-
-```mermaid
-usecaseDiagram
-
-actor "Administrador" as Admin
-actor "Bibliotecário" as Biblio
-actor "Pesquisador" as Pesq
-actor "Visitante" as Visit
-
-rectangle Sistema {
-    
-    usecase "Cadastrar Item do Acervo" as UC01
-    usecase "Editar/Excluir Item do Acervo" as UC02
-    usecase "Digitalizar/Anexar Arquivos" as UC03
-    usecase "Executar OCR" as UC04
-    usecase "Pesquisar no Acervo" as UC05
-    usecase "Visualizar Item do Acervo" as UC06
-
-    usecase "Cadastrar Livro" as UC07
-    usecase "Editar/Excluir Livro" as UC08
-    usecase "Registrar Empréstimo" as UC09
-    usecase "Registrar Devolução" as UC10
-    usecase "Reservar Livro" as UC11
-
-    usecase "Gerenciar Usuários" as UC12
-    usecase "Gerar Relatórios" as UC13
-    usecase "Executar Backup" as UC14
-    usecase "Gerenciar Configurações" as UC15
-}
-
-%% ASSOCIAÇÕES
-
-Admin --> UC01
-Admin --> UC02
-Admin --> UC03
-Admin --> UC04
-Admin --> UC05
-Admin --> UC06
-Admin --> UC07
-Admin --> UC08
-Admin --> UC09
-Admin --> UC10
-Admin --> UC11
-Admin --> UC12
-Admin --> UC13
-Admin --> UC14
-Admin --> UC15
-
-Biblio --> UC07
-Biblio --> UC08
-Biblio --> UC09
-Biblio --> UC10
-Biblio --> UC11
-Biblio --> UC05
-Biblio --> UC06
-
-Pesq --> UC05
-Pesq --> UC06
-Pesq --> UC11
-
-Visit --> UC05
-Visit --> UC06
-```
+A seguir está a versão revisada:
 
 ---
 
-# ✔️ Descrição dos Principais Casos de Uso
+# **Documento de Especificação de Requisitos de Software (ERS)**
 
-### **UC01 – Cadastrar Item do Acervo**
+## **Sistema de Gestão e Digitalização de Acervos do Museu Treze de Maio (Aplicação Desktop JavaFX)**
 
-Permite criar novos registros do acervo histórico, com metadados completos.
+### **Versão:** 1.1
 
-### **UC02 – Editar/Excluir Item**
+### **Plataforma:** Java + Maven + Scene Builder (JavaFX)
 
-Administradores gerenciam itens existentes.
+### **Data:** 25/11/2025
 
-### **UC03 – Digitalizar/Anexar Arquivos**
+---
 
-Upload de imagens, PDFs, áudios ou vídeos associados ao item.
+# **1. Introdução**
 
-### **UC04 – Executar OCR**
+## **1.1 Propósito**
 
-Processa arquivos digitalizados para extrair texto pesquisável.
+Especificar os requisitos funcionais e não funcionais para o desenvolvimento de um **software desktop** destinado à digitalização, catalogação e gestão do acervo histórico e da biblioteca comunitária do Museu Treze de Maio.
 
-### **UC05 – Pesquisar no Acervo**
+## **1.2 Escopo**
 
-Busca por palavra-chave, autor, data, categoria ou texto OCR.
+O sistema será uma **aplicação desktop**, rodando localmente em computadores do museu, com possibilidade de integração futura com backups em nuvem.
+Ele permitirá:
 
-### **UC06 – Visualizar Item**
+* Digitalizar, catalogar e consultar o acervo histórico (fotos, documentos, jornais, cartas etc.).
+* Controlar o acervo da biblioteca comunitária (livros, revistas).
+* Acessar o conteúdo digital de forma organizada e segura.
+* Controlar empréstimos e devoluções.
 
-Exibe metadados e arquivos digitalizados.
+## **1.3 Plataforma e Tecnologias**
 
-### **UC07/UC08 – Gerência da Biblioteca**
+* **Java 17+**
+* **JavaFX** (interface gráfica)
+* **Scene Builder** (construção das telas)
+* **Maven** (gerenciamento do projeto)
+* **SQLite ou PostgreSQL** (sugerido)
+* **OCR opcional** via lib Tesseract
 
-Cadastro, edição e exclusão de livros e revistas.
+---
 
-### **UC09 – Registrar Empréstimo**
+# **2. Descrição Geral**
 
-Bibliotecário empresta um livro ao pesquisador/usuário interno.
+## **2.1 Perspectiva do Produto**
 
-### **UC10 – Registrar Devolução**
+O software será **instalado em computadores do museu**, podendo operar offline. Será composto de:
 
-Atualiza o status do item.
+* **Módulo de administração** (cadastro e digitalização)
+* **Módulo de consulta**
+* **Módulo de biblioteca**
+* **Banco de dados local**
 
-### **UC11 – Reservar Livro**
+Não haverá acesso via navegador.
 
-Pesquisador agenda reserva de um título.
+## **2.2 Funcionalidades Principais**
 
-### **UC12 – Gerenciar Usuários**
+* Cadastro e digitalização do acervo histórico.
+* Catalogação e classificação por metadados.
+* Busca por metadados e busca textual (OCR opcional).
+* Gerenciamento de biblioteca (cadastro, empréstimos, reservas).
+* Interface gráfica criada via JavaFX/Scene Builder.
 
-Cadastro, edição e bloqueio de usuários do sistema.
+## **2.3 Usuários**
 
-### **UC13 – Gerar Relatórios**
+* **Administrador**
+* **Bibliotecário**
+* **Pesquisador** (usuário local com permissões ampliadas)
+* **Visitante** (modo leitura, sem alterações)
 
-Relatórios de uso, acervo, empréstimos, consultas.
+## **2.4 Restrições**
 
-### **UC14 – Executar Backup**
+* Uso estrito de Java + Maven + JavaFX.
+* Utilização de banco local (SQLite ou PostgreSQL).
+* Interface deve rodar em Windows ou Linux.
 
-Criação de backup local do banco de dados e arquivos.
+---
 
-### **UC15 – Gerenciar Configurações**
+# **3. Requisitos Específicos**
 
-Define pasta de armazenamento, preferências e opções do sistema.
+## **3.1 Requisitos Funcionais (RF)**
+
+### **RF001 – Cadastro do Acervo Histórico**
+
+Cadastrar itens com:
+
+* título
+* data
+* tipo de documento
+* descrição
+* autor
+* palavras-chave
+* categoria
+* origem/procedência
+
+### **RF002 – Digitalização / Upload**
+
+Permitir anexar arquivos digitalizados:
+
+* PDF
+* JPEG/PNG/TIFF
+* Áudio ou vídeo (se houver)
+
+### **RF003 – OCR (Opcional)**
+
+Permitir extrair texto de imagens e PDFs via biblioteca Tesseract.
+
+### **RF004 – Pesquisa e Filtro**
+
+O sistema deve permitir busca:
+
+* por palavras-chave
+* por data
+* por autor
+* por tipo de documento
+* por texto (OCR)
+
+### **RF005 – Visualização de Itens**
+
+Exibir miniatura, dados e arquivos associados no próprio aplicativo (sem navegador).
+
+### **RF006 – Controle de Acesso Local**
+
+Perfis com níveis diferentes de permissão.
+
+### **RF007 – Cadastro da Biblioteca Comunitária**
+
+Cadastrar livros e revistas com campos: título, autor, editora, ano, ISBN, categoria, estado de conservação.
+
+### **RF008 – Empréstimos e Devoluções**
+
+Registrar:
+
+* nome do usuário
+* data do empréstimo
+* data prevista para devolução
+* status do item
+
+### **RF009 – Reservas**
+
+Registrar solicitações de reserva feitas por usuários internos.
+
+### **RF010 – Backup Local**
+
+Gerar backup do banco de dados e arquivos digitalizados em pasta definida.
+
+### **RF011 – Logs de Ações**
+
+Registrar alterações feitas pelos usuários administradores.
+
+### **RF012 – Relatórios**
+
+* Itens cadastrados por categoria
+* Empréstimos ativos
+* Itens mais consultados
+* Histórico de ações
+
+---
+
+## **3.2 Requisitos Não Funcionais (RNF)**
+
+### **RNF001 – Usabilidade**
+
+A interface deve ser construída com JavaFX/Scene Builder, com navegação simples e menus visíveis.
+
+### **RNF002 – Desempenho**
+
+* O sistema deve abrir em até 5 segundos.
+* Arquivos de até 500 MB devem ser aceitos.
+
+### **RNF003 – Armazenamento**
+
+* Banco de dados local (SQLite recomendado para simplicidade).
+* Pasta de armazenamento dos arquivos digitalizados.
+
+### **RNF004 – Segurança**
+
+* Senha local criptografada no banco.
+* Dados de backup protegidos por senha.
+
+### **RNF005 – Confiabilidade**
+
+* Sistema deve funcionar offline.
+* Deve evitar corrupção de arquivos ao realizar uploads.
+
+### **RNF006 – Portabilidade**
+
+Compatível com:
+
+* **Windows 10+**
+* **Linux Ubuntu 20+**
+
+---
+
+# **4. Modelagem do Sistema**
+
+## **4.1 Entidades Principais**
+
+* **ItemAcervo**
+* **ArquivoDigital**
+* **Livro**
+* **Emprestimo**
+* **Usuario**
+* **Reserva**
+* **LogAcao**
+
+## **4.2 Diagrama de Classes (descrito textualmente)**
+
+* **ItemAcervo** → 1:N → **ArquivoDigital**
+* **Usuario** → 1:N → **Emprestimo**
+* **Livro** → 1:N → **Emprestimo**
+* **Usuario** → 1:N → **Reserva**
+
+Posso gerar este diagrama visual se desejar.
+
+---
+
+# **5. Interfaces (JavaFX)**
+
+## **5.1 Telas Previstas (Scene Builder)**
+
+### **Tela Inicial**
+
+* Login
+* Menu principal quando logado
+
+### **Tela de Gestão do Acervo**
+
+* Formulário de cadastro
+* Lista de itens
+* Visualização e edição
+
+### **Tela de Upload/Digitalização**
+
+* Inserção de arquivos
+* Metadados
+
+### **Tela de Biblioteca**
+
+* Cadastro de livros
+* Empréstimos e devoluções
+* Reservas
+
+### **Tela de Pesquisa**
+
+* Pesquisa por filtros
+* Resultados paginados
+* Pré-visualização
+
+### **Tela de Configurações**
+
+* Backup
+* Usuários
+* Diretórios de armazenamento
+
+---
+
+# **6. Critérios de Aceitação**
+
+* Todas as telas funcionalmente navegáveis via JavaFX.
+* Banco de dados operacional e persistente.
+* Digitalização e upload funcionando para todos os tipos de arquivo declarados.
+* Busca retornando resultados coerentes com filtros.
+* Interface acessível, responsiva e intuitiva.
+
+---
+
+# **7. Anexos**
+
+* Mockups em JavaFX (posso gerar se desejar)
+* Dicionário de dados
+* Fluxogramas de uso
 
 ---
 
 Se quiser, posso complementar com:
+✅ Diagramas UML (casos de uso, classes, sequência)
+✅ Template pronto de projeto Maven (com pastas, controllers, views, models)
+✅ Modelo de banco (SQL)
+✅ Protótipos visuais das telas em JavaFX/Scene Builder
 
-✅ **Descrição textual detalhada de cada Caso de Uso (padrão UML)**
-✅ **Diagrama de Sequência por caso de uso**
-✅ **Diagrama de Pacotes (arquitetura em camadas MVC para JavaFX)**
-
-Deseja algum desses?
+Deseja que eu gere algum desses componentes?
