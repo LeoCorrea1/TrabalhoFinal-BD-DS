@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.SistemaBiblioteca.controller.EditoraController">
+
+    <top>
+        <HBox spacing="8" style="-fx-padding:10">
+            <TextField fx:id="searchField" promptText="Pesquisar por nome..." HBox.hgrow="ALWAYS"/>
+            <Button text="Pesquisar" onAction="#onPesquisar"/>
+            <Button text="Novo" onAction="#onNova"/>
+            <Button fx:id="btnEditar" text="Editar" onAction="#onEditar" disable="true"/>
+            <Button fx:id="btnExcluir" text="Excluir" onAction="#onExcluir" disable="true"/>
+            <Button text="Atualizar" onAction="#onRefresh"/>
+        </HBox>
+    </top>
+
+    <center>
+        <TableView fx:id="tableView">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
+                <TableColumn fx:id="colNome" text="Nome" prefWidth="260"/>
+                <TableColumn fx:id="colContato" text="Contato" prefWidth="200"/>
+                <TableColumn fx:id="colEndereco" text="Endereço" prefWidth="260"/>
+            </columns>
+        </TableView>
+    </center>
+
+</BorderPane>

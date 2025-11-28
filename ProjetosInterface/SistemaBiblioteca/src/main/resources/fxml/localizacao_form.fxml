@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.SistemaBiblioteca.controller.LocalizacaoFormController"
+      spacing="8" style="-fx-padding:12">
+
+    <Label text="Localização" style="-fx-font-size:14;"/>
+
+    <GridPane hgap="8" vgap="8">
+        <columnConstraints>
+            <ColumnConstraints minWidth="120"/>
+            <ColumnConstraints hgrow="ALWAYS"/>
+        </columnConstraints>
+
+        <Label text="Setor:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtSetor" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Prateleira:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtPrateleira" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Caixa:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtCaixa" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+    </GridPane>
+
+    <HBox alignment="CENTER_RIGHT" spacing="8">
+        <Button text="Salvar" onAction="#onSalvar"/>
+        <Button text="Cancelar" onAction="#onCancelar"/>
+    </HBox>
+</VBox>

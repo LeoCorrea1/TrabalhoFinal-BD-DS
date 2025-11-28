@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.SistemaBiblioteca.controller.ExemplarFormController"
+      spacing="8" style="-fx-padding:12">
+
+    <Label text="Exemplar" style="-fx-font-size:14;"/>
+
+    <GridPane hgap="8" vgap="8">
+        <columnConstraints>
+            <ColumnConstraints minWidth="120" />
+            <ColumnConstraints hgrow="ALWAYS" />
+        </columnConstraints>
+
+        <Label text="Código de Barras:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtCodigo" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Estado:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtEstado" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Disponível:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <CheckBox fx:id="chkDisponivel" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="Localização:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <HBox spacing="8" GridPane.rowIndex="3" GridPane.columnIndex="1">
+            <ComboBox fx:id="comboLocalizacao" HBox.hgrow="ALWAYS"/>
+            <Button text="..." onAction="#onOpenLocalizacao"/>
+        </HBox>
+
+    </GridPane>
+
+    <HBox spacing="8" alignment="CENTER_RIGHT">
+        <Button text="Salvar" onAction="#onSalvar"/>
+        <Button text="Cancelar" onAction="#onCancelar"/>
+    </HBox>
+</VBox>

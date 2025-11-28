@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+
+<GridPane xmlns:fx="http://javafx.com/fxml"
+          fx:controller="com.example.SistemaBiblioteca.controller.LivroFormController"
+          hgap="10" vgap="8" alignment="CENTER">
+    <padding>
+        <Insets top="15" right="15" bottom="15" left="15"/>
+    </padding>
+
+    <Label text="Tipo:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+    <ComboBox fx:id="comboTipo" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="250"/>
+
+    <Label text="Editora:" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+    <ComboBox fx:id="comboEditora" GridPane.rowIndex="0" GridPane.columnIndex="3" prefWidth="250"/>
+
+    <Label text="Título:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+    <TextField fx:id="tituloField" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="400" GridPane.columnSpan="3"/>
+
+    <Label text="Subtítulo:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+    <TextField fx:id="subtituloField" GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.columnSpan="3"/>
+
+    <Label text="Ano:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+    <TextField fx:id="anoField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+    <Label text="Idioma:" GridPane.rowIndex="3" GridPane.columnIndex="2"/>
+    <TextField fx:id="idiomaField" GridPane.rowIndex="3" GridPane.columnIndex="3"/>
+
+    <Label text="Descrição:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+    <TextArea fx:id="descricaoField" GridPane.rowIndex="4" GridPane.columnIndex="1" prefRowCount="3" GridPane.columnSpan="3"/>
+
+    <Label text="ISBN:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+    <TextField fx:id="isbnField" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+    <Label text="Edição:" GridPane.rowIndex="5" GridPane.columnIndex="2"/>
+    <TextField fx:id="edicaoField" GridPane.rowIndex="5" GridPane.columnIndex="3"/>
+
+    <Label text="Páginas:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+    <TextField fx:id="paginasField" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+    <HBox spacing="10" GridPane.rowIndex="7" GridPane.columnIndex="1" GridPane.columnSpan="3" alignment="CENTER_RIGHT">
+        <Button text="Salvar" onAction="#onSalvar"/>
+        <Button text="Excluir" onAction="#onExcluir"/>
+        <Button text="Cancelar" onAction="#onCancelar"/>
+    </HBox>
+</GridPane>

@@ -1,72 +1,27 @@
 package com.example.SistemaBiblioteca.model;
 
 public class Livro {
+    private Integer id; // igual ao idItemAcervo
+    private String isbn;
+    private String edicao;
+    private Integer numeroPaginas;
+    private Integer idEditora;
 
-        private int id; // mesma PK do ItemAcervo
-        private String isbn;
-        private String edicao;
-        private Integer numeroPaginas;
-        private Integer idEditora;
+    public Livro() {}
 
-        private ItemAcervo itemAcervo; // relação 1–1
+    // getters/setters
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
-        public Livro() {}
+    public String getIsbn() { return isbn; }
+    public void setIsbn(String isbn) { this.isbn = isbn; }
 
-        public Livro(int id, String isbn, String edicao, Integer numeroPaginas, Integer idEditora) {
-            this.id = id;
-            this.isbn = isbn;
-            this.edicao = edicao;
-            this.numeroPaginas = numeroPaginas;
-            this.idEditora = idEditora;
-        }
+    public String getEdicao() { return edicao; }
+    public void setEdicao(String edicao) { this.edicao = edicao; }
 
-    public int getId() {
-        return id;
-    }
+    public Integer getNumeroPaginas() { return numeroPaginas; }
+    public void setNumeroPaginas(Integer numeroPaginas) { this.numeroPaginas = numeroPaginas; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
-    public String getEdicao() {
-        return edicao;
-    }
-
-    public void setEdicao(String edicao) {
-        this.edicao = edicao;
-    }
-
-    public Integer getNumeroPaginas() {
-        return numeroPaginas;
-    }
-
-    public void setNumeroPaginas(Integer numeroPaginas) {
-        this.numeroPaginas = numeroPaginas;
-    }
-
-    public Integer getIdEditora() {
-        return idEditora;
-    }
-
-    public void setIdEditora(Integer idEditora) {
-        this.idEditora = idEditora;
-    }
-
-    public ItemAcervo getItemAcervo() {
-        return itemAcervo;
-    }
-
-    public void setItemAcervo(ItemAcervo itemAcervo) {
-        this.itemAcervo = itemAcervo;
-    }
+    public Integer getIdEditora() { return idEditora; }
+    public void setIdEditora(Integer idEditora) { this.idEditora = idEditora; }
 }
-
-

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.SistemaBiblioteca.controller.LocalizacaoListController">
+
+    <top>
+        <HBox spacing="8" style="-fx-padding:10">
+            <TextField fx:id="searchField" promptText="Pesquisar... (setor/prateleira/caixa)" HBox.hgrow="ALWAYS"/>
+            <Button text="Pesquisar" onAction="#onPesquisar"/>
+            <Button fx:id="btnNovo" text="Novo" onAction="#onNovo"/>
+            <Button fx:id="btnEditar" text="Editar" onAction="#onEditar" disable="true"/>
+            <Button fx:id="btnExcluir" text="Excluir" onAction="#onExcluir" disable="true"/>
+            <Button text="Fechar" onAction="#onFechar"/>
+        </HBox>
+    </top>
+
+    <center>
+        <TableView fx:id="tableView" prefHeight="480" prefWidth="900">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="70"/>
+                <TableColumn fx:id="colSetor" text="Setor" prefWidth="220"/>
+                <TableColumn fx:id="colPrateleira" text="Prateleira" prefWidth="220"/>
+                <TableColumn fx:id="colCaixa" text="Caixa" prefWidth="220"/>
+            </columns>
+        </TableView>
+    </center>
+</BorderPane>
