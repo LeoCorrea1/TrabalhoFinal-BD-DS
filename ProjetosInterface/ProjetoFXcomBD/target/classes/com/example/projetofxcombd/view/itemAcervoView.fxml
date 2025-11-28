@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="12" xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.projetofxcombd.controller.ItemAcervoControllerFX"
+      style="-fx-padding: 15px;">
+
+    <Label text="Gerenciar Itens do Acervo" style="-fx-font-size: 22px"/>
+
+    <GridPane hgap="10" vgap="10">
+        <padding><Insets top="10"/></padding>
+
+        <Label text="Título:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtTitulo" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Subtítulo:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtSubtitulo" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Ano:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtAno" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="Idioma:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtIdioma" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+        <Label text="Descrição:"
+               GridPane.rowIndex="4" GridPane.columnIndex="0" />
+        <TextArea fx:id="txtDescricao" prefRowCount="3"
+                  GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+    </GridPane>
+
+    <HBox spacing="10">
+        <Button text="Salvar" onAction="#salvar"/>
+        <Button text="Atualizar" onAction="#atualizar"/>
+        <Button text="Deletar" onAction="#deletar"/>
+    </HBox>
+
+    <TableView fx:id="tabela" prefHeight="230" onMouseClicked="#selecionarDaTabela">
+        <columns>
+            <TableColumn text="ID" fx:id="colId" prefWidth="60"/>
+            <TableColumn text="Título" fx:id="colTitulo" prefWidth="200"/>
+            <TableColumn text="Idioma" fx:id="colIdioma" prefWidth="120"/>
+        </columns>
+    </TableView>
+
+</VBox>
