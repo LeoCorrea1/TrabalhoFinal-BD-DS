@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.SistemaBiblioteca.controller.MenuController">
+
+    <top>
+        <MenuBar>
+            <Menu text="Cadastros">
+                <MenuItem text="Item do Acervo" onAction="#abrirItemAcervo"/>
+                <MenuItem text="Livro" onAction="#abrirLivro"/>
+            </Menu>
+            <Menu text="Sistema">
+                <MenuItem text="Fechar" onAction="#fecharApp"/>
+            </Menu>
+        </MenuBar>
+    </top>
+
+    <center>
+        <Label text="Sistema da Biblioteca"
+               style="-fx-font-size: 26px; -fx-padding: 30px;"/>
+    </center>
+
+</BorderPane>
