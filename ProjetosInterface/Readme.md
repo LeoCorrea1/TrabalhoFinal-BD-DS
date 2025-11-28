@@ -1,85 +1,94 @@
-📚 Sistema de Gestão de Biblioteca e Acervo Histórico
+📚 Sistema de Biblioteca e Acervo Histórico
 
-Projeto desenvolvido para a disciplina Laboratório de Desenvolvimento de Software – 2025/2
-Instituição: UFN – Universidade Franciscana
+Este repositório contém um sistema desenvolvido em Java para gerenciar uma Biblioteca Comunitária e um Acervo Histórico, utilizando JavaFX para interface gráfica e MySQL como banco de dados.
 
-📌 Descrição do Projeto
+🔧 Tecnologias Utilizadas
 
-Este projeto implementa dois sistemas independentes dentro de uma mesma aplicação Java:
+Java (versão 17 ou superior)
 
-🏛 1. Sistema de Biblioteca Comunitária
+JavaFX
 
-Permite gerenciar:
+Scene Builder
 
-Livros
+Maven
+
+JDBC
+
+MySQL
+
+📌 Funcionalidades
+📘 Biblioteca Comunitária
+
+Cadastro de Itens de Acervo
+
+Cadastro de Livros vinculados ao ItemAcervo
+
+Listagem com tabela e seleção
+
+CRUD completo para:
+
+ItemAcervo
+
+Livro
+
+🧩 Estrutura pronta para expansão
 
 Revistas
 
 Jornais
 
-Item de Acervo (classe-base)
-
-Exemplares
-
-Usuários
-
-Empréstimos
-
-Reservas
+Editoras
 
 Assuntos
 
-Editoras
+Exemplares
 
-🗂 2. Sistema de Acervo Histórico (Museu)
+Reservas
 
-Gerencia registros históricos:
+Empréstimos
 
-Jornal Histórico
+🏛 Acervo Histórico
+
+(Estrutura pronta para implementação futura)
 
 Ata
 
 Carta
 
-Fotografia
+Fotografias
 
 Relato Oral
 
 Objeto Histórico
 
-Item de Acervo (classe-base)
-
-Ambos os sistemas utilizam uma estrutura comum chamada ItemAcervo, mas a interface e as funcionalidades são separadas, conforme exigido pela atividade.
-
-🧱 Arquitetura Utilizada
-
-A aplicação segue o padrão MVC:
-
-src/
- └── main/java/com/example/projetofxcombd/
-        ├── model/        → Classes de domínio (Livro, ItemAcervo, etc.)
-        ├── controller/   → Controllers JavaFX
-        ├── repositor/    → DAOs (ItemAcervoDAO, LivroDAO...)
-        ├── conexao/      → Classe Db (conexão MySQL)
-        ├── MainApplication.java
- └── main/resources/
-        └── fxml/         → Telas JavaFX criadas no Scene Builder
+Jornal Histórico
 
 🗄 Banco de Dados
 
-O banco utilizado é MySQL.
-Há um script SQL completo com:
+O banco de dados utiliza MySQL e contém tabelas para:
 
-Tabelas de Biblioteca
+ItemAcervo
 
-Tabelas de Acervo Histórico
+Livro, Revista, Jornal
 
-Restrições, chaves estrangeiras
+Editora
 
-Classificação por TipoItemAcervo
+Autor / LivroAutor
 
-Relacionamentos n:m (Livro ↔ Autor / Item ↔ Assunto)
+Assunto / ItemAssunto
 
-Arquivo disponível em:
+Exemplar
+
+Localização
+
+Empréstimo
+
+Reserva
+
+Movimentação
+
+Ata, Carta, Fotografia, Relato Oral, Objeto Histórico
+
+Script completo localizado em:
 
 /database/biblioteca.sql
