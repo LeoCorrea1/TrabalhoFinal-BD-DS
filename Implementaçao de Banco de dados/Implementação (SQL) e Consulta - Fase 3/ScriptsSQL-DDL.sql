@@ -179,6 +179,16 @@ CREATE TABLE Jornal (
         REFERENCES ItemAcervo(id_item_acervo)
 );
 
+CREATE TABLE Revista (
+    id_item_acervo INT PRIMARY KEY,
+    edicao VARCHAR(50),
+    data_publicacao DATE,
+    volume VARCHAR(50),
+    CONSTRAINT FK_Revista_Item FOREIGN KEY (id_item_acervo)
+        REFERENCES ItemAcervo(id_item_acervo)
+);
+
+
 CREATE TABLE Ata (
     id_item_acervo INT PRIMARY KEY,
     orgao_responsavel VARCHAR(200),
