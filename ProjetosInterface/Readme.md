@@ -49,5 +49,6 @@ O sistema utiliza MySQL com tabelas para:
 - Empréstimo e Reserva  
 - Ata, Carta, Foto, Relato Oral, Objeto Histórico  
 
-Script SQL disponível em:
+Script SQL disponível em: biblioteca.sql
+
 
