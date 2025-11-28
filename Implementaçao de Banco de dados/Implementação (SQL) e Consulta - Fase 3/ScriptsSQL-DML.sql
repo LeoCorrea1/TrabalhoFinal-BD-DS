@@ -1,108 +1,94 @@
+-- TipoItemAcervo
+INSERT INTO TipoItemAcervo (nome, descricao) VALUES
+('Livro', 'Publicações impressas'),
+('Jornal', 'Publicações periódicas'),
+('Ata', 'Registros de reuniões'),
+('Fotografia', 'Imagens fotográficas'),
+('Carta', 'Correspondências'),
+('Relato Oral', 'Entrevistas gravadas'),
+('Objeto Histórico', 'Objetos antigos');
 
--- EDITORAS
+-- Editora
 INSERT INTO Editora (nome, contato, endereco) VALUES
-('Editora Atlas', 'contato@atlas.com', 'SP'),
-('Companhia das Letras', 'contato@cl.com', 'SP'),
-('Saraiva', 'info@saraiva.com', 'RJ');
+('Editora Atlas', 'contato@atlas.com', 'Rua Central, 120 - São Paulo'),
+('Companhia das Letras', 'contato@ciasletras.com', 'Av. Paulista, 1500 - São Paulo'),
+('Editora Moderna', 'suporte@moderna.com', 'Rua da Educação, 85 - Rio de Janeiro');
 
--- ITENS DO ACERVO / LIVROS
-INSERT INTO ItemAcervo (titulo, subtitulo, ano, idioma, descricao)
+-- ItemAcervo
+INSERT INTO ItemAcervo (titulo, subtitulo, ano, idioma, descricao, id_tipo)
 VALUES
-('Introdu  o   Programa  o', 'L gica e Algoritmos', 2020, 'Portugu s', 'Livro t cnico'),
-('Banco de Dados Moderno', 'Teoria e Pr tica', 2021, 'Portugu s', 'Modelagem e SQL'),
-('Redes de Computadores', 'Conceitos B sicos', 2018, 'Portugu s', 'TCP/IP'),
-('Intelig ncia Artificial', 'Fundamentos', 2022, 'Ingl s', 'Aprendizado de m quina'),
-('Engenharia de Software', 'Pr ticas  geis', 2019, 'Portugu s', 'Agile e Scrum'),
-('Python para Iniciantes', NULL, 2020, 'Portugu s', 'Introdu  o ao Python'),
-('Estruturas de Dados', NULL, 2017, 'Portugu s', 'Listas,  rvores e grafos'),
-('Algoritmos Avan ados', NULL, 2021, 'Ingl s', 'Complexidade'),
-('Matem tica Discreta', NULL, 2018, 'Portugu s', 'Conceitos b sicos'),
-('Machine Learning', NULL, 2022, 'Ingl s', 'Modelos modernos');
+('Introdução à Programação', 'Princípios básicos', 2020, 'Português', 'Livro básico para iniciantes', 1),
+('O Estado de São Paulo', 'Edição de domingo', 2023, 'Português', 'Jornal diário', 2),
+('Ata da Reunião do Conselho', NULL, 2022, 'Português', 'Discussões administrativas', 3),
+('Foto da Inauguração da Biblioteca', NULL, 1985, 'Sem idioma', 'Fotografia histórica', 4),
+('Carta de Getúlio Vargas', 'A um aliado político', 1937, 'Português', 'Correspondência histórica', 5),
+('Entrevista com João Silva', NULL, 1999, 'Português', 'Relato oral gravado', 6),
+('Vaso Indígena', NULL, 1890, 'N/A', 'Artefato histórico preservado', 7);
 
--- LIVROS (1:1 com ItemAcervo)
+-- Livro
 INSERT INTO Livro (id_livro, isbn, edicao, numero_paginas, id_editora)
 VALUES
-(1,'978-1', '1', 350, 1),
-(2,'978-2', '2', 420, 2),
-(3,'978-3', '7', 500, 3),
-(4,'978-4', '1', 310, 1),
-(5,'978-5', '3', 450, 2),
-(6,'978-6', '1', 280, 3),
-(7,'978-7', '4', 300, 2),
-(8,'978-8', '1', 290, 1),
-(9,'978-9', '2', 410, 3),
-(10,'978-10','1', 380, 1);
+(1, '978-8535701234', '2ª edição', 350, 1);
 
--- AUTORES
+-- Autor
 INSERT INTO Autor (nome, sobrenome, nacionalidade) VALUES
-('Jo o','Silva','Brasileiro'),
-('Carlos','Pereira','Brasileiro'),
-('Ana','Souza','Brasileira'),
-('John','Miller','Americano'),
-('Maria','Oliveira','Brasileira'),
-('Lucas','Dias','Brasileiro'),
-('Roberto','Santos','Brasileiro'),
-('Emily','Clark','Inglesa'),
-('Paulo','Rios','Brasileiro'),
-('Amanda','Torres','Brasileira');
+('Carlos', 'Silva', 'Brasileiro'),
+('Mariana', 'Souza', 'Brasileira'),
+('John', 'Doe', 'Americano');
 
--- RELA  O LIVRO-AUTOR
+-- LivroAutor
 INSERT INTO LivroAutor (id_livro, id_autor, papel) VALUES
-(1,1,'autor'), (1,2,'coautor'),
-(2,3,'autor'),
-(3,4,'autor'),
-(4,5,'autor'),
-(5,6,'autor'),
-(6,7,'autor'),
-(7,8,'autor'),
-(8,9,'autor'),
-(9,10,'autor'),
-(10,1,'autor');
+(1, 1, 'Autor'),
+(1, 2, 'Coautor');
 
--- ASSUNTOS
+-- Assunto
 INSERT INTO Assunto (descricao) VALUES
-('Tecnologia'), ('Programa  o'), ('IA'), ('Redes'), ('Banco de Dados');
+('Programação'),
+('Tecnologia'),
+('História'),
+('Política'),
+('Educação');
 
--- ITEM_ASSUNTO
+-- ItemAssunto
 INSERT INTO ItemAssunto (id_item_acervo, id_assunto) VALUES
-(1,2),(2,5),(3,4),(4,3),(5,1),
-(6,2),(7,2),(8,2),(9,1),(10,3);
+(1, 1),
+(1, 2),
+(5, 4),
+(7, 3);
 
--- LOCALIZA  O
+-- Localizacao
 INSERT INTO Localizacao (setor, prateleira, caixa) VALUES
-('TI','A1','1'), ('TI','A2','1'), ('TI','A3','2');
+('Tecnologia', 'T1', 'Caixa 12'),
+('História', 'H2', 'Caixa 5'),
+('Arquivo Geral', 'AG1', 'Caixa 20');
 
--- EXEMPLARES
+-- Exemplar
 INSERT INTO Exemplar (id_item_acervo, codigo_barras, estado_conservacao, disponivel, id_localizacao)
 VALUES
-(1,'1001','bom',1,1),
-(2,'1002','bom',1,1),
-(3,'1003','regular',1,2),
-(4,'1004','bom',1,2),
-(5,'1005','ruim',1,3),
-(6,'1006','bom',1,1),
-(7,'1007','bom',1,3),
-(8,'1008','bom',1,2),
-(9,'1009','regular',1,1),
-(10,'1010','bom',1,3);
+(1, 'LIV001-A', 'Bom', TRUE, 1),
+(1, 'LIV001-B', 'Regular', TRUE, 1),
+(4, 'FOTO001', 'Ótimo', TRUE, 2),
+(7, 'OBJ001', 'Frágil', FALSE, 3);
 
--- USUARIOS
-INSERT INTO Usuario (nome,email,telefone,tipo_usuario)
+-- Usuario
+INSERT INTO Usuario (nome, email, telefone, tipo_usuario) VALUES
+('Ana Pereira', 'ana.p@gmail.com', '11999990000', 'aluno'),
+('João Mendes', 'joao.mendes@hotmail.com', '21988880000', 'professor'),
+('Marcos Lima', 'marcos.lima@gmail.com', '31977770000', 'publico');
+
+-- Emprestimo
+INSERT INTO Emprestimo
+(id_exemplar, id_usuario, data_emprestimo, data_prevista_devolucao, status)
 VALUES
-('Leonardo','leo@mail.com','9999','aluno'),
-('Carla','carla@mail.com','8888','professor'),
-('Jo o','joao@mail.com','7777','aluno'),
-('Marina','marina@mail.com','6666','publico');
+(1, 1, '2025-02-01 10:00:00', '2025-02-15 23:59:59', 'ativo');
 
--- EMPRESTIMOS
-INSERT INTO Emprestimo (id_exemplar, id_usuario, data_emprestimo, data_prevista_devolucao, status)
-VALUES
-(1,1,GETDATE(),'2024-12-20','ativo'),
-(2,2,GETDATE(),'2024-12-18','devolvido'),
-(3,1,GETDATE(),'2024-12-22','atrasado');
-
--- RESERVAS
+-- Reserva
 INSERT INTO Reserva (id_exemplar, id_usuario, data_reserva, data_expiracao, status)
 VALUES
-(5,3,GETDATE(),'2024-12-25','ativa'),
-(7,1,GETDATE(),'2024-12-23','ativa');
+(2, 1, '2025-02-05 14:00:00', '2025-02-07 14:00:00', 'ativa');
+
+-- Movimentacao
+INSERT INTO Movimentacao (id_item_acervo, id_exemplar, id_usuario, tipo, descricao)
+VALUES
+(1, 1, 1, 'emprestimo', 'Empréstimo realizado'),
+(4, 3, 3, 'consulta', 'Consulta de fotografia');
