@@ -1,94 +1,53 @@
-📚 Sistema de Biblioteca e Acervo Histórico
+# Sistema de Biblioteca e Acervo Histórico
 
-Este repositório contém um sistema desenvolvido em Java para gerenciar uma Biblioteca Comunitária e um Acervo Histórico, utilizando JavaFX para interface gráfica e MySQL como banco de dados.
+Este projeto implementa um sistema para gerenciar uma **Biblioteca Comunitária** e um **Acervo Histórico**, utilizando Java, JavaFX e MySQL.
 
-🔧 Tecnologias Utilizadas
+---
 
-Java (versão 17 ou superior)
+## Tecnologias
+- Java
+- JavaFX
+- Scene Builder
+- MySQL
+- Maven
+- JDBC
 
-JavaFX
+---
 
-Scene Builder
+## Funcionalidades
 
-Maven
+### Biblioteca
+- CRUD de ItemAcervo
+- CRUD de Livro
+- Listagem em tabelas
+- Associação Livro → ItemAcervo
 
-JDBC
+### Em desenvolvimento
+- Revista
+- Jornal
+- Editora
+- Exemplar
+- Empréstimo
+- Reserva
 
-MySQL
+### Acervo Histórico (estrutura preparada)
+- Ata
+- Carta
+- Fotografia
+- Relato Oral
+- Objeto Histórico
 
-📌 Funcionalidades
-📘 Biblioteca Comunitária
+---
 
-Cadastro de Itens de Acervo
+## Banco de Dados
+O sistema utiliza MySQL com tabelas para:
 
-Cadastro de Livros vinculados ao ItemAcervo
+- ItemAcervo  
+- Livro, Revista, Jornal  
+- Autor, Editora, Assunto  
+- Exemplar e Localização  
+- Empréstimo e Reserva  
+- Ata, Carta, Foto, Relato Oral, Objeto Histórico  
 
-Listagem com tabela e seleção
+Script SQL disponível em:
 
-CRUD completo para:
-
-ItemAcervo
-
-Livro
-
-🧩 Estrutura pronta para expansão
-
-Revistas
-
-Jornais
-
-Editoras
-
-Assuntos
-
-Exemplares
-
-Reservas
-
-Empréstimos
-
-🏛 Acervo Histórico
-
-(Estrutura pronta para implementação futura)
-
-Ata
-
-Carta
-
-Fotografias
-
-Relato Oral
-
-Objeto Histórico
-
-Jornal Histórico
-
-🗄 Banco de Dados
-
-O banco de dados utiliza MySQL e contém tabelas para:
-
-ItemAcervo
-
-Livro, Revista, Jornal
-
-Editora
-
-Autor / LivroAutor
-
-Assunto / ItemAssunto
-
-Exemplar
-
-Localização
-
-Empréstimo
-
-Reserva
-
-Movimentação
-
-Ata, Carta, Fotografia, Relato Oral, Objeto Histórico
-
-Script completo localizado em:
-
-/database/biblioteca.sql
