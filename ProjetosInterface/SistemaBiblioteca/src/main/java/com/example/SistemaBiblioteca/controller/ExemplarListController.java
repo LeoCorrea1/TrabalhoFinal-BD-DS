@@ -16,13 +16,13 @@ public class ExemplarListController {
     @FXML private TableColumn<Exemplar,String> colCodigo;
     @FXML private TableColumn<Exemplar,String> colEstado;
     @FXML private TableColumn<Exemplar,Boolean> colDisp;
-    @FXML private TableColumn<Exemplar,String> colLocal; // agora String
+    @FXML private TableColumn<Exemplar,String> colLocal;
 
     @FXML private Button btnEditar;
     @FXML private Button btnExcluir;
 
     private final ExemplarDAO dao = new ExemplarDAO();
-    private int idItemAcervo; // chave recebida da tela anterior
+    private int idItemAcervo;
 
     @FXML
     public void initialize() {
@@ -34,8 +34,6 @@ public class ExemplarListController {
                 c.getValue() == null || c.getValue().getEstadoConservacao() == null ? "" : c.getValue().getEstadoConservacao()));
         colDisp.setCellValueFactory(c -> new javafx.beans.property.SimpleBooleanProperty(
                 c.getValue() != null && Boolean.TRUE.equals(c.getValue().getDisponivel())).asObject());
-
-        // agora mostra o nome/descrição da localização
         colLocal.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(
                 c.getValue() == null || c.getValue().getNomeLocalizacao() == null ? "" : c.getValue().getNomeLocalizacao()));
 

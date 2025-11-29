@@ -53,7 +53,7 @@ public class EditoraController {
 
     @FXML
     public void onNova() {
-        // abre modal para criar; recarrega após fechar
+
         SceneManager.showModalWithController("editoras_form.fxml", "Nova Editora", controller -> {});
         carregarDados();
     }
@@ -68,7 +68,7 @@ public class EditoraController {
                 ctrl.setEditora(sel);
             }
         });
-        carregarDados();
+        carregarDados();//s
     }
 
     @FXML
