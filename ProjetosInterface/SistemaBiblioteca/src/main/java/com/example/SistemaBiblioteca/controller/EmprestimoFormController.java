@@ -123,6 +123,7 @@ public class EmprestimoFormController {
     }
 
     @FXML private void onCancelar(){ SceneManager.show("emprestimo_list.fxml","Empréstimos"); }
+    @FXML public void onVoltar() { SceneManager.show("emprestimo_list.fxml","Empréstimos"); }
 
     private void showError(String msg){Platform.runLater(()->new Alert(Alert.AlertType.ERROR,msg).showAndWait());}
     private void showInfo(String msg){Platform.runLater(()->new Alert(Alert.AlertType.INFORMATION,msg).showAndWait());}

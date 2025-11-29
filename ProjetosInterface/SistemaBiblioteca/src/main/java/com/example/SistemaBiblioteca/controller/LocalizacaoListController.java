@@ -50,6 +50,9 @@ public class LocalizacaoListController {
         List<Localizacao> lista = dao.findAll();
         tableView.setItems(FXCollections.observableArrayList(lista));
     }
+    @FXML
+    public void onVoltar() { SceneManager.show("dashboard.fxml","Painel"); }
+
 
     @FXML
     public void onPesquisar() {

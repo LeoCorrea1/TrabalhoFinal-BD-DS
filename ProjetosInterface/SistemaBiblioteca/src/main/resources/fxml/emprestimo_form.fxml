@@ -4,23 +4,34 @@
 
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.SistemaBiblioteca.controller.EmprestimoFormController"
-      spacing="8" style="-fx-padding:16">
+      spacing="12" style="-fx-background-color:whitesmoke; -fx-padding:16;"
+      alignment="CENTER" prefWidth="900" prefHeight="600">
 
-    <Label text="Exemplar:"/>
-    <ComboBox fx:id="comboExemplar" prefWidth="400"/>
+    <HBox alignment="CENTER_LEFT" spacing="10"
+          style="-fx-background-color:#2c3e50; -fx-padding:10;">
+        <Button text="⟵ Voltar" onAction="#onCancelar"
+                style="-fx-background-color:#ecf0f1;"/>
+        <Label text="Empréstimo" style="-fx-font-size:18; -fx-font-weight:bold; -fx-text-fill:white;"/>
+    </HBox>
 
-    <Label text="Usuário:"/>
-    <ComboBox fx:id="comboUsuario" prefWidth="400"/>
+    <VBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Exemplar:"/>
+        <ComboBox fx:id="comboExemplar" prefWidth="400"/>
 
-    <Label text="Data prevista de devolução:"/>
-    <DatePicker fx:id="datePrevista" prefWidth="250"/>
+        <Label text="Usuário:"/>
+        <ComboBox fx:id="comboUsuario" prefWidth="400"/>
 
-    <Label text="Status:"/>
-    <!-- inicia desativado, só habilita caso edição -->
-    <ChoiceBox fx:id="choiceStatus" disable="true"/>
+        <Label text="Data prevista de devolução:"/>
+        <DatePicker fx:id="datePrevista" prefWidth="250"/>
 
-    <HBox spacing="10">
-        <Button text="Salvar" onAction="#onSalvar"/>
-        <Button text="Cancelar" onAction="#onCancelar"/>
+        <Label text="Status:"/>
+        <ChoiceBox fx:id="choiceStatus" disable="true"/>
+    </VBox>
+
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Salvar" onAction="#onSalvar"
+                style="-fx-background-color:#27ae60; -fx-text-fill:white;"/>
+        <Button text="Voltar" onAction="#onCancelar"
+                style="-fx-background-color:#7f8c8d; -fx-text-fill:white;"/>
     </HBox>
 </VBox>

@@ -99,7 +99,10 @@ public class ExemplarFormController {
         Stage st = (Stage) txtCodigo.getScene().getWindow();
         st.close();
     }
-
+    @FXML
+    public void onVoltar() {
+        SceneManager.show("exemplar_list.fxml", "Exemplares");
+    }
     @FXML
     public void onCancelar() {
         Stage st = (Stage) txtCodigo.getScene().getWindow();

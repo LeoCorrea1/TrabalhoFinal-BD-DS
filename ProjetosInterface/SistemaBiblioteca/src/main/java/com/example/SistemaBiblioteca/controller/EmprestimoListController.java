@@ -81,6 +81,7 @@ public class EmprestimoListController {
             }).start();
         }
     }
+    @FXML public void onVoltar() { SceneManager.show("dashboard.fxml","Painel"); }
 
     private void showError(String msg) { Platform.runLater(() -> new Alert(Alert.AlertType.ERROR, msg).showAndWait()); }
 }

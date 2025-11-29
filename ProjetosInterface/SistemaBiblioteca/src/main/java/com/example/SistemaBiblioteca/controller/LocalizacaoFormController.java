@@ -1,5 +1,6 @@
 package com.example.SistemaBiblioteca.controller;
 
+import com.example.SistemaBiblioteca.app.SceneManager;
 import com.example.SistemaBiblioteca.dao.LocalizacaoDAO;
 import com.example.SistemaBiblioteca.model.Localizacao;
 import javafx.fxml.FXML;
@@ -23,6 +24,10 @@ public class LocalizacaoFormController {
         txtCaixa.setText(l.getCaixa());
     }
 
+    @FXML
+    public void onVoltar() {
+        SceneManager.show("localizacao_list.fxml", "Localizações");
+    }
     @FXML
     public void onSalvar() {
         String setor = txtSetor.getText();

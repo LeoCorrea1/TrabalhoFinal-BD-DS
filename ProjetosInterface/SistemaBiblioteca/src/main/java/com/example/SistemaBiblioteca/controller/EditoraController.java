@@ -49,6 +49,10 @@ public class EditoraController {
     public void onRefresh() { carregarDados(); }
 
     @FXML
+    public void onVoltar() { SceneManager.show("dashboard.fxml","Painel"); }
+
+
+    @FXML
     public void onPesquisar() { carregarDados(); }
 
     @FXML

@@ -1,5 +1,6 @@
 package com.example.SistemaBiblioteca.controller;
 
+import com.example.SistemaBiblioteca.app.SceneManager;
 import com.example.SistemaBiblioteca.dao.UsuarioDAO;
 import com.example.SistemaBiblioteca.model.Usuario;
 import javafx.fxml.FXML;
@@ -56,6 +57,7 @@ public class UsuarioFormController {
         usuarioSelecionado = null;
         fechar();
     }
+    @FXML public void onVoltar() { SceneManager.show("usuario_list.fxml","Usuários"); }
 
     @FXML
     private void onCancelar() {

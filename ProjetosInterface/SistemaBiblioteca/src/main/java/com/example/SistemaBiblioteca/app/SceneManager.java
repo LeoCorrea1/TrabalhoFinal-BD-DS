@@ -47,16 +47,11 @@ public final class SceneManager {
         show(fxmlName, title, (loader) -> {});
     }
 
-    /**
-     * Carrega o FXML, permite um Consumer receber o FXMLLoader (para obter controller),
-     * em seguida define a cena na primary stage (ou na stage atual se primaryStage == null).
-     */
     public static void show(String fxmlName, String title, Consumer<FXMLLoader> afterLoad) {
         try {
             FXMLLoader loader = loadFXML(fxmlName);
             Parent root = loader.load();
 
-            // chama o consumer passando o loader (controller já instanciado após load())
             if (afterLoad != null) afterLoad.accept(loader);
 
             Scene scene = new Scene(root);
@@ -64,7 +59,18 @@ public final class SceneManager {
             Stage stage = obtainStage();
             stage.setScene(scene);
             if (title != null) stage.setTitle(title);
+            stage.setWidth(900);
+            stage.setHeight(600);
+            stage.centerOnScreen();
+
+            // intercepta clicar no X
+            stage.setOnCloseRequest(e -> {
+                e.consume();
+                SceneManager.show("dashboard.fxml","Painel");
+            });
+
             stage.show();
+
         } catch (IOException ex) {
             throw new RuntimeException("FXML not found or error loading: /fxml/" + fxmlName, ex);
         }

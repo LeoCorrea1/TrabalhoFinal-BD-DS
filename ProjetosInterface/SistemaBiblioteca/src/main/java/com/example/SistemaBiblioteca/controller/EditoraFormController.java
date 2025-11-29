@@ -1,5 +1,6 @@
 package com.example.SistemaBiblioteca.controller;
 
+import com.example.SistemaBiblioteca.app.SceneManager;
 import com.example.SistemaBiblioteca.dao.EditoraDAO;
 import com.example.SistemaBiblioteca.model.Editora;
 import javafx.fxml.FXML;
@@ -51,6 +52,8 @@ public class EditoraFormController {
         // fecha modal
         ((Stage) txtNome.getScene().getWindow()).close();
     }
+    @FXML
+    public void onVoltar() { SceneManager.show("editoras_list.fxml","Editoras"); }
 
     @FXML
     private void onCancelar() {

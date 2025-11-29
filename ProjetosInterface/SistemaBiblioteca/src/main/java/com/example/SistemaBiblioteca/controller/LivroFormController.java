@@ -72,6 +72,10 @@ public class LivroFormController {
         task.setOnFailed(e -> task.getException().printStackTrace());
         new Thread(task).start();
     }
+    @FXML
+    public void onVoltar() {
+        SceneManager.show("itemacervo_list.fxml", "Itens do Acervo");
+    }
 
     private void carregarEditoras() {
         Task<List<Editora>> task = new Task<>() {
@@ -87,10 +91,6 @@ public class LivroFormController {
         new Thread(task).start();
     }
 
-    /**
-     * Método público chamado pelo ItemAcervoController ao abrir o form em edição.
-     * Pode ser chamado antes ou depois do carregamento de ComboBoxes — fazemos set na UI thread.
-     */
     public void setEditing(ItemAcervo item, Livro livro) {
         this.editingItem = item;
         this.editingLivro = livro;

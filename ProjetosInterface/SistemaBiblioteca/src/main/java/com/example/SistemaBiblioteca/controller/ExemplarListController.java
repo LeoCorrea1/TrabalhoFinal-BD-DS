@@ -95,4 +95,6 @@ public class ExemplarListController {
     public void onVoltar() {
         SceneManager.show("itemacervo_list.fxml", "Gerenciar Acervo");
     }
+
+
 }

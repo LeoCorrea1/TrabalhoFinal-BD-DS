@@ -100,6 +100,7 @@ public class ReservaFormController {
             e.printStackTrace();
         }
     }
+    @FXML public void onVoltar() { SceneManager.show("reserva_list.fxml","Reservas"); }
 
     @FXML private void onCancelar(){ SceneManager.show("reserva_list.fxml","Reservas"); }
 

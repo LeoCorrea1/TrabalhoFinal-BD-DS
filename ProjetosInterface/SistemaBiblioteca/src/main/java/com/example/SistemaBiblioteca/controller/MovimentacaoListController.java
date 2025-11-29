@@ -1,5 +1,6 @@
 package com.example.SistemaBiblioteca.controller;
 
+import com.example.SistemaBiblioteca.app.SceneManager;
 import com.example.SistemaBiblioteca.dao.MovimentacaoDAO;
 import com.example.SistemaBiblioteca.model.Movimentacao;
 import javafx.application.Platform;
@@ -50,4 +51,6 @@ public class MovimentacaoListController {
     private void showError(String msg){
         Platform.runLater(() -> new Alert(Alert.AlertType.ERROR,msg).showAndWait());
     }
+
+    @FXML public void onVoltar() { SceneManager.show("dashboard.fxml","Painel"); }
 }

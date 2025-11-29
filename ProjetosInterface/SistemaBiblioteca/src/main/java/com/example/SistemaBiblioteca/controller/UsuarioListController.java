@@ -46,6 +46,7 @@ public class UsuarioListController {
         lista = FXCollections.observableArrayList(dao.findAll());
         tabela.setItems(lista);
     }
+    @FXML public void onVoltar() { SceneManager.show("dashboard.fxml","Painel"); }
 
     @FXML
     private void onPesquisar() {

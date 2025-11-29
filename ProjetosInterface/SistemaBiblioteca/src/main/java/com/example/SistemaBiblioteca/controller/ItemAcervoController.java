@@ -67,6 +67,7 @@ public class ItemAcervoController {
         // carregar dados inicialmente
         carregarDados();
     }
+    @FXML public void onVoltar() { SceneManager.show("dashboard.fxml","Painel"); }
 
     private void carregarDados() {
         Task<List<ItemAcervo>> task = new Task<>() {
