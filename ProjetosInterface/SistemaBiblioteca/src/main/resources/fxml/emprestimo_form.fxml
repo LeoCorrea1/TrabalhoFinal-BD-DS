@@ -16,7 +16,8 @@
     <DatePicker fx:id="datePrevista" prefWidth="250"/>
 
     <Label text="Status:"/>
-    <ChoiceBox fx:id="choiceStatus"/>
+    <!-- inicia desativado, só habilita caso edição -->
+    <ChoiceBox fx:id="choiceStatus" disable="true"/>
 
     <HBox spacing="10">
         <Button text="Salvar" onAction="#onSalvar"/>

@@ -28,46 +28,44 @@ public class EmprestimoFormController {
 
     @FXML
     public void initialize() {
-        // Tipos de status possíveis
+        // opções possíveis
         choiceStatus.getItems().addAll("ativo", "devolvido", "atrasado", "perdido");
 
-        // Preenche comboboxes
         ExemplarDAO exemplarDAO = new ExemplarDAO();
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        UsuarioDAO usuarioDAO  = new UsuarioDAO();
 
-        // Pega todos exemplares do BD e usuários
-        List<Exemplar> exemplares = exemplarDAO.findByItem(1); // ajuste caso precise buscar todos
-        List<Usuario> usuarios = usuarioDAO.findAll();
+        // busca todos os exemplares possíveis e todos os usuários
+        List<Exemplar> exemplares = exemplarDAO.listarTodos();
+        List<Usuario>  usuarios   = usuarioDAO.findAll();
 
         comboExemplar.setItems(FXCollections.observableArrayList(exemplares));
         comboUsuario.setItems(FXCollections.observableArrayList(usuarios));
 
-        // Mostra código de barras + localização
         comboExemplar.setConverter(new StringConverter<>() {
-            @Override
-            public String toString(Exemplar ex) {
+            @Override public String toString(Exemplar ex) {
                 if (ex == null) return "";
                 String loc = ex.getNomeLocalizacao() == null ? "" : " (" + ex.getNomeLocalizacao() + ")";
                 return ex.getCodigoBarras() + loc;
             }
-            @Override
-            public Exemplar fromString(String s) { return null; }
+            @Override public Exemplar fromString(String s) { return null; }
         });
 
-        // Mostra nome do usuário
         comboUsuario.setConverter(new StringConverter<>() {
-            @Override
-            public String toString(Usuario u) {
-                if (u == null) return "";
-                return u.getNome() + " (" + u.getTipoUsuario() + ")";
+            @Override public String toString(Usuario u) {
+                return (u == null ? "" : u.getNome() + " (" + u.getTipoUsuario() + ")");
             }
-            @Override
-            public Usuario fromString(String s) { return null; }
+            @Override public Usuario fromString(String s) { return null; }
         });
+
+        // quando for novo cadastro, status desativado
+        choiceStatus.setDisable(true);
     }
 
+    /** Preenche os campos para edição existente. */
     public void setEmprestimo(Emprestimo e) {
         this.atual = e;
+        // habilita o campo status porque é edição
+        choiceStatus.setDisable(false);
         Platform.runLater(() -> {
             comboExemplar.getItems().stream()
                     .filter(ex -> ex.getIdExemplar().equals(e.getIdExemplar()))
@@ -84,10 +82,11 @@ public class EmprestimoFormController {
     @FXML
     private void onSalvar() {
         try {
+            boolean novo = (atual == null || atual.getIdEmprestimo() == null);
             if (atual == null) atual = new Emprestimo();
 
             Exemplar ex = comboExemplar.getValue();
-            Usuario us = comboUsuario.getValue();
+            Usuario  us = comboUsuario.getValue();
 
             if (ex == null || us == null) {
                 showError("Selecione o exemplar e o usuário.");
@@ -96,23 +95,36 @@ public class EmprestimoFormController {
 
             atual.setIdExemplar(ex.getIdExemplar());
             atual.setIdUsuario(us.getIdUsuario());
-            atual.setDataEmprestimo(LocalDateTime.now());
-            atual.setDataPrevistaDevolucao(LocalDateTime.of(datePrevista.getValue(), java.time.LocalTime.NOON));
-            atual.setStatus(choiceStatus.getValue() == null ? "ativo" : choiceStatus.getValue());
 
-            if (atual.getIdEmprestimo() == null) dao.insert(atual);
-            else dao.update(atual);
+            if (novo) {
+                atual.setStatus("ativo");
+                atual.setDataEmprestimo(LocalDateTime.now());
+                atual.setDataPrevistaDevolucao(LocalDateTime.of(
+                        datePrevista.getValue(), java.time.LocalTime.NOON));
+                dao.insert(atual);
+            } else {
+                atual.setStatus(choiceStatus.getValue());
+                atual.setDataPrevistaDevolucao(LocalDateTime.of(
+                        datePrevista.getValue(), java.time.LocalTime.NOON));
+
+                // se mudou para devolvido, gera timestamp atual
+                if ("devolvido".equalsIgnoreCase(atual.getStatus())) {
+                    atual.setDataDevolucao(LocalDateTime.now());
+                }
+
+                dao.update(atual);
+            }
 
             showInfo("Empréstimo salvo com sucesso!");
             SceneManager.show("emprestimo_list.fxml", "Empréstimos");
 
         } catch (Exception ex) {
             showError("Erro ao salvar: " + ex.getMessage());
+            ex.printStackTrace();
         }
     }
 
-    @FXML
-    private void onCancelar() {
+    @FXML private void onCancelar() {
         SceneManager.show("emprestimo_list.fxml", "Empréstimos");
     }
 

@@ -9,6 +9,45 @@ import java.util.List;
 
 public class ExemplarDAO {
 
+    /** Lista todos os exemplares (independente de item de acervo) */
+    public List<Exemplar> listarTodos() {
+        List<Exemplar> list = new ArrayList<>();
+
+        String sql = """
+            SELECT e.id_exemplar,
+                   e.id_item_acervo,
+                   e.codigo_barras,
+                   e.estado_conservacao,
+                   e.disponivel,
+                   e.id_localizacao,
+                   CONCAT_WS(' / ', l.setor, l.prateleira, l.caixa) AS local_nome
+              FROM Exemplar e
+              LEFT JOIN Localizacao l ON l.id_localizacao = e.id_localizacao
+              ORDER BY e.id_exemplar DESC
+        """;
+
+        try (Connection conn = Db.getConnection();
+             PreparedStatement st = conn.prepareStatement(sql);
+             ResultSet rs = st.executeQuery()) {
+            while (rs.next()) {
+                Exemplar e = new Exemplar();
+                e.setIdExemplar(rs.getInt("id_exemplar"));
+                e.setIdItemAcervo(rs.getInt("id_item_acervo"));
+                e.setCodigoBarras(rs.getString("codigo_barras"));
+                e.setEstadoConservacao(rs.getString("estado_conservacao"));
+                e.setDisponivel(rs.getObject("disponivel") == null ? null : rs.getBoolean("disponivel"));
+                Object idLocObj = rs.getObject("id_localizacao");
+                e.setIdLocalizacao(idLocObj == null ? null : rs.getInt("id_localizacao"));
+                e.setNomeLocalizacao(rs.getString("local_nome"));
+                list.add(e);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
+    /** Lista exemplares de um item específico */
     public List<Exemplar> findByItem(int idItemAcervo) {
         List<Exemplar> list = new ArrayList<>();
 
@@ -20,15 +59,14 @@ public class ExemplarDAO {
                        e.disponivel,
                        e.id_localizacao,
                        CONCAT_WS(' / ', l.setor, l.prateleira, l.caixa) AS local_nome
-                FROM Exemplar e
-                LEFT JOIN Localizacao l ON l.id_localizacao = e.id_localizacao
-                WHERE e.id_item_acervo = ?
-                ORDER BY e.id_exemplar DESC
+                  FROM Exemplar e
+                  LEFT JOIN Localizacao l ON l.id_localizacao = e.id_localizacao
+                 WHERE e.id_item_acervo = ?
+                 ORDER BY e.id_exemplar DESC
                 """;
 
         try (Connection conn = Db.getConnection();
              PreparedStatement st = conn.prepareStatement(sql)) {
-
             st.setInt(1, idItemAcervo);
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
@@ -44,13 +82,13 @@ public class ExemplarDAO {
                     list.add(e);
                 }
             }
-
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return list;
     }
 
+    /** INSERT */
     public boolean insert(Exemplar e) {
         String sql = """
                 INSERT INTO Exemplar
@@ -83,11 +121,15 @@ public class ExemplarDAO {
         return false;
     }
 
+    /** UPDATE */
     public boolean update(Exemplar e) {
         String sql = """
                 UPDATE Exemplar SET
-                codigo_barras = ?, estado_conservacao = ?, disponivel = ?, id_localizacao = ?
-                WHERE id_exemplar = ?
+                    codigo_barras = ?,
+                    estado_conservacao = ?,
+                    disponivel = ?,
+                    id_localizacao = ?
+                 WHERE id_exemplar = ?
                 """;
 
         try (Connection conn = Db.getConnection();
@@ -109,15 +151,13 @@ public class ExemplarDAO {
         }
     }
 
+    /** DELETE */
     public boolean delete(int idExemplar) {
         String sql = "DELETE FROM Exemplar WHERE id_exemplar = ?";
-
         try (Connection conn = Db.getConnection();
              PreparedStatement st = conn.prepareStatement(sql)) {
-
             st.setInt(1, idExemplar);
             return st.executeUpdate() > 0;
-
         } catch (SQLException ex) {
             ex.printStackTrace();
             return false;
