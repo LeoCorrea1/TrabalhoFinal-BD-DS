@@ -10,7 +10,7 @@ public class DashboardController {
 
     @FXML
     public void onGerenciarAcervo() {
-        // mais tarde trocar para a tela de listagem de acervo
+
         SceneManager.show("itemacervo_list.fxml", "Gerenciar Acervo");
     }
 
