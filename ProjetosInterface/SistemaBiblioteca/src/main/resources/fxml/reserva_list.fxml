@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.SistemaBiblioteca.controller.ReservaListController">
+    <top>
+        <HBox spacing="6" style="-fx-padding:10">
+            <Button text="Nova" onAction="#onNovo"/>
+            <Button text="Editar" onAction="#onEditar"/>
+            <Button text="Excluir" onAction="#onExcluir"/>
+            <Button text="Atualizar" onAction="#onAtualizar"/>
+        </HBox>
+    </top>
+
+    <center>
+        <TableView fx:id="table">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
+                <TableColumn fx:id="colExemplar" text="Exemplar" prefWidth="140"/>
+                <TableColumn fx:id="colUsuario"  text="Usuário"  prefWidth="180"/>
+                <TableColumn fx:id="colDataReserva" text="Data Reserva" prefWidth="160"/>
+                <TableColumn fx:id="colExpiracao" text="Expira em" prefWidth="160"/>
+                <TableColumn fx:id="colStatus" text="Status" prefWidth="100"/>
+            </columns>
+        </TableView>
+    </center>
+</BorderPane>

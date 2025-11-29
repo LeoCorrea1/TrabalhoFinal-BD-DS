@@ -25,6 +25,11 @@ public class DashboardController {
     }
 
     @FXML
+    public void onReservas() {
+        SceneManager.show("reserva_list.fxml", "Reservas");
+    }
+
+    @FXML
     public void onSair() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
                 "Deseja realmente sair do sistema?",

@@ -15,6 +15,7 @@
     <Label text="Painel - Sistema Biblioteca" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
     <Button text="Gerenciar Acervo" onAction="#onGerenciarAcervo"/>
     <Button text="Empréstimos" onAction="#onEmprestimos"/>
+    <Button text="Reservas" onAction="#onReservas"/>
     <Button text="Usuários" onAction="#onUsuarios"/>
     <Button text="Sair" onAction="#onSair" />
 </VBox>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.SistemaBiblioteca.controller.ReservaFormController"
+      spacing="8" style="-fx-padding:16">
+
+    <Label text="Exemplar:"/>
+    <ComboBox fx:id="comboExemplar" prefWidth="400"/>
+
+    <Label text="Usuário:"/>
+    <ComboBox fx:id="comboUsuario" prefWidth="400"/>
+
+    <Label text="Data de Expiração (24h padrão):"/>
+    <DatePicker fx:id="dateExpiracao"/>
+
+    <Label text="Status:"/>
+    <ChoiceBox fx:id="choiceStatus"/>
+
+    <HBox spacing="10">
+        <Button text="Salvar" onAction="#onSalvar"/>
+        <Button text="Cancelar" onAction="#onCancelar"/>
+    </HBox>
+</VBox>

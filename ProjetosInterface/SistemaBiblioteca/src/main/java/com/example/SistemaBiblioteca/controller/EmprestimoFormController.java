@@ -1,12 +1,8 @@
 package com.example.SistemaBiblioteca.controller;
 
 import com.example.SistemaBiblioteca.app.SceneManager;
-import com.example.SistemaBiblioteca.dao.EmprestimoDAO;
-import com.example.SistemaBiblioteca.dao.ExemplarDAO;
-import com.example.SistemaBiblioteca.dao.UsuarioDAO;
-import com.example.SistemaBiblioteca.model.Emprestimo;
-import com.example.SistemaBiblioteca.model.Exemplar;
-import com.example.SistemaBiblioteca.model.Usuario;
+import com.example.SistemaBiblioteca.dao.*;
+import com.example.SistemaBiblioteca.model.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -28,13 +24,11 @@ public class EmprestimoFormController {
 
     @FXML
     public void initialize() {
-        // opções possíveis
         choiceStatus.getItems().addAll("ativo", "devolvido", "atrasado", "perdido");
 
         ExemplarDAO exemplarDAO = new ExemplarDAO();
         UsuarioDAO usuarioDAO  = new UsuarioDAO();
 
-        // busca todos os exemplares possíveis e todos os usuários
         List<Exemplar> exemplares = exemplarDAO.listarTodos();
         List<Usuario>  usuarios   = usuarioDAO.findAll();
 
@@ -49,7 +43,6 @@ public class EmprestimoFormController {
             }
             @Override public Exemplar fromString(String s) { return null; }
         });
-
         comboUsuario.setConverter(new StringConverter<>() {
             @Override public String toString(Usuario u) {
                 return (u == null ? "" : u.getNome() + " (" + u.getTipoUsuario() + ")");
@@ -57,14 +50,11 @@ public class EmprestimoFormController {
             @Override public Usuario fromString(String s) { return null; }
         });
 
-        // quando for novo cadastro, status desativado
         choiceStatus.setDisable(true);
     }
 
-    /** Preenche os campos para edição existente. */
     public void setEmprestimo(Emprestimo e) {
         this.atual = e;
-        // habilita o campo status porque é edição
         choiceStatus.setDisable(false);
         Platform.runLater(() -> {
             comboExemplar.getItems().stream()
@@ -86,10 +76,17 @@ public class EmprestimoFormController {
             if (atual == null) atual = new Emprestimo();
 
             Exemplar ex = comboExemplar.getValue();
-            Usuario  us = comboUsuario.getValue();
+            Usuario us  = comboUsuario.getValue();
 
             if (ex == null || us == null) {
                 showError("Selecione o exemplar e o usuário.");
+                return;
+            }
+
+            // 🔒 validação de reserva ativa ou válida
+            ReservaDAO reservaDAO = new ReservaDAO();
+            if (reservaDAO.existeReservaAtivaOuValida(ex.getIdExemplar())) {
+                showError("Este exemplar possui uma reserva ativa e não pode ser emprestado.");
                 return;
             }
 
@@ -106,12 +103,9 @@ public class EmprestimoFormController {
                 atual.setStatus(choiceStatus.getValue());
                 atual.setDataPrevistaDevolucao(LocalDateTime.of(
                         datePrevista.getValue(), java.time.LocalTime.NOON));
-
-                // se mudou para devolvido, gera timestamp atual
                 if ("devolvido".equalsIgnoreCase(atual.getStatus())) {
                     atual.setDataDevolucao(LocalDateTime.now());
                 }
-
                 dao.update(atual);
             }
 
@@ -124,14 +118,14 @@ public class EmprestimoFormController {
         }
     }
 
-    @FXML private void onCancelar() {
+    @FXML
+    private void onCancelar() {
         SceneManager.show("emprestimo_list.fxml", "Empréstimos");
     }
 
     private void showError(String msg) {
         Platform.runLater(() -> new Alert(Alert.AlertType.ERROR, msg).showAndWait());
     }
-
     private void showInfo(String msg) {
         Platform.runLater(() -> new Alert(Alert.AlertType.INFORMATION, msg).showAndWait());
     }
