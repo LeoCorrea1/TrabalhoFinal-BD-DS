@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.SistemaBiblioteca.controller.MovimentacaoListController">
+    <top>
+        <HBox spacing="6" style="-fx-padding:10">
+            <Button text="Atualizar" onAction="#onAtualizar"/>
+        </HBox>
+    </top>
+
+    <center>
+        <TableView fx:id="table">
+            <columns>
+                <TableColumn fx:id="colTipo" text="Tipo" prefWidth="120"/>
+                <TableColumn fx:id="colDescricao" text="Descrição" prefWidth="450"/>
+                <TableColumn fx:id="colUsuario" text="Usuário" prefWidth="160"/>
+                <TableColumn fx:id="colExemplar" text="Exemplar" prefWidth="140"/>
+                <TableColumn fx:id="colDataHora" text="Data/Hora" prefWidth="160"/>
+            </columns>
+        </TableView>
+    </center>
+</BorderPane>

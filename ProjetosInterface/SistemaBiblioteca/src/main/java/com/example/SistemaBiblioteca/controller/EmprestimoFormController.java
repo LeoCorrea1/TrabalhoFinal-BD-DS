@@ -24,10 +24,10 @@ public class EmprestimoFormController {
 
     @FXML
     public void initialize() {
-        choiceStatus.getItems().addAll("ativo", "devolvido", "atrasado", "perdido");
+        choiceStatus.getItems().addAll("ativo","devolvido","atrasado","perdido");
 
         ExemplarDAO exemplarDAO = new ExemplarDAO();
-        UsuarioDAO usuarioDAO  = new UsuarioDAO();
+        UsuarioDAO usuarioDAO   = new UsuarioDAO();
 
         List<Exemplar> exemplares = exemplarDAO.listarTodos();
         List<Usuario>  usuarios   = usuarioDAO.findAll();
@@ -36,56 +36,54 @@ public class EmprestimoFormController {
         comboUsuario.setItems(FXCollections.observableArrayList(usuarios));
 
         comboExemplar.setConverter(new StringConverter<>() {
-            @Override public String toString(Exemplar ex) {
-                if (ex == null) return "";
-                String loc = ex.getNomeLocalizacao() == null ? "" : " (" + ex.getNomeLocalizacao() + ")";
-                return ex.getCodigoBarras() + loc;
+            @Override public String toString(Exemplar e) {
+                if (e == null) return "";
+                String loc = e.getNomeLocalizacao()==null?"":" ("+e.getNomeLocalizacao()+")";
+                return e.getCodigoBarras()+loc;
             }
-            @Override public Exemplar fromString(String s) { return null; }
+            @Override public Exemplar fromString(String s){return null;}
         });
         comboUsuario.setConverter(new StringConverter<>() {
-            @Override public String toString(Usuario u) {
-                return (u == null ? "" : u.getNome() + " (" + u.getTipoUsuario() + ")");
+            @Override public String toString(Usuario u){
+                return u==null?"":u.getNome()+" ("+u.getTipoUsuario()+")";
             }
-            @Override public Usuario fromString(String s) { return null; }
+            @Override public Usuario fromString(String s){return null;}
         });
-
         choiceStatus.setDisable(true);
     }
 
-    public void setEmprestimo(Emprestimo e) {
-        this.atual = e;
+    public void setEmprestimo(Emprestimo e){
+        this.atual=e;
         choiceStatus.setDisable(false);
-        Platform.runLater(() -> {
+        Platform.runLater(()->{
             comboExemplar.getItems().stream()
-                    .filter(ex -> ex.getIdExemplar().equals(e.getIdExemplar()))
+                    .filter(ex->ex.getIdExemplar().equals(e.getIdExemplar()))
                     .findFirst().ifPresent(comboExemplar::setValue);
             comboUsuario.getItems().stream()
-                    .filter(us -> us.getIdUsuario().equals(e.getIdUsuario()))
+                    .filter(us->us.getIdUsuario().equals(e.getIdUsuario()))
                     .findFirst().ifPresent(comboUsuario::setValue);
-            if (e.getDataPrevistaDevolucao() != null)
+            if(e.getDataPrevistaDevolucao()!=null)
                 datePrevista.setValue(e.getDataPrevistaDevolucao().toLocalDate());
             choiceStatus.setValue(e.getStatus());
         });
     }
 
-    @FXML
-    private void onSalvar() {
+    @FXML private void onSalvar(){
         try {
-            boolean novo = (atual == null || atual.getIdEmprestimo() == null);
-            if (atual == null) atual = new Emprestimo();
+            boolean novo=(atual==null||atual.getIdEmprestimo()==null);
+            if(atual==null) atual=new Emprestimo();
 
-            Exemplar ex = comboExemplar.getValue();
-            Usuario us  = comboUsuario.getValue();
+            Exemplar ex=comboExemplar.getValue();
+            Usuario  us=comboUsuario.getValue();
 
-            if (ex == null || us == null) {
-                showError("Selecione o exemplar e o usuário.");
+            if(ex==null||us==null){
+                showError("Selecione exemplar e usuário.");
                 return;
             }
 
-            // 🔒 validação de reserva ativa ou válida
-            ReservaDAO reservaDAO = new ReservaDAO();
-            if (reservaDAO.existeReservaAtivaOuValida(ex.getIdExemplar())) {
+            // Se exemplar reservado
+            ReservaDAO reservaDAO=new ReservaDAO();
+            if(reservaDAO.existeReservaAtivaOuValida(ex.getIdExemplar())){
                 showError("Este exemplar possui uma reserva ativa e não pode ser emprestado.");
                 return;
             }
@@ -93,40 +91,39 @@ public class EmprestimoFormController {
             atual.setIdExemplar(ex.getIdExemplar());
             atual.setIdUsuario(us.getIdUsuario());
 
-            if (novo) {
+            MovimentacaoDAO movDAO=new MovimentacaoDAO();
+
+            if(novo){
                 atual.setStatus("ativo");
                 atual.setDataEmprestimo(LocalDateTime.now());
-                atual.setDataPrevistaDevolucao(LocalDateTime.of(
-                        datePrevista.getValue(), java.time.LocalTime.NOON));
+                atual.setDataPrevistaDevolucao(LocalDateTime.of(datePrevista.getValue(),
+                        java.time.LocalTime.NOON));
                 dao.insert(atual);
+                movDAO.registrar(null,ex.getIdExemplar(),us.getIdUsuario(),
+                        "emprestimo","Empréstimo criado para usuário "+us.getNome()+
+                                ", exemplar "+ex.getCodigoBarras());
             } else {
                 atual.setStatus(choiceStatus.getValue());
-                atual.setDataPrevistaDevolucao(LocalDateTime.of(
-                        datePrevista.getValue(), java.time.LocalTime.NOON));
-                if ("devolvido".equalsIgnoreCase(atual.getStatus())) {
+                atual.setDataPrevistaDevolucao(LocalDateTime.of(datePrevista.getValue(),
+                        java.time.LocalTime.NOON));
+
+                if("devolvido".equalsIgnoreCase(atual.getStatus())){
                     atual.setDataDevolucao(LocalDateTime.now());
+                    movDAO.registrar(null,ex.getIdExemplar(),us.getIdUsuario(),
+                            "devolucao","Empréstimo devolvido por usuário "+us.getNome()+
+                                    ", exemplar "+ex.getCodigoBarras());
                 }
                 dao.update(atual);
             }
 
             showInfo("Empréstimo salvo com sucesso!");
-            SceneManager.show("emprestimo_list.fxml", "Empréstimos");
+            SceneManager.show("emprestimo_list.fxml","Empréstimos");
 
-        } catch (Exception ex) {
-            showError("Erro ao salvar: " + ex.getMessage());
-            ex.printStackTrace();
-        }
+        }catch(Exception ex){ showError("Erro ao salvar: "+ex.getMessage()); ex.printStackTrace(); }
     }
 
-    @FXML
-    private void onCancelar() {
-        SceneManager.show("emprestimo_list.fxml", "Empréstimos");
-    }
+    @FXML private void onCancelar(){ SceneManager.show("emprestimo_list.fxml","Empréstimos"); }
 
-    private void showError(String msg) {
-        Platform.runLater(() -> new Alert(Alert.AlertType.ERROR, msg).showAndWait());
-    }
-    private void showInfo(String msg) {
-        Platform.runLater(() -> new Alert(Alert.AlertType.INFORMATION, msg).showAndWait());
-    }
+    private void showError(String msg){Platform.runLater(()->new Alert(Alert.AlertType.ERROR,msg).showAndWait());}
+    private void showInfo(String msg){Platform.runLater(()->new Alert(Alert.AlertType.INFORMATION,msg).showAndWait());}
 }

@@ -16,6 +16,7 @@
     <Button text="Gerenciar Acervo" onAction="#onGerenciarAcervo"/>
     <Button text="Empréstimos" onAction="#onEmprestimos"/>
     <Button text="Reservas" onAction="#onReservas"/>
+    <Button text="Movimentações / Logs" onAction="#onMovimentacoes"/>
     <Button text="Usuários" onAction="#onUsuarios"/>
     <Button text="Sair" onAction="#onSair" />
 </VBox>

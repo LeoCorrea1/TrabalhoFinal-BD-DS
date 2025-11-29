@@ -30,6 +30,11 @@ public class DashboardController {
     }
 
     @FXML
+    public void onMovimentacoes() {
+        SceneManager.show("movimentacao_list.fxml", "Movimentações / Logs");
+    }
+
+    @FXML
     public void onSair() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
                 "Deseja realmente sair do sistema?",
