@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.SistemaBiblioteca.controller.LocalizacaoListController">
+            fx:controller="com.example.SistemaBiblioteca.controller.LocalizacaoListController"
+            prefWidth="900" prefHeight="600"
+            style="-fx-background-color:whitesmoke;">
 
     <top>
-        <HBox spacing="8" style="-fx-padding:10">
-            <TextField fx:id="searchField" promptText="Pesquisar... (setor/prateleira/caixa)" HBox.hgrow="ALWAYS"/>
-            <Button text="Pesquisar" onAction="#onPesquisar"/>
-            <Button fx:id="btnNovo" text="Novo" onAction="#onNovo"/>
-            <Button fx:id="btnEditar" text="Editar" onAction="#onEditar" disable="true"/>
-            <Button fx:id="btnExcluir" text="Excluir" onAction="#onExcluir" disable="true"/>
-            <Button text="Fechar" onAction="#onFechar"/>
-        </HBox>
+        <VBox spacing="6" style="-fx-background-color:#2c3e50; -fx-padding:10;">
+            <HBox alignment="CENTER_LEFT" spacing="8">
+                <Button text="⟵ Voltar" onAction="#onVoltar"
+                        style="-fx-background-color:#ecf0f1;"/>
+                <Label text="Localizações" textFill="white"
+                       style="-fx-font-size:18; -fx-font-weight:bold;"/>
+            </HBox>
+            <HBox spacing="8" style="-fx-padding:6;">
+                <TextField fx:id="searchField" promptText="Pesquisar... (setor/prateleira/caixa)" HBox.hgrow="ALWAYS"/>
+                <Button text="Pesquisar" onAction="#onPesquisar"/>
+                <Button fx:id="btnNovo" text="Novo" onAction="#onNovo"/>
+                <Button fx:id="btnEditar" text="Editar" onAction="#onEditar" disable="true"/>
+                <Button fx:id="btnExcluir" text="Excluir" onAction="#onExcluir" disable="true"/>
+            </HBox>
+        </VBox>
     </top>
 
     <center>
-        <TableView fx:id="tableView" prefHeight="480" prefWidth="900">
+        <TableView fx:id="tableView" prefHeight="500">
             <columns>
                 <TableColumn fx:id="colId" text="ID" prefWidth="70"/>
                 <TableColumn fx:id="colSetor" text="Setor" prefWidth="220"/>

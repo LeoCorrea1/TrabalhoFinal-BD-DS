@@ -1,40 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.SistemaBiblioteca.controller.ItemAcervoController">
+            fx:controller="com.example.SistemaBiblioteca.controller.ItemAcervoController"
+            prefWidth="900" prefHeight="600"
+            style="-fx-background-color:whitesmoke;">
 
     <top>
-        <HBox spacing="8" style="-fx-padding:10">
-            <TextField fx:id="searchField" promptText="Pesquisar por título..." HBox.hgrow="ALWAYS"/>
-            <Button text="Pesquisar" onAction="#onPesquisar"/>
-            <Button fx:id="btnNovo" text="Novo" onAction="#onNovo"/>
-            <Button fx:id="btnEditar" text="Editar" onAction="#onEditar" disable="true"/>
-            <Button fx:id="btnExcluir" text="Excluir" onAction="#onExcluir" disable="true"/>
-            <Button fx:id="btnRefresh" text="Atualizar" onAction="#onRefresh"/>
-            <Button text="Editoras" onAction="#onOpenEditoras"/>
-            <Button text="Exemplares" fx:id="btnExemplares" onAction="#onExemplares" disable="true"/>
-        </HBox>
+        <VBox spacing="6" style="-fx-background-color:#2c3e50; -fx-padding:10;">
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Button text="⟵ Voltar" onAction="#onVoltar"
+                        style="-fx-background-color:#ecf0f1;"/>
+                <Label text="Itens do Acervo" textFill="white"
+                       style="-fx-font-size:18; -fx-font-weight:bold;"/>
+            </HBox>
+            <HBox spacing="8" style="-fx-padding:6;">
+                <TextField fx:id="searchField" promptText="Pesquisar por título..." HBox.hgrow="ALWAYS"/>
+                <Button text="Pesquisar" onAction="#onPesquisar"/>
+                <Button text="Novo" fx:id="btnNovo" onAction="#onNovo"/>
+                <Button fx:id="btnEditar" text="Editar" onAction="#onEditar" disable="true"/>
+                <Button fx:id="btnExcluir" text="Excluir" onAction="#onExcluir" disable="true"/>
+                <Button text="Atualizar" fx:id="btnRefresh" onAction="#onRefresh"/>
+                <Button text="Editoras" onAction="#onOpenEditoras"/>
+                <Button text="Exemplares" fx:id="btnExemplares" onAction="#onExemplares" disable="true"/>
+            </HBox>
+        </VBox>
     </top>
 
     <center>
-        <TableView fx:id="tableView" prefHeight="520" prefWidth="1100">
+        <TableView fx:id="tableView" prefHeight="500">
             <columns>
                 <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
-                <TableColumn fx:id="colTitulo" text="Título" prefWidth="280"/>
+                <TableColumn fx:id="colTitulo" text="Título" prefWidth="260"/>
                 <TableColumn fx:id="colSubtitulo" text="Subtítulo" prefWidth="200"/>
-                <TableColumn fx:id="colDescricao" text="Descrição (curta)" prefWidth="220"/>
+                <TableColumn fx:id="colDescricao" text="Descrição" prefWidth="220"/>
                 <TableColumn fx:id="colAno" text="Ano" prefWidth="70"/>
                 <TableColumn fx:id="colIdioma" text="Idioma" prefWidth="80"/>
                 <TableColumn fx:id="colTipo" text="Tipo" prefWidth="120"/>
-                <TableColumn fx:id="colCriado" text="Criado Em" prefWidth="140"/>
+                <TableColumn fx:id="colCriado" text="Criado em" prefWidth="140"/>
             </columns>
         </TableView>
     </center>

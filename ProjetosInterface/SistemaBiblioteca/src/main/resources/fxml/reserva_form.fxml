@@ -25,3 +25,8 @@
 
     <HBox spacing="12" alignment="CENTER">
         <Button text="Salvar" onAction="#onSalvar"
+                style="-fx-background-color:#27ae60; -fx-text-fill:white;"/>
+        <Button text="Voltar" onAction="#onVoltar"
+                style="-fx-background-color:#7f8c8d; -fx-text-fill:white;"/>
+    </HBox>
+</VBox>
