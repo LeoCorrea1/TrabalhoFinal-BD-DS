@@ -1,3 +1,4 @@
+// java
 package com.example.SistemaBiblioteca.controller;
 
 import com.example.SistemaBiblioteca.app.SceneManager;
@@ -98,12 +99,13 @@ public class LivroFormController {
             if (item != null) {
                 tituloField.setText(nullSafe(item.getTitulo()));
                 subtituloField.setText(nullSafe(item.getSubtitulo()));
-                anoField.setText(item.getAno() == null ? "" : String.valueOf(item.getAno()));
+                // item.getAno() é int primitivo — usamos 0 como "ausente"
+                anoField.setText(item.getAno() == 0 ? "" : String.valueOf(item.getAno()));
                 idiomaField.setText(nullSafe(item.getIdioma()));
                 descricaoField.setText(nullSafe(item.getDescricao()));
 
-                // seleciona tipo se já carregado
-                if (item.getIdTipo() != null && comboTipo.getItems() != null) {
+                // seleciona tipo se já carregado (idTipo é int primitivo — 0 = ausente)
+                if (item.getIdTipo() != 0 && comboTipo.getItems() != null) {
                     comboTipo.getItems().stream()
                             .filter(t -> Objects.equals(t.getIdTipo(), item.getIdTipo()))
                             .findFirst().ifPresent(comboTipo::setValue);
@@ -148,13 +150,15 @@ public class LivroFormController {
         item.setSubtitulo(emptyToNull(subtituloField.getText()));
         item.setIdioma(emptyToNull(idiomaField.getText()));
         item.setDescricao(emptyToNull(descricaoField.getText()));
-        item.setAno(parseIntegerOrNull(anoField.getText()));
+        Integer anoParsed = parseIntegerOrNull(anoField.getText());
+        item.setAno(anoParsed != null ? anoParsed : 0); // evita autounboxing de null
         item.setIdTipo(tipoSel.getIdTipo());
 
         Livro livro = (editingLivro != null) ? editingLivro : new Livro();
         livro.setIsbn(emptyToNull(isbnField.getText()));
         livro.setEdicao(emptyToNull(edicaoField.getText()));
-        livro.setNumeroPaginas(parseIntegerOrNull(paginasField.getText()));
+        Integer paginasParsed = parseIntegerOrNull(paginasField.getText());
+        livro.setNumeroPaginas(paginasParsed != null ? paginasParsed : 0);
         livro.setIdEditora(editoraSel == null ? null : editoraSel.getId()); // usa getId()
 
         // operação em background (criar ou atualizar)
