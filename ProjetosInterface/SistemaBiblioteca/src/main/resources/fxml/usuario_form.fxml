@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.SistemaBiblioteca.controller.UsuarioFormController"
+            prefWidth="400" prefHeight="350">
+
+    <Label fx:id="lblTitulo" layoutX="20" layoutY="20" style="-fx-font-size: 18px;" text="Novo Usuário"/>
+
+    <Label text="Nome:" layoutX="20" layoutY="70"/>
+    <TextField fx:id="txtNome" layoutX="120" layoutY="65" prefWidth="250"/>
+
+    <Label text="Email:" layoutX="20" layoutY="110"/>
+    <TextField fx:id="txtEmail" layoutX="120" layoutY="105" prefWidth="250"/>
+
+    <Label text="Telefone:" layoutX="20" layoutY="150"/>
+    <TextField fx:id="txtTelefone" layoutX="120" layoutY="145" prefWidth="250"/>
+
+    <Label text="Tipo:" layoutX="20" layoutY="190"/>
+    <ComboBox fx:id="comboTipo" layoutX="120" layoutY="185" prefWidth="250"/>
+
+    <Button fx:id="btnSalvar" text="Salvar" layoutX="120" layoutY="250" onAction="#onSalvar"/>
+    <Button fx:id="btnCancelar" text="Cancelar" layoutX="200" layoutY="250" onAction="#onCancelar"/>
+
+</AnchorPane>

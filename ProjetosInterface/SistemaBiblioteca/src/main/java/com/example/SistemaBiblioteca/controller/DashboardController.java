@@ -21,7 +21,7 @@ public class DashboardController {
 
     @FXML
     public void onUsuarios() {
-        System.out.println("Abrir tela de Usuários (a implementar)");
+        SceneManager.show("usuario_list.fxml", "Usuários");;
     }
 
     @FXML

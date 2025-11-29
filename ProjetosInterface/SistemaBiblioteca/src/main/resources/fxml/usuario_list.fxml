@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.SistemaBiblioteca.controller.UsuarioListController"
+            prefWidth="800" prefHeight="500">
+
+    <TableView fx:id="tabela" layoutX="20" layoutY="60" prefWidth="760" prefHeight="380">
+        <columns>
+            <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
+            <TableColumn fx:id="colNome" text="Nome" prefWidth="180"/>
+            <TableColumn fx:id="colEmail" text="Email" prefWidth="180"/>
+            <TableColumn fx:id="colTelefone" text="Telefone" prefWidth="140"/>
+            <TableColumn fx:id="colTipo" text="Tipo" prefWidth="140"/>
+        </columns>
+    </TableView>
+
+    <TextField fx:id="txtPesquisa" layoutX="20" layoutY="20" prefWidth="300"/>
+    <Button text="Pesquisar" layoutX="330" layoutY="20" onAction="#onPesquisar"/>
+
+    <Button text="Novo" layoutX="20" layoutY="455" onAction="#onNovo"/>
+    <Button fx:id="btnEditar" text="Editar" layoutX="100" layoutY="455" disable="true" onAction="#onEditar"/>
+    <Button fx:id="btnExcluir" text="Excluir" layoutX="180" layoutY="455" disable="true" onAction="#onExcluir"/>
+
+</AnchorPane>

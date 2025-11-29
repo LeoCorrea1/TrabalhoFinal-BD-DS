@@ -29,6 +29,7 @@ import java.util.function.Consumer;
 public final class SceneManager {
 
     private static Stage primaryStage = null;
+    private static Stage currentModal;
 
     private SceneManager() {}
 
@@ -101,6 +102,7 @@ public final class SceneManager {
      * Abre modal simples sem entregar controller.
      */
     public static void showModal(String fxmlName, String title) {
+
         showModalWithController(fxmlName, title, (c) -> {});
     }
 
@@ -132,4 +134,11 @@ public final class SceneManager {
         // última opção: cria uma stage nova
         return new Stage();
     }
+    public static void closeModal() {
+        if (currentModal != null) {
+            currentModal.close();
+            currentModal = null;
+        }
+    }
+
 }
