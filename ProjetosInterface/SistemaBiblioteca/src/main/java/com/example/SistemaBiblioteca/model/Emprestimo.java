@@ -13,6 +13,19 @@ public class Emprestimo {
 
     public Emprestimo() {}
 
+    public Emprestimo(Integer id, Integer idExemplar, Integer idUsuario,
+                      LocalDateTime dataEmprestimo, LocalDateTime dataPrevistaDevolucao,
+                      LocalDateTime dataDevolucao, String status) {
+        this.idEmprestimo = id;
+        this.idExemplar = idExemplar;
+        this.idUsuario = idUsuario;
+        this.dataEmprestimo = dataEmprestimo;
+        this.dataPrevistaDevolucao = dataPrevistaDevolucao;
+        this.dataDevolucao = dataDevolucao;
+        this.status = status;
+    }
+
+    // Getters / setters
     public Integer getIdEmprestimo() { return idEmprestimo; }
     public void setIdEmprestimo(Integer idEmprestimo) { this.idEmprestimo = idEmprestimo; }
 
@@ -26,7 +39,7 @@ public class Emprestimo {
     public void setDataEmprestimo(LocalDateTime dataEmprestimo) { this.dataEmprestimo = dataEmprestimo; }
 
     public LocalDateTime getDataPrevistaDevolucao() { return dataPrevistaDevolucao; }
-    public void setDataPrevistaDevolucao(LocalDateTime dataPrevistaDevolucao) { this.dataPrevistaDevolucao = dataPrevistaDevolucao; }
+    public void setDataPrevistaDevolucao(LocalDateTime d) { this.dataPrevistaDevolucao = d; }
 
     public LocalDateTime getDataDevolucao() { return dataDevolucao; }
     public void setDataDevolucao(LocalDateTime dataDevolucao) { this.dataDevolucao = dataDevolucao; }

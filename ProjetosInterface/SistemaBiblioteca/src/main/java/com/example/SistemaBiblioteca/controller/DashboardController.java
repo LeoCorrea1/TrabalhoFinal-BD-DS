@@ -16,7 +16,7 @@ public class DashboardController {
 
     @FXML
     public void onEmprestimos() {
-        System.out.println("Abrir tela de Empréstimos (a implementar)");
+        SceneManager.show("emprestimo_list.fxml","Empréstimos");;
     }
 
     @FXML

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" spacing="8" style="-fx-padding:16"
+      fx:controller="com.example.SistemaBiblioteca.controller.EmprestimoFormController">
+
+    <Label text="Exemplar (ID)"/>
+    <TextField fx:id="txtExemplar"/>
+
+    <Label text="Usuário (ID)"/>
+    <TextField fx:id="txtUsuario"/>
+
+    <Label text="Data prevista de devolução"/>
+    <DatePicker fx:id="datePrevista"/>
+
+    <Label text="Status"/>
+    <ChoiceBox fx:id="choiceStatus"/>
+
+    <HBox spacing="10">
+        <Button text="Salvar" onAction="#onSalvar"/>
+        <Button text="Cancelar" onAction="#onCancelar"/>
+    </HBox>
+</VBox>
