@@ -22,7 +22,7 @@ public class UsuarioFormController {
 
     @FXML
     public void initialize() {
-        comboTipo.getItems().addAll("tecnico", "funcionário", "aluno", "professor");
+        comboTipo.getItems().addAll("tecnico", "publico", "aluno", "professor");
 
         if (usuarioSelecionado != null) {
             lblTitulo.setText("Editar Usuário");

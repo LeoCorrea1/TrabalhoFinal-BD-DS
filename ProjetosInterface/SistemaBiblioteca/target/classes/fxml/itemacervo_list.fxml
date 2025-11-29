@@ -34,12 +34,9 @@
             <columns>
                 <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
                 <TableColumn fx:id="colTitulo" text="Título" prefWidth="260"/>
-                <TableColumn fx:id="colSubtitulo" text="Subtítulo" prefWidth="200"/>
-                <TableColumn fx:id="colDescricao" text="Descrição" prefWidth="220"/>
                 <TableColumn fx:id="colAno" text="Ano" prefWidth="70"/>
                 <TableColumn fx:id="colIdioma" text="Idioma" prefWidth="80"/>
                 <TableColumn fx:id="colTipo" text="Tipo" prefWidth="120"/>
-                <TableColumn fx:id="colCriado" text="Criado em" prefWidth="140"/>
             </columns>
         </TableView>
     </center>
