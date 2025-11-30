@@ -1,4 +1,3 @@
-
 package com.example.SistemaBiblioteca.app;
 
 import javafx.fxml.FXMLLoader;
@@ -9,40 +8,49 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
- * SceneManager simples e seguro para carregar FXMLs de /fxml/<nome>
+ * SceneManager atualizado para PRESERVAR estado maximizado/fullscreen entre trocas de cena.
  *
- * Uso:
- * - SceneManager.setPrimaryStage(primaryStage)  <-- chame em Main.start(...)
- * - SceneManager.show("itemacervo_list.fxml", "Gerenciar Acervo");
- * - SceneManager.show("exemplar_list.fxml", "Exemplares", loader -> {
- *       ExemplarListController ctrl = loader.getController();
- *       ctrl.setItemAcervoId(id);
- *   });
- *
- * - SceneManager.showModalWithController("editoras_form.fxml", "Nova", controller -> {
- *       if (controller instanceof EditoraFormController c) c.setEditora(ed);
- *   });
+ * Regras importantes:
+ * - Chame SceneManager.setPrimaryStage(primaryStage) em Main.start(stage).
+ * - Evite definir tamanho fixo em controllers (setWidth/setHeight) ao trocar a cena principal.
  */
 public final class SceneManager {
 
     private static Stage primaryStage = null;
-    private static Stage currentModal;
 
     private SceneManager() {}
 
-    /**
-     * Registre a primary stage (recomendo chamar em Main.start(stage))
-     */
     public static void setPrimaryStage(Stage stage) {
         primaryStage = stage;
     }
 
+    // --- utilitários para carregar FXML ---
+    public static FXMLLoader loadFXML(String fxmlName) {
+        String path = "/fxml/" + fxmlName;
+        URL resource = SceneManager.class.getResource(path);
+        if (resource == null) {
+            throw new IllegalArgumentException("FXML not found on classpath: " + path);
+        }
+        return new FXMLLoader(resource);
+    }
+
+    private static Stage obtainStage() {
+        if (primaryStage != null) return primaryStage;
+
+        // fallback: pega qualquer window visível
+        for (javafx.stage.Window w : javafx.stage.Window.getWindows()) {
+            if (w.isShowing() && w instanceof Stage) return (Stage) w;
+        }
+        // última opção: cria uma stage nova
+        return new Stage();
+    }
+
     /**
-     * Simples: troca a cena principal para o FXML informado.
+     * Mostra uma cena na stage principal (reaproveita primaryStage quando disponível).
+     * Preserva maximized/fullScreen.
      */
     public static void show(String fxmlName, String title) {
         show(fxmlName, title, (loader) -> {});
@@ -53,23 +61,27 @@ public final class SceneManager {
             FXMLLoader loader = loadFXML(fxmlName);
             Parent root = loader.load();
 
-            if (afterLoad != null) afterLoad.accept(loader);
+            Stage stage = obtainStage();
+
+            boolean wasMaximized = stage.isMaximized();
+            boolean wasFullScreen = stage.isFullScreen();
 
             Scene scene = new Scene(root);
 
-            Stage stage = obtainStage();
+            // aplica a cena na mesma stage
             stage.setScene(scene);
             if (title != null) stage.setTitle(title);
-            stage.setWidth(900);
-            stage.setHeight(600);
-            stage.centerOnScreen();
 
-            // intercepta clicar no X
-            stage.setOnCloseRequest(e -> {
-                e.consume();
-                SceneManager.show("dashboard.fxml","Painel");
-            });
+            // NÃO sobrepor tamanho fixo: se estava maximizado, mantém; se estava fullScreen mantém.
+            stage.setMaximized(wasMaximized);
+            stage.setFullScreen(wasFullScreen);
 
+            // Se quiser centralizar quando NÃO estiver maximizado, faça opcional:
+            if (!wasMaximized && !wasFullScreen) {
+                stage.centerOnScreen();
+            }
+
+            // mostra (se já estava visível, trocar cena não altera visual)
             stage.show();
 
         } catch (IOException ex) {
@@ -78,9 +90,8 @@ public final class SceneManager {
     }
 
     /**
-     * Abre um modal (nova Stage) e passa o controller para o consumer após carregar.
-     * A diferença entre esse e show(...) é que esse cria uma Stage modal.
-     * controllerConsumer recebe o controller (loader.getController()) para facilitar uso.
+     * Abre um modal (Stage com Modality.APPLICATION_MODAL) e passa o controller ao consumer.
+     * Se a primaryStage estiver maximizada, opcionalmente maximiza o modal também (configurável aqui).
      */
     public static void showModalWithController(String fxmlName, String title, Consumer<Object> controllerConsumer) {
         try {
@@ -91,11 +102,28 @@ public final class SceneManager {
             Stage modal = new Stage();
             modal.initModality(Modality.APPLICATION_MODAL);
 
-            // tenta definir owner se primaryStage estiver setado
-            if (primaryStage != null) modal.initOwner(primaryStage);
+            if (primaryStage != null) {
+                modal.initOwner(primaryStage);
+            } else {
+                // try to set owner to any visible window
+                for (javafx.stage.Window w : javafx.stage.Window.getWindows()) {
+                    if (w.isShowing() && w instanceof Stage) {
+                        modal.initOwner((Stage) w);
+                        break;
+                    }
+                }
+            }
+
+            // Preserve maximized/fullscreen of owner if desired:
+            boolean ownerMax = primaryStage != null && primaryStage.isMaximized();
+            boolean ownerFS = primaryStage != null && primaryStage.isFullScreen();
 
             modal.setTitle(title == null ? "" : title);
             modal.setScene(new Scene(root));
+
+            // Se o usuário estiver com a app maximizada, maximize o modal também para manter aparência.
+            if (ownerMax) modal.setMaximized(true);
+            if (ownerFS) modal.setFullScreen(true);
 
             if (controllerConsumer != null) controllerConsumer.accept(controller);
 
@@ -105,47 +133,7 @@ public final class SceneManager {
         }
     }
 
-    /**
-     * Abre modal simples sem entregar controller.
-     */
     public static void showModal(String fxmlName, String title) {
-
         showModalWithController(fxmlName, title, (c) -> {});
     }
-
-    /**
-     * Obtém o FXMLLoader para o arquivo em /fxml/<fxmlName>.
-     * NÃO chama loader.load() aqui — o chamador deve carregar para obter controller.
-     */
-    public static FXMLLoader loadFXML(String fxmlName) {
-        String path = "/fxml/" + fxmlName;
-        URL resource = SceneManager.class.getResource(path);
-        if (resource == null) {
-            throw new IllegalArgumentException("FXML not found on classpath: " + path);
-        }
-        return new FXMLLoader(resource);
-    }
-
-    /**
-     * Obtém uma Stage para uso (primary se disponível; se não, tenta usar a janela atual).
-     */
-    private static Stage obtainStage() {
-        if (primaryStage != null) return primaryStage;
-
-        // fallback: pega qualquer window visível e o converte para Stage
-        // (útil durante desenvolvimento quando Main não chamou setPrimaryStage)
-        for (javafx.stage.Window w : javafx.stage.Window.getWindows()) {
-            if (w.isShowing() && w instanceof Stage) return (Stage) w;
-        }
-
-        // última opção: cria uma stage nova
-        return new Stage();
-    }
-    public static void closeModal() {
-        if (currentModal != null) {
-            currentModal.close();
-            currentModal = null;
-        }
-    }
-
 }

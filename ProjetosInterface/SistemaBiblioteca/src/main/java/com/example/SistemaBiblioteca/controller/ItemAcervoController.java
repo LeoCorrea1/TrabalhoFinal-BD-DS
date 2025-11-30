@@ -25,18 +25,21 @@ public class ItemAcervoController {
     @FXML private TableView<ItemAcervo> tableView;
     @FXML private TableColumn<ItemAcervo, Integer> colId;
     @FXML private TableColumn<ItemAcervo, String> colTitulo;
+    @FXML private TableColumn<ItemAcervo, String> colSubtitulo;
+    @FXML private TableColumn<ItemAcervo, String> colDescricao;
     @FXML private TableColumn<ItemAcervo, Integer> colAno;
     @FXML private TableColumn<ItemAcervo, String> colIdioma;
     @FXML private TableColumn<ItemAcervo, String> colTipo;
+    @FXML private TableColumn<ItemAcervo, String> colIsbn;
+    @FXML private TableColumn<ItemAcervo, String> colEdicao;
+    @FXML private TableColumn<ItemAcervo, String> colEditora;
     @FXML private TextField searchField;
 
-    // Botões opcionais — se existirem no FXML, referencie-os; se não, null checks evitam NPE.
     @FXML private Button btnEditar;
     @FXML private Button btnExcluir;
     @FXML private Button btnNovo;
     @FXML private Button btnRefresh;
     @FXML private Button btnExemplares;
-
 
     private final ItemAcervoDAO dao = new ItemAcervoDAO();
     private final ObservableList<ItemAcervo> data = FXCollections.observableArrayList();
@@ -45,12 +48,17 @@ public class ItemAcervoController {
     public void initialize() {
         System.out.println("initialize ItemAcervoController");
 
-        // configurar colunas (usa PropertyValueFactory -> reflection; module deve abrir pacote model)
+        // ligar colunas (pode usar PropertyValueFactory porque o model tem getters)
         colId.setCellValueFactory(new PropertyValueFactory<>("idItemAcervo"));
         colTitulo.setCellValueFactory(new PropertyValueFactory<>("titulo"));
+        colSubtitulo.setCellValueFactory(new PropertyValueFactory<>("subtitulo"));
+        colDescricao.setCellValueFactory(new PropertyValueFactory<>("descricao"));
         colAno.setCellValueFactory(new PropertyValueFactory<>("ano"));
         colIdioma.setCellValueFactory(new PropertyValueFactory<>("idioma"));
         colTipo.setCellValueFactory(new PropertyValueFactory<>("tipoNome"));
+        colIsbn.setCellValueFactory(new PropertyValueFactory<>("isbn"));
+        colEdicao.setCellValueFactory(new PropertyValueFactory<>("edicao"));
+        colEditora.setCellValueFactory(new PropertyValueFactory<>("editoraNome"));
 
         tableView.setItems(data);
 
@@ -62,21 +70,17 @@ public class ItemAcervoController {
         });
         if (btnExemplares != null) btnExemplares.setDisable(true);
 
-
-
-        // carregar dados inicialmente
         carregarDados();
     }
+
     @FXML public void onVoltar() { SceneManager.show("dashboard.fxml","Painel"); }
 
     private void carregarDados() {
         Task<List<ItemAcervo>> task = new Task<>() {
             @Override
-            protected List<ItemAcervo> call() throws Exception {
+            protected List<ItemAcervo> call() {
                 System.out.println("DEBUG: chamando dao.findAll()");
-                List<ItemAcervo> list = dao.findAll();
-                System.out.println("DEBUG: dao.findAll() retornou size=" + (list == null ? "null" : list.size()));
-                return list;
+                return dao.findAll();
             }
         };
 
@@ -105,9 +109,8 @@ public class ItemAcervoController {
 
         Task<List<ItemAcervo>> task = new Task<>() {
             @Override
-            protected List<ItemAcervo> call() throws Exception {
-                List<ItemAcervo> all = dao.findAll();
-                return all.stream()
+            protected List<ItemAcervo> call() {
+                return dao.findAll().stream()
                         .filter(i -> i.getTitulo() != null && i.getTitulo().toLowerCase().contains(q.toLowerCase()))
                         .toList();
             }
@@ -125,10 +128,8 @@ public class ItemAcervoController {
     @FXML
     public void onNovo() {
         try {
-            // abre formulário de criação (usa SceneManager.show para comportamento consistente)
             SceneManager.show("livro_form.fxml", "Novo Item");
         } catch (Exception ex) {
-            // fallback: tentar carregar diretamente
             ex.printStackTrace();
             showError("Erro ao abrir formulário: " + ex.getMessage());
         }
@@ -147,7 +148,6 @@ public class ItemAcervoController {
             return;
         }
 
-        // busca o Livro correspondente (pode não existir — ex.: item que não é livro)
         Task<Livro> task = new Task<>() {
             @Override
             protected Livro call() throws Exception {
@@ -157,8 +157,7 @@ public class ItemAcervoController {
         };
 
         task.setOnSucceeded(evt -> {
-            Livro livro = task.getValue(); // pode ser null
-            // abrir o FXML e passar os objetos para edição (na UI thread)
+            Livro livro = task.getValue();
             Platform.runLater(() -> {
                 try {
                     URL url = SceneManager.class.getResource("/fxml/livro_form.fxml");
@@ -167,7 +166,6 @@ public class ItemAcervoController {
                     FXMLLoader loader = new FXMLLoader(url);
                     Parent root = loader.load();
 
-                    // obter controller e injetar dados
                     Object ctrlObj = loader.getController();
                     if (ctrlObj instanceof com.example.SistemaBiblioteca.controller.LivroFormController) {
                         com.example.SistemaBiblioteca.controller.LivroFormController ctrl =
@@ -176,8 +174,6 @@ public class ItemAcervoController {
                     }
 
                     Scene scene = new Scene(root);
-
-                    // obtém stage atual a partir de qualquer nó (tableView)
                     Stage stage = (Stage) tableView.getScene().getWindow();
                     stage.setScene(scene);
                     stage.setTitle("Editar Item");
@@ -214,8 +210,8 @@ public class ItemAcervoController {
                     @Override
                     protected Void call() throws Exception {
                         ItemAcervoDAO daoLocal = new ItemAcervoDAO();
-                        boolean ok = daoLocal.deleteIfNoDependencies(sel.getIdItemAcervo());
-                        if (!ok) throw new RuntimeException("Item possui dependências. Remova dependências antes de excluir.");
+                        boolean ok = daoLocal.delete(sel.getIdItemAcervo());
+                        if (!ok) throw new RuntimeException("Falha ao deletar item.");
                         return null;
                     }
                 };
@@ -253,12 +249,11 @@ public class ItemAcervoController {
         });
     }
 
-    // dentro de ItemAcervoController.java
     @FXML
     public void onOpenEditoras() {
-        // simples: abre a tela de editoras. Ajuste o nome do FXML se o seu for diferente.
         SceneManager.show("editoras_list.fxml", "Editoras");
     }
+
     @FXML
     public void onExemplares() {
         ItemAcervo item = tableView.getSelectionModel().getSelectedItem();

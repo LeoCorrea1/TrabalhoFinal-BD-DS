@@ -5,7 +5,7 @@
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.SistemaBiblioteca.controller.EmprestimoListController"
-            prefWidth="900" prefHeight="600"
+            prefWidth="900" prefHeight="500"
             style="-fx-background-color:whitesmoke;">
 
     <top>
