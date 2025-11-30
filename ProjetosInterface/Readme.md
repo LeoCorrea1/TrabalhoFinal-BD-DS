@@ -59,8 +59,6 @@ Inclui:
 - CRUD completo  
 - Validações  
 - Tabelas com listagem  
-- Associação Livro → ItemAcervo  
-- Associação Autor ↔ Livro  
 - Movimentação de itens  
 
 ---
@@ -95,4 +93,5 @@ O banco segue o modelo proposto na disciplina, incluindo:
 - TipoItemAcervo para classificação
 
 O script SQL completo está em: biblioteca.sql
+
 
