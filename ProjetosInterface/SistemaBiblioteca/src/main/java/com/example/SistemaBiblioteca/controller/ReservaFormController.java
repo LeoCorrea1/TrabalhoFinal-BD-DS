@@ -23,87 +23,129 @@ public class ReservaFormController {
 
     @FXML
     public void initialize() {
-        choiceStatus.getItems().addAll("ativa","cancelada","expirada","convertida");
+        choiceStatus.getItems().addAll("ativa", "cancelada", "expirada", "convertida");
 
-        ExemplarDAO exDao=new ExemplarDAO();
-        UsuarioDAO usDao=new UsuarioDAO();
-        List<Exemplar> exemplares=exDao.listarTodos();
-        List<Usuario> usuarios=usDao.findAll();
+        List<Exemplar> exemplares = new ExemplarDAO().listarTodos();
+        List<Usuario> usuarios = new UsuarioDAO().findAll();
 
         comboExemplar.setItems(FXCollections.observableArrayList(exemplares));
         comboUsuario.setItems(FXCollections.observableArrayList(usuarios));
 
         comboExemplar.setConverter(new StringConverter<>() {
-            @Override public String toString(Exemplar e){
-                if(e==null) return "";
-                String loc=e.getNomeLocalizacao()==null?"":" ("+e.getNomeLocalizacao()+")";
-                return e.getCodigoBarras()+loc;
+            @Override
+            public String toString(Exemplar e) {
+                if (e == null) return "";
+                String loc = e.getNomeLocalizacao() == null ? "" : " (" + e.getNomeLocalizacao() + ")";
+                return e.getCodigoBarras() + loc;
             }
-            @Override public Exemplar fromString(String s){return null;}
+            @Override
+            public Exemplar fromString(String s) { return null; }
         });
+
         comboUsuario.setConverter(new StringConverter<>() {
-            @Override public String toString(Usuario u){return u==null?"":u.getNome();}
-            @Override public Usuario fromString(String s){return null;}
+            @Override
+            public String toString(Usuario u) {
+                return u == null ? "" : u.getNome();
+            }
+            @Override
+            public Usuario fromString(String s) { return null; }
         });
+
+        choiceStatus.setDisable(true);
     }
 
-    public void setReserva(Reserva r){
-        this.atual=r;
-        Platform.runLater(()->{
-            comboExemplar.getItems().stream()
-                    .filter(ex->ex.getIdExemplar().equals(r.getIdExemplar()))
-                    .findFirst().ifPresent(comboExemplar::setValue);
-            comboUsuario.getItems().stream()
-                    .filter(us->us.getIdUsuario().equals(r.getIdUsuario()))
-                    .findFirst().ifPresent(comboUsuario::setValue);
-            dateExpiracao.setValue(r.getDataExpiracao().toLocalDate());
+    public void setReserva(Reserva r) {
+        this.atual = r;
+        choiceStatus.setDisable(false);
+
+        Platform.runLater(() -> {
+            // Selecionar o exemplar correto
+            for (Exemplar ex : comboExemplar.getItems()) {
+                if (ex.getIdExemplar().equals(r.getIdExemplar())) {
+                    comboExemplar.setValue(ex);
+                    break;
+                }
+            }
+
+            // Selecionar o usuário correto
+            for (Usuario us : comboUsuario.getItems()) {
+                if (us.getIdUsuario().equals(r.getIdUsuario())) {
+                    comboUsuario.setValue(us);
+                    break;
+                }
+            }
+
+            // Preencher data de expiração
+            if (r.getDataExpiracao() != null) {
+                dateExpiracao.setValue(r.getDataExpiracao().toLocalDate());
+            }
+
+            // Preencher status
             choiceStatus.setValue(r.getStatus());
         });
     }
 
     @FXML
-    private void onSalvar(){
-        try{
-            boolean novo=(atual==null||atual.getIdReserva()==null);
-            if(atual==null) atual=new Reserva();
+    private void onSalvar() {
+        try {
+            Exemplar ex = comboExemplar.getValue();
+            Usuario us = comboUsuario.getValue();
 
-            Exemplar ex=comboExemplar.getValue();
-            Usuario us=comboUsuario.getValue();
-            if(ex==null||us==null){
+            if (ex == null || us == null) {
                 showError("Selecione exemplar e usuário.");
                 return;
+            }
+
+            boolean isNovo = (atual == null || atual.getIdReserva() == null);
+
+            if (isNovo) {
+                atual = new Reserva();
             }
 
             atual.setIdExemplar(ex.getIdExemplar());
             atual.setIdUsuario(us.getIdUsuario());
 
-            MovimentacaoDAO movDAO=new MovimentacaoDAO();
+            MovimentacaoDAO movDAO = new MovimentacaoDAO();
 
-            if(novo){
+            if (isNovo) {
                 atual.setDataReserva(LocalDateTime.now());
                 atual.setDataExpiracao(LocalDateTime.now().plusHours(24));
                 atual.setStatus("ativa");
                 dao.insert(atual);
-                movDAO.registrar(null,ex.getIdExemplar(),us.getIdUsuario(),
-                        "reserva","Reserva criada para usuário "+us.getNome()+
-                                ", exemplar "+ex.getCodigoBarras());
-            }else{
+                movDAO.registrar(null, ex.getIdExemplar(), us.getIdUsuario(),
+                        "reserva", "Reserva criada para " + us.getNome());
+            } else {
                 atual.setStatus(choiceStatus.getValue());
+                if (dateExpiracao.getValue() != null) {
+                    atual.setDataExpiracao(dateExpiracao.getValue().atStartOfDay());
+                }
                 dao.update(atual);
             }
 
             showInfo("Reserva salva com sucesso!");
-            SceneManager.show("reserva_list.fxml","Reservas");
+            SceneManager.show("reserva_list.fxml", "Reservas");
 
-        }catch(Exception e){
-            showError("Erro ao salvar: "+e.getMessage());
+        } catch (Exception e) {
+            showError("Erro ao salvar: " + e.getMessage());
             e.printStackTrace();
         }
     }
-    @FXML public void onVoltar() { SceneManager.show("reserva_list.fxml","Reservas"); }
 
-    @FXML private void onCancelar(){ SceneManager.show("reserva_list.fxml","Reservas"); }
+    @FXML
+    public void onVoltar() {
+        SceneManager.show("reserva_list.fxml", "Reservas");
+    }
 
-    private void showError(String msg){Platform.runLater(()->new Alert(Alert.AlertType.ERROR,msg).showAndWait());}
-    private void showInfo(String msg){Platform.runLater(()->new Alert(Alert.AlertType.INFORMATION,msg).showAndWait());}
+    @FXML
+    private void onCancelar() {
+        SceneManager.show("reserva_list.fxml", "Reservas");
+    }
+
+    private void showError(String msg) {
+        Platform.runLater(() -> new Alert(Alert.AlertType.ERROR, msg).showAndWait());
+    }
+
+    private void showInfo(String msg) {
+        Platform.runLater(() -> new Alert(Alert.AlertType.INFORMATION, msg).showAndWait());
+    }
 }

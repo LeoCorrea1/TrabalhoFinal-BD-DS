@@ -8,8 +8,8 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.StringConverter;
-
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 public class EmprestimoFormController {
@@ -24,107 +24,142 @@ public class EmprestimoFormController {
 
     @FXML
     public void initialize() {
-        choiceStatus.getItems().addAll("ativo","devolvido","atrasado","perdido");
+        choiceStatus.getItems().addAll("ativo", "devolvido", "atrasado", "perdido");
 
-        ExemplarDAO exemplarDAO = new ExemplarDAO();
-        UsuarioDAO usuarioDAO   = new UsuarioDAO();
-
-        List<Exemplar> exemplares = exemplarDAO.listarTodos();
-        List<Usuario>  usuarios   = usuarioDAO.findAll();
+        List<Exemplar> exemplares = new ExemplarDAO().listarTodos();
+        List<Usuario> usuarios = new UsuarioDAO().findAll();
 
         comboExemplar.setItems(FXCollections.observableArrayList(exemplares));
         comboUsuario.setItems(FXCollections.observableArrayList(usuarios));
 
         comboExemplar.setConverter(new StringConverter<>() {
-            @Override public String toString(Exemplar e) {
+            @Override
+            public String toString(Exemplar e) {
                 if (e == null) return "";
-                String loc = e.getNomeLocalizacao()==null?"":" ("+e.getNomeLocalizacao()+")";
-                return e.getCodigoBarras()+loc;
+                String loc = e.getNomeLocalizacao() == null ? "" : " (" + e.getNomeLocalizacao() + ")";
+                return e.getCodigoBarras() + loc;
             }
-            @Override public Exemplar fromString(String s){return null;}
+            @Override
+            public Exemplar fromString(String s) { return null; }
         });
+
         comboUsuario.setConverter(new StringConverter<>() {
-            @Override public String toString(Usuario u){
-                return u==null?"":u.getNome()+" ("+u.getTipoUsuario()+")";
+            @Override
+            public String toString(Usuario u) {
+                return u == null ? "" : u.getNome() + " (" + u.getTipoUsuario() + ")";
             }
-            @Override public Usuario fromString(String s){return null;}
+            @Override
+            public Usuario fromString(String s) { return null; }
         });
+
         choiceStatus.setDisable(true);
     }
 
-    public void setEmprestimo(Emprestimo e){
-        this.atual=e;
+    public void setEmprestimo(Emprestimo e) {
+        this.atual = e;
         choiceStatus.setDisable(false);
-        Platform.runLater(()->{
-            comboExemplar.getItems().stream()
-                    .filter(ex->ex.getIdExemplar().equals(e.getIdExemplar()))
-                    .findFirst().ifPresent(comboExemplar::setValue);
-            comboUsuario.getItems().stream()
-                    .filter(us->us.getIdUsuario().equals(e.getIdUsuario()))
-                    .findFirst().ifPresent(comboUsuario::setValue);
-            if(e.getDataPrevistaDevolucao()!=null)
+
+        Platform.runLater(() -> {
+            // Selecionar o exemplar correto
+            for (Exemplar ex : comboExemplar.getItems()) {
+                if (ex.getIdExemplar().equals(e.getIdExemplar())) {
+                    comboExemplar.setValue(ex);
+                    break;
+                }
+            }
+
+            // Selecionar o usuário correto
+            for (Usuario us : comboUsuario.getItems()) {
+                if (us.getIdUsuario().equals(e.getIdUsuario())) {
+                    comboUsuario.setValue(us);
+                    break;
+                }
+            }
+
+            // Preencher data prevista
+            if (e.getDataPrevistaDevolucao() != null) {
                 datePrevista.setValue(e.getDataPrevistaDevolucao().toLocalDate());
+            }
+
+            // Preencher status
             choiceStatus.setValue(e.getStatus());
         });
     }
 
-    @FXML private void onSalvar(){
+    @FXML
+    private void onSalvar() {
         try {
-            boolean novo=(atual==null||atual.getIdEmprestimo()==null);
-            if(atual==null) atual=new Emprestimo();
+            Exemplar ex = comboExemplar.getValue();
+            Usuario us = comboUsuario.getValue();
 
-            Exemplar ex=comboExemplar.getValue();
-            Usuario  us=comboUsuario.getValue();
-
-            if(ex==null||us==null){
+            if (ex == null || us == null) {
                 showError("Selecione exemplar e usuário.");
                 return;
             }
 
-            // Se exemplar reservado
-            ReservaDAO reservaDAO=new ReservaDAO();
-            if(reservaDAO.existeReservaAtivaOuValida(ex.getIdExemplar())){
-                showError("Este exemplar possui uma reserva ativa e não pode ser emprestado.");
+            if (datePrevista.getValue() == null) {
+                showError("Selecione a data prevista de devolução.");
                 return;
+            }
+
+            boolean isNovo = (atual == null || atual.getIdEmprestimo() == null);
+
+            if (isNovo) {
+                // Verificar reserva apenas para novo empréstimo
+                if (new ReservaDAO().existeReservaAtivaOuValida(ex.getIdExemplar())) {
+                    showError("Este exemplar possui uma reserva ativa.");
+                    return;
+                }
+                atual = new Emprestimo();
             }
 
             atual.setIdExemplar(ex.getIdExemplar());
             atual.setIdUsuario(us.getIdUsuario());
+            atual.setDataPrevistaDevolucao(LocalDateTime.of(datePrevista.getValue(), LocalTime.NOON));
 
-            MovimentacaoDAO movDAO=new MovimentacaoDAO();
+            MovimentacaoDAO movDAO = new MovimentacaoDAO();
 
-            if(novo){
+            if (isNovo) {
                 atual.setStatus("ativo");
                 atual.setDataEmprestimo(LocalDateTime.now());
-                atual.setDataPrevistaDevolucao(LocalDateTime.of(datePrevista.getValue(),
-                        java.time.LocalTime.NOON));
                 dao.insert(atual);
-                movDAO.registrar(null,ex.getIdExemplar(),us.getIdUsuario(),
-                        "emprestimo","Empréstimo criado para usuário "+us.getNome()+
-                                ", exemplar "+ex.getCodigoBarras());
+                movDAO.registrar(null, ex.getIdExemplar(), us.getIdUsuario(),
+                        "emprestimo", "Empréstimo criado para " + us.getNome());
             } else {
                 atual.setStatus(choiceStatus.getValue());
-                atual.setDataPrevistaDevolucao(LocalDateTime.of(datePrevista.getValue(),
-                        java.time.LocalTime.NOON));
 
-                if("devolvido".equalsIgnoreCase(atual.getStatus())){
+                if ("devolvido".equalsIgnoreCase(atual.getStatus())) {
                     atual.setDataDevolucao(LocalDateTime.now());
-                    movDAO.registrar(null,ex.getIdExemplar(),us.getIdUsuario(),
-                            "devolucao","Empréstimo devolvido por usuário "+us.getNome()+
-                                    ", exemplar "+ex.getCodigoBarras());
+                    movDAO.registrar(null, ex.getIdExemplar(), us.getIdUsuario(),
+                            "devolucao", "Devolução por " + us.getNome());
                 }
                 dao.update(atual);
             }
 
             showInfo("Empréstimo salvo com sucesso!");
-            SceneManager.show("emprestimo_list.fxml","Empréstimos");
+            SceneManager.show("emprestimo_list.fxml", "Empréstimos");
 
-        }catch(Exception ex){ showError("Erro ao salvar: "+ex.getMessage()); ex.printStackTrace(); }
+        } catch (Exception ex) {
+            showError("Erro ao salvar: " + ex.getMessage());
+            ex.printStackTrace();
+        }
     }
 
-    @FXML private void onCancelar(){ SceneManager.show("emprestimo_list.fxml","Empréstimos"); }
-    @FXML public void onVoltar() { SceneManager.show("emprestimo_list.fxml","Empréstimos"); }
+    @FXML
+    private void onCancelar() {
+        SceneManager.show("emprestimo_list.fxml", "Empréstimos");
+    }
 
-    private void showError(String msg){Platform.runLater(()->new Alert(Alert.AlertType.ERROR,msg).showAndWait());}
-    private void showInfo(String msg){Platform.runLater(()->new Alert(Alert.AlertType.INFORMATION,msg).showAndWait());}
+    @FXML
+    public void onVoltar() {
+        SceneManager.show("emprestimo_list.fxml", "Empréstimos");
+    }
+
+    private void showError(String msg) {
+        Platform.runLater(() -> new Alert(Alert.AlertType.ERROR, msg).showAndWait());
+    }
+
+    private void showInfo(String msg) {
+        Platform.runLater(() -> new Alert(Alert.AlertType.INFORMATION, msg).showAndWait());
+    }
 }

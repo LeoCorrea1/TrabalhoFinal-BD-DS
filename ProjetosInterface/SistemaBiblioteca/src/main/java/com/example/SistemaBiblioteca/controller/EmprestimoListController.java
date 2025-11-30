@@ -10,7 +10,7 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-
+import javafx.beans.property.SimpleStringProperty;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -34,11 +34,11 @@ public class EmprestimoListController {
         colId.setCellValueFactory(new PropertyValueFactory<>("idEmprestimo"));
         colExemplar.setCellValueFactory(new PropertyValueFactory<>("tituloExemplar"));
         colUsuario.setCellValueFactory(new PropertyValueFactory<>("nomeUsuario"));
-        colEmprestimo.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(
+        colEmprestimo.setCellValueFactory(c -> new SimpleStringProperty(
                 c.getValue().getDataEmprestimo() == null ? "" : fmt.format(c.getValue().getDataEmprestimo())));
-        colPrevista.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(
+        colPrevista.setCellValueFactory(c -> new SimpleStringProperty(
                 c.getValue().getDataPrevistaDevolucao() == null ? "" : fmt.format(c.getValue().getDataPrevistaDevolucao())));
-        colDevolucao.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(
+        colDevolucao.setCellValueFactory(c -> new SimpleStringProperty(
                 c.getValue().getDataDevolucao() == null ? "" : fmt.format(c.getValue().getDataDevolucao())));
         colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
         table.setItems(data);
@@ -47,20 +47,29 @@ public class EmprestimoListController {
 
     private void carregar() {
         Task<List<Emprestimo>> t = new Task<>() {
-            @Override protected List<Emprestimo> call() { return dao.findAllComNomes(); }
+            @Override
+            protected List<Emprestimo> call() { return dao.findAllComNomes(); }
         };
         t.setOnSucceeded(e -> data.setAll(t.getValue()));
         new Thread(t).start();
     }
 
-    @FXML private void onAtualizar() { carregar(); }
+    @FXML
+    private void onAtualizar() { carregar(); }
 
-    @FXML private void onNovo()  { SceneManager.show("emprestimo_form.fxml", "Novo Empréstimo"); }
+    @FXML
+    private void onNovo() {
+        SceneManager.show("emprestimo_form.fxml", "Novo Empréstimo");
+    }
 
     @FXML
     private void onEditar() {
         Emprestimo sel = table.getSelectionModel().getSelectedItem();
-        if (sel == null) { showError("Selecione um registro."); return; }
+        if (sel == null) {
+            showError("Selecione um registro.");
+            return;
+        }
+
         SceneManager.show("emprestimo_form.fxml", "Editar Empréstimo", loader -> {
             EmprestimoFormController ctrl = loader.getController();
             ctrl.setEmprestimo(sel);
@@ -70,18 +79,27 @@ public class EmprestimoListController {
     @FXML
     private void onExcluir() {
         Emprestimo sel = table.getSelectionModel().getSelectedItem();
-        if (sel == null) { showError("Selecione um empréstimo."); return; }
+        if (sel == null) {
+            showError("Selecione um empréstimo.");
+            return;
+        }
         Alert a = new Alert(Alert.AlertType.CONFIRMATION, "Excluir este empréstimo?", ButtonType.YES, ButtonType.NO);
         a.setHeaderText(null);
         a.showAndWait();
         if (a.getResult() == ButtonType.YES) {
             new Thread(() -> {
                 dao.delete(sel.getIdEmprestimo());
-                carregar();
+                Platform.runLater(this::carregar);
             }).start();
         }
     }
-    @FXML public void onVoltar() { SceneManager.show("dashboard.fxml","Painel"); }
 
-    private void showError(String msg) { Platform.runLater(() -> new Alert(Alert.AlertType.ERROR, msg).showAndWait()); }
+    @FXML
+    public void onVoltar() {
+        SceneManager.show("dashboard.fxml", "Painel");
+    }
+
+    private void showError(String msg) {
+        Platform.runLater(() -> new Alert(Alert.AlertType.ERROR, msg).showAndWait());
+    }
 }
