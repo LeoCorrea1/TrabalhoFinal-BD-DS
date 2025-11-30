@@ -12,6 +12,7 @@ import com.example.SistemaBiblioteca.model.TipoItemAcervo;
 import com.example.SistemaBiblioteca.service.LivroService;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -19,12 +20,6 @@ import javafx.scene.control.*;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Controller do formulário de Livro.
- * - suporta setEditing(itemAcervo, livro) para edição
- * - cria/atualiza via LivroService
- * - carrega ComboBox de Tipo e Editora
- */
 public class LivroFormController {
 
     @FXML private ComboBox<TipoItemAcervo> comboTipo;
@@ -46,6 +41,7 @@ public class LivroFormController {
     // estado de edição
     private ItemAcervo editingItem = null;
     private Livro editingLivro = null;
+    private volatile boolean editorasCarregadas = false;
 
     @FXML
     public void initialize() {
@@ -78,6 +74,7 @@ public class LivroFormController {
     }
 
     private void carregarEditoras() {
+        editorasCarregadas = false;
         Task<List<Editora>> task = new Task<>() {
             @Override
             protected List<Editora> call() throws Exception {
@@ -85,10 +82,56 @@ public class LivroFormController {
             }
         };
         task.setOnSucceeded(e -> {
-            comboEditora.setItems(FXCollections.observableArrayList(task.getValue()));
+            List<Editora> list = task.getValue();
+            ObservableList<Editora> items = FXCollections.observableArrayList(list == null ? List.of() : list);
+            Platform.runLater(() -> {
+                comboEditora.setItems(items);
+                editorasCarregadas = true;
+                // se estivermos em edição, tenta selecionar a editora existente
+                selectEditoraIfNeeded();
+            });
         });
         task.setOnFailed(e -> task.getException().printStackTrace());
         new Thread(task).start();
+    }
+    private void selectEditoraIfNeeded() {
+        if (editingLivro == null) return;
+        Integer idEditora = editingLivro.getIdEditora();
+        if (idEditora == null) return;
+
+        ObservableList<Editora> items = comboEditora.getItems();
+        if (items == null || items.isEmpty()) {
+            // ainda não carregou; quando carregarEditoras terminar ele chamará esse método novamente.
+            return;
+        }
+
+        // procura por correspondência de id e seleciona
+        for (Editora ed : items) {
+            if (Objects.equals(ed.getId(), idEditora)) {
+                Platform.runLater(() -> comboEditora.setValue(ed));
+                return;
+            }
+        }
+        // se não achar por id, tenta por nome (fallback)
+        for (Editora ed : items) {
+            if (ed.getNome() != null && editingLivro.getIdEditora() != null) {
+                // só como fallback: se id não bate e nomes coincidem (raro), seleciona
+                if (Objects.equals(ed.getNome(), findEditoraNomeById(idEditora))) {
+                    Platform.runLater(() -> comboEditora.setValue(ed));
+                    return;
+                }
+            }
+        }
+    }
+    // utilitário que consulta DB para obter nome da editora por id (usado só no fallback de nomes)
+    private String findEditoraNomeById(Integer id) {
+        if (id == null) return null;
+        try {
+            Editora e = editoraDAO.findById(id);
+            return e == null ? null : e.getNome();
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     public void setEditing(ItemAcervo item, Livro livro) {
@@ -130,7 +173,7 @@ public class LivroFormController {
     @FXML
     public void onSalvar() {
 
-        
+
         // validações mínimas
         String titulo = tituloField.getText();
         if (titulo == null || titulo.isBlank()) {
