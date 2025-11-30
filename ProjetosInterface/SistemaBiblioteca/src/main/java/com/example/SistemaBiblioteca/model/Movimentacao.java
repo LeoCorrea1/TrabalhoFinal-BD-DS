@@ -11,7 +11,7 @@ public class Movimentacao {
     private String tipo;
     private String descricao;
     private LocalDateTime dataHora;
-
+    //AJUDA DA IA
     private String nomeUsuario;
     private String codigoExemplar;
 

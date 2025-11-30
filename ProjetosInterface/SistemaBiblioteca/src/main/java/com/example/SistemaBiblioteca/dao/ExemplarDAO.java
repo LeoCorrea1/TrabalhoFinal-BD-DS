@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExemplarDAO {
-
-    /** Lista todos os exemplares (independente de item de acervo) */
     public List<Exemplar> listarTodos() {
         List<Exemplar> list = new ArrayList<>();
 
@@ -46,8 +44,6 @@ public class ExemplarDAO {
         }
         return list;
     }
-
-    /** Lista exemplares de um item específico */
     public List<Exemplar> findByItem(int idItemAcervo) {
         List<Exemplar> list = new ArrayList<>();
 
@@ -87,8 +83,6 @@ public class ExemplarDAO {
         }
         return list;
     }
-
-    /** INSERT */
     public boolean insert(Exemplar e) {
         String sql = """
                 INSERT INTO Exemplar
@@ -120,8 +114,6 @@ public class ExemplarDAO {
         }
         return false;
     }
-
-    /** UPDATE */
     public boolean update(Exemplar e) {
         String sql = """
                 UPDATE Exemplar SET
@@ -150,8 +142,6 @@ public class ExemplarDAO {
             return false;
         }
     }
-
-    /** DELETE */
     public boolean delete(int idExemplar) {
         String sql = "DELETE FROM Exemplar WHERE id_exemplar = ?";
         try (Connection conn = Db.getConnection();

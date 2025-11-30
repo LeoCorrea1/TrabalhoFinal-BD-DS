@@ -10,30 +10,24 @@ public class DashboardController {
 
     @FXML
     public void onGerenciarAcervo() {
-        // mais tarde trocar para a tela de listagem de acervo
         SceneManager.show("itemacervo_list.fxml", "Gerenciar Acervo");
     }
-
     @FXML
     public void onEmprestimos() {
         SceneManager.show("emprestimo_list.fxml","Empréstimos");;
     }
-
     @FXML
     public void onUsuarios() {
         SceneManager.show("usuario_list.fxml", "Usuários");;
     }
-
     @FXML
     public void onReservas() {
         SceneManager.show("reserva_list.fxml", "Reservas");
     }
-
     @FXML
     public void onMovimentacoes() {
         SceneManager.show("movimentacao_list.fxml", "Movimentações / Logs");
     }
-
     @FXML
     public void onSair() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
@@ -47,7 +41,6 @@ public class DashboardController {
             }
         });
     }
-
     @FXML
     public void onVoltar() {
         SceneManager.show("dashboard.fxml","Painel");

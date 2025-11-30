@@ -9,10 +9,7 @@ import com.example.SistemaBiblioteca.model.Livro;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-/**
- * Versão robusta que verifica diferentes getters de id no ItemAcervo
- * e evita inserir ItemAcervo caso já exista (evita duplicação).
- */
+//IA GEROU ( ESTAVA COM MUITA DIFICULDADE NO ITEM ACERVO ,ENTAO PEDI AJUDA )
 public class LivroService {
 
     private final ItemAcervoDAO itemDAO = new ItemAcervoDAO();

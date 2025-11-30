@@ -44,6 +44,7 @@ public class ItemAcervoController {
     private final ItemAcervoDAO dao = new ItemAcervoDAO();
     private final ObservableList<ItemAcervo> data = FXCollections.observableArrayList();
 
+    //AQUI PRECISEI MUITA AJUDA DA IA
     @FXML
     public void initialize() {
         System.out.println("initialize ItemAcervoController");
@@ -72,7 +73,6 @@ public class ItemAcervoController {
 
         carregarDados();
     }
-
     @FXML public void onVoltar() { SceneManager.show("dashboard.fxml","Painel"); }
 
     private void carregarDados() {
@@ -98,7 +98,6 @@ public class ItemAcervoController {
 
         new Thread(task).start();
     }
-
     @FXML
     public void onPesquisar() {
         String q = searchField.getText();
@@ -124,7 +123,6 @@ public class ItemAcervoController {
         });
         new Thread(task).start();
     }
-
     @FXML
     public void onNovo() {
         try {
@@ -134,12 +132,10 @@ public class ItemAcervoController {
             showError("Erro ao abrir formulário: " + ex.getMessage());
         }
     }
-
     @FXML
     public void onRefresh() {
         carregarDados();
     }
-
     @FXML
     public void onEditar() {
         ItemAcervo sel = tableView.getSelectionModel().getSelectedItem();
@@ -147,7 +143,6 @@ public class ItemAcervoController {
             showError("Selecione um item para editar.");
             return;
         }
-
         Task<Livro> task = new Task<>() {
             @Override
             protected Livro call() throws Exception {
@@ -155,7 +150,6 @@ public class ItemAcervoController {
                 return livroDAO.findById(sel.getIdItemAcervo());
             }
         };
-
         task.setOnSucceeded(evt -> {
             Livro livro = task.getValue();
             Platform.runLater(() -> {
@@ -172,7 +166,6 @@ public class ItemAcervoController {
                                 (com.example.SistemaBiblioteca.controller.LivroFormController) ctrlObj;
                         ctrl.setEditing(sel, livro);
                     }
-
                     Scene scene = new Scene(root);
                     Stage stage = (Stage) tableView.getScene().getWindow();
                     stage.setScene(scene);
@@ -184,7 +177,6 @@ public class ItemAcervoController {
                 }
             });
         });
-
         task.setOnFailed(evt -> {
             Throwable ex = task.getException();
             ex.printStackTrace();
@@ -193,7 +185,6 @@ public class ItemAcervoController {
 
         new Thread(task).start();
     }
-
     @FXML
     public void onExcluir() {
         ItemAcervo sel = tableView.getSelectionModel().getSelectedItem();
@@ -201,7 +192,6 @@ public class ItemAcervoController {
             showError("Selecione um item para excluir.");
             return;
         }
-
         Alert a = new Alert(Alert.AlertType.CONFIRMATION, "Confirma exclusão do item \"" + sel.getTitulo() + "\" ?", ButtonType.YES, ButtonType.NO);
         a.setHeaderText(null);
         a.showAndWait().ifPresent(bt -> {
@@ -215,12 +205,10 @@ public class ItemAcervoController {
                         return null;
                     }
                 };
-
                 task.setOnSucceeded(evt -> {
                     showInfo("Item excluído com sucesso.");
                     carregarDados();
                 });
-
                 task.setOnFailed(evt -> {
                     Throwable ex = task.getException();
                     ex.printStackTrace();
@@ -231,8 +219,6 @@ public class ItemAcervoController {
             }
         });
     }
-
-    // helpers (UI)
     private void showError(String msg) {
         Platform.runLater(() -> {
             Alert a = new Alert(Alert.AlertType.ERROR, msg, ButtonType.OK);
@@ -240,7 +226,6 @@ public class ItemAcervoController {
             a.showAndWait();
         });
     }
-
     private void showInfo(String msg) {
         Platform.runLater(() -> {
             Alert a = new Alert(Alert.AlertType.INFORMATION, msg, ButtonType.OK);
@@ -248,12 +233,10 @@ public class ItemAcervoController {
             a.showAndWait();
         });
     }
-
     @FXML
     public void onOpenEditoras() {
         SceneManager.show("editoras_list.fxml", "Editoras");
     }
-
     @FXML
     public void onExemplares() {
         ItemAcervo item = tableView.getSelectionModel().getSelectedItem();

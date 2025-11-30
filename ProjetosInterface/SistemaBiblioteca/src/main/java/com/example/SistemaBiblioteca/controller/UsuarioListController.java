@@ -57,14 +57,12 @@ public class UsuarioListController {
                         u.getEmail().toLowerCase().contains(q)
         ));
     }
-
     @FXML
     private void onNovo() {
         UsuarioFormController.usuarioSelecionado = null;
         SceneManager.showModal("usuario_form.fxml", "Novo Usuário");
         carregarTabela();
     }
-
     @FXML
     private void onEditar() {
         Usuario u = tabela.getSelectionModel().getSelectedItem();
@@ -74,7 +72,6 @@ public class UsuarioListController {
         SceneManager.showModal("usuario_form.fxml", "Editar Usuário");
         carregarTabela();
     }
-
     @FXML
     private void onExcluir() {
         Usuario u = tabela.getSelectionModel().getSelectedItem();

@@ -24,6 +24,6 @@ public class TipoItemAcervo {
 
     @Override
     public String toString() {
-        return nome; // útil para ComboBox display
+        return nome;
     }
 }

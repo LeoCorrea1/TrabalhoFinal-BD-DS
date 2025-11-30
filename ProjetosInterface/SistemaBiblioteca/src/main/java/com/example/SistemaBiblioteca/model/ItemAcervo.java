@@ -5,10 +5,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-/**
- * Model ItemAcervo compatível com TableView e com DAO. 
- * Adicionado campos para exibição: isbn, edicao, editoraNome.
- */
 public class ItemAcervo {
 
     private final IntegerProperty id = new SimpleIntegerProperty();
@@ -19,8 +15,7 @@ public class ItemAcervo {
     private final StringProperty idioma = new SimpleStringProperty();
     private final StringProperty descricao = new SimpleStringProperty();
     private final StringProperty tipoNome = new SimpleStringProperty();
-
-    // novos campos para lista
+    //AJUDA DA IA
     private final StringProperty isbn = new SimpleStringProperty();
     private final StringProperty edicao = new SimpleStringProperty();
     private final StringProperty editoraNome = new SimpleStringProperty();
@@ -37,8 +32,7 @@ public class ItemAcervo {
         this.descricao.set(descricao);
         this.tipoNome.set(tipoNome);
     }
-
-    // --- properties (para TableColumn lambda) ---
+    //AJUDA DA IA
     public IntegerProperty idProperty() { return id; }
     public IntegerProperty idItemAcervoProperty() { return id; } // alias
     public StringProperty tituloProperty() { return titulo; }
@@ -51,7 +45,6 @@ public class ItemAcervo {
     public StringProperty edicaoProperty() { return edicao; }
     public StringProperty editoraNomeProperty() { return editoraNome; }
 
-    // --- getters / setters tradicionais (usados por DAO/serviços) ---
     public Integer getId() { int v = id.get(); return v == 0 ? null : v; }
     public int getIdPrimitive() { return id.get(); }
     public void setId(Integer value) { this.id.set(value == null ? 0 : value); }

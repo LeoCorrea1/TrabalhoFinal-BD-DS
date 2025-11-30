@@ -28,6 +28,7 @@ public class ReservaListController {
     private final ObservableList<Reserva> data = FXCollections.observableArrayList();
     private final DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
+    //AJUDA DA IA
     @FXML
     public void initialize() {
         colId.setCellValueFactory(new PropertyValueFactory<>("idReserva"));
@@ -53,7 +54,6 @@ public class ReservaListController {
         t.setOnSucceeded(e -> data.setAll(t.getValue()));
         new Thread(t).start();
     }
-
     @FXML
     private void onAtualizar() { carregar(); }
 
@@ -61,7 +61,6 @@ public class ReservaListController {
     private void onNovo() {
         SceneManager.show("reserva_form.fxml", "Nova Reserva");
     }
-
     @FXML
     private void onEditar() {
         Reserva sel = table.getSelectionModel().getSelectedItem();
@@ -75,7 +74,6 @@ public class ReservaListController {
             ctrl.setReserva(sel);
         });
     }
-
     @FXML
     private void onExcluir() {
         Reserva sel = table.getSelectionModel().getSelectedItem();
@@ -91,12 +89,10 @@ public class ReservaListController {
             carregar();
         }
     }
-
     @FXML
     public void onVoltar() {
         SceneManager.show("dashboard.fxml", "Painel");
     }
-
     private void showError(String msg) {
         Platform.runLater(() -> new Alert(Alert.AlertType.ERROR, msg).showAndWait());
     }

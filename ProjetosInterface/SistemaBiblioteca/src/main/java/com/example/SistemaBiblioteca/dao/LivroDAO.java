@@ -20,7 +20,6 @@ public class LivroDAO {
         }
         return null;
     }
-
     private Livro map(ResultSet rs) throws SQLException {
         Livro l = new Livro();
         l.setId(rs.getInt("id_livro"));
@@ -32,7 +31,6 @@ public class LivroDAO {
         if (!rs.wasNull()) l.setIdEditora(idEditora);
         return l;
     }
-
     public List<Livro> findAll() throws SQLException {
         String sql = "SELECT id_livro, isbn, edicao, numero_paginas, id_editora FROM Livro ORDER BY id_livro DESC";
         List<Livro> list = new ArrayList<>();
@@ -43,10 +41,6 @@ public class LivroDAO {
         }
         return list;
     }
-
-    /**
-     * Verifica existência de ISBN (idToIgnore é o id do próprio livro ao atualizar).
-     */
     public boolean existsByIsbn(String isbn, Integer idToIgnore) throws SQLException {
         String sql = "SELECT COUNT(*) FROM Livro WHERE isbn = ?";
         if (idToIgnore != null) sql += " AND id_livro <> ?";
@@ -60,10 +54,6 @@ public class LivroDAO {
         }
         return false;
     }
-
-    /**
-     * Insere usando a Connection dada (transacional). idItemAcervo deve ser o id do ItemAcervo já criado.
-     */
     public void insertWithConnection(Connection conn, int idItemAcervo, Livro livro) throws SQLException {
         String sql = "INSERT INTO Livro (id_livro, isbn, edicao, numero_paginas, id_editora) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -76,10 +66,6 @@ public class LivroDAO {
             livro.setId(idItemAcervo); // mantém o model consistente
         }
     }
-
-    /**
-     * Atualiza usando a Connection dada.
-     */
     public boolean updateWithConnection(Connection conn, Livro livro) throws SQLException {
         String sql = "UPDATE Livro SET isbn=?, edicao=?, numero_paginas=?, id_editora=? WHERE id_livro=?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {

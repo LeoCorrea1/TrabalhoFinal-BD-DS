@@ -31,14 +31,12 @@ public class UsuarioFormController {
             lblTitulo.setText("Novo Usuário");
         }
     }
-
     private void preencherCampos(Usuario u) {
         txtNome.setText(u.getNome());
         txtEmail.setText(u.getEmail());
         txtTelefone.setText(u.getTelefone());
         comboTipo.setValue(u.getTipoUsuario());
     }
-
     @FXML
     private void onSalvar() {
         String nome = txtNome.getText();
@@ -57,7 +55,6 @@ public class UsuarioFormController {
             showAlert(Alert.AlertType.ERROR, "Selecione o tipo de usuário!");
             return;
         }
-
         Usuario u = (usuarioSelecionado == null ? new Usuario() : usuarioSelecionado);
         u.setNome(nome.trim());
         u.setEmail(email.trim());
@@ -71,24 +68,20 @@ public class UsuarioFormController {
             dao.update(u);
             showAlert(Alert.AlertType.INFORMATION, "Usuário atualizado com sucesso!");
         }
-
         usuarioSelecionado = null;
-        fecharModal();   // fecha corretamente o modal
+        fecharModal();
     }
 
     @FXML
     public void onVoltar() {
-        // apenas fecha o modal — a lista recarrega automaticamente após fechamento
         fecharModal();
     }
-
     private void fecharModal() {
         Platform.runLater(() -> {
             Stage stage = (Stage) txtNome.getScene().getWindow();
             stage.close();
         });
     }
-
     private void showAlert(Alert.AlertType type, String msg) {
         Platform.runLater(() -> {
             Alert a = new Alert(type, msg, ButtonType.OK);

@@ -43,18 +43,14 @@ public class ExemplarListController {
             if (btnExcluir != null) btnExcluir.setDisable(!sel);
         });
     }
-
-    /** Chamado pelo ItemAcervoController */
     public void setItemAcervoId(int id) {
         this.idItemAcervo = id;
         loadData();
     }
-
     private void loadData() {
         List<Exemplar> lista = dao.findByItem(idItemAcervo);
         tableView.setItems(FXCollections.observableArrayList(lista));
     }
-
     @FXML
     public void onNovo() {
         SceneManager.showModalWithController("exemplar_form.fxml", "Novo Exemplar", controller -> {
@@ -64,7 +60,6 @@ public class ExemplarListController {
         });
         loadData();
     }
-
     @FXML
     public void onEditar() {
         Exemplar ex = tableView.getSelectionModel().getSelectedItem();
@@ -77,7 +72,6 @@ public class ExemplarListController {
         });
         loadData();
     }
-
     @FXML
     public void onExcluir() {
         Exemplar ex = tableView.getSelectionModel().getSelectedItem();
@@ -90,7 +84,6 @@ public class ExemplarListController {
         dao.delete(ex.getIdExemplar());
         loadData();
     }
-
     @FXML
     public void onVoltar() {
         SceneManager.show("itemacervo_list.fxml", "Gerenciar Acervo");

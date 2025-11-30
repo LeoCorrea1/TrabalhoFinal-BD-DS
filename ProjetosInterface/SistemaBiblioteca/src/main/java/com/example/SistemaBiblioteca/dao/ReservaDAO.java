@@ -7,6 +7,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
+//AJUDA DA IA
 public class ReservaDAO {
 
     private Reserva map(ResultSet rs)throws SQLException{

@@ -12,7 +12,6 @@ public class Emprestimo {
     private LocalDateTime dataDevolucao;
     private String status;
 
-    // ⇩ novos campos para exibir na tabela
     private String nomeUsuario;
     private String tituloExemplar;
 
@@ -30,7 +29,6 @@ public class Emprestimo {
         this.status = status;
     }
 
-    // getters / setters originais
     public Integer getIdEmprestimo() { return idEmprestimo; }
     public void setIdEmprestimo(Integer idEmprestimo) { this.idEmprestimo = idEmprestimo; }
 
@@ -52,7 +50,6 @@ public class Emprestimo {
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
 
-    // ⇩ getters / setters novos (usados pela tabela)
     public String getNomeUsuario() { return nomeUsuario; }
     public void setNomeUsuario(String nomeUsuario) { this.nomeUsuario = nomeUsuario; }
 

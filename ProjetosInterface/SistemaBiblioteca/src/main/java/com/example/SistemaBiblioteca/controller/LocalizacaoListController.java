@@ -21,7 +21,6 @@ public class LocalizacaoListController {
     @FXML private Button btnExcluir;
 
     private final LocalizacaoDAO dao = new LocalizacaoDAO();
-
     @FXML
     public void initialize() {
         colId.setCellValueFactory(c -> new javafx.beans.property.SimpleIntegerProperty(
@@ -42,10 +41,9 @@ public class LocalizacaoListController {
             if (btnEditar != null) btnEditar.setDisable(!sel);
             if (btnExcluir != null) btnExcluir.setDisable(!sel);
         });
-
         loadData();
     }
-
+    //AJUDA DA IA
     private void loadData() {
         List<Localizacao> lista = dao.findAll();
         tableView.setItems(FXCollections.observableArrayList(lista));
@@ -58,11 +56,9 @@ public class LocalizacaoListController {
     public void onPesquisar() {
         tableView.setItems(FXCollections.observableArrayList(dao.search(searchField.getText())));
     }
-
     @FXML
     public void onNovo() {
         SceneManager.showModalWithController("localizacao_form.fxml", "Nova Localização", controller -> {
-            // não precisamos inicializar nada; o modal pode usar DAO diretamente
         });
         loadData();
     }
@@ -79,7 +75,6 @@ public class LocalizacaoListController {
         });
         loadData();
     }
-
     @FXML
     public void onExcluir() {
         Localizacao l = tableView.getSelectionModel().getSelectedItem();
@@ -95,7 +90,6 @@ public class LocalizacaoListController {
         }
         loadData();
     }
-
     @FXML
     public void onFechar() {
         SceneManager.show("exemplar_list.fxml", "Exemplares");

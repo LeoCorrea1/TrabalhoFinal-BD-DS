@@ -20,7 +20,6 @@ public class Localizacao {
 
     @Override
     public String toString() {
-        // texto curto útil para ComboBox
         String s = (setor == null ? "" : setor);
         String p = (prateleira == null ? "" : prateleira);
         String c = (caixa == null ? "" : caixa);

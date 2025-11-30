@@ -44,7 +44,6 @@ public class EmprestimoListController {
         table.setItems(data);
         carregar();
     }
-
     private void carregar() {
         Task<List<Emprestimo>> t = new Task<>() {
             @Override
@@ -53,7 +52,6 @@ public class EmprestimoListController {
         t.setOnSucceeded(e -> data.setAll(t.getValue()));
         new Thread(t).start();
     }
-
     @FXML
     private void onAtualizar() { carregar(); }
 
@@ -61,7 +59,6 @@ public class EmprestimoListController {
     private void onNovo() {
         SceneManager.show("emprestimo_form.fxml", "Novo Empréstimo");
     }
-
     @FXML
     private void onEditar() {
         Emprestimo sel = table.getSelectionModel().getSelectedItem();
@@ -75,7 +72,6 @@ public class EmprestimoListController {
             ctrl.setEmprestimo(sel);
         });
     }
-
     @FXML
     private void onExcluir() {
         Emprestimo sel = table.getSelectionModel().getSelectedItem();
@@ -93,12 +89,10 @@ public class EmprestimoListController {
             }).start();
         }
     }
-
     @FXML
     public void onVoltar() {
         SceneManager.show("dashboard.fxml", "Painel");
     }
-
     private void showError(String msg) {
         Platform.runLater(() -> new Alert(Alert.AlertType.ERROR, msg).showAndWait());
     }

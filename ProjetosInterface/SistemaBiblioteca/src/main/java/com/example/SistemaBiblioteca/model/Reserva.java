@@ -10,8 +10,6 @@ public class Reserva {
     private LocalDateTime dataReserva;
     private LocalDateTime dataExpiracao;
     private String status;
-
-    // somente para exibição na tabela
     private String nomeUsuario;
     private String codigoExemplar;
 

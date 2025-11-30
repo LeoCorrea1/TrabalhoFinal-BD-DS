@@ -15,14 +15,12 @@ public class EditoraFormController {
 
     private final EditoraDAO dao = new EditoraDAO();
     private Editora editando = null;
-
     public void setEditora(Editora e) {
         this.editando = e;
         txtNome.setText(e.getNome());
         txtContato.setText(e.getContato());
         txtEndereco.setText(e.getEndereco());
     }
-
     @FXML
     private void onSalvar() {
         String nome = txtNome.getText();
@@ -30,7 +28,6 @@ public class EditoraFormController {
             new Alert(Alert.AlertType.ERROR, "Nome é obrigatório").show();
             return;
         }
-
         if (editando == null) {
             Editora nova = new Editora(null, nome.trim(), txtContato.getText(), txtEndereco.getText());
             boolean ok = dao.insert(nova);
@@ -48,13 +45,10 @@ public class EditoraFormController {
                 return;
             }
         }
-
-        // fecha modal
         ((Stage) txtNome.getScene().getWindow()).close();
     }
     @FXML
     public void onVoltar() { SceneManager.show("editoras_list.fxml","Editoras"); }
-
     @FXML
     private void onCancelar() {
         ((Stage) txtNome.getScene().getWindow()).close();

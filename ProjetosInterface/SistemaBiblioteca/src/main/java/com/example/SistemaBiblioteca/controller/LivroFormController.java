@@ -43,13 +43,12 @@ public class LivroFormController {
     private Livro editingLivro = null;
     private volatile boolean editorasCarregadas = false;
 
+    //ESTAVA COM VARIOS PROBLEMAS AQUI, PRECISEI DE MUITA AJUDA DA IA
     @FXML
     public void initialize() {
-        // carregar tipos e editoras em background
         carregarTipos();
         carregarEditoras();
     }
-
     private void carregarTipos() {
         Task<List<TipoItemAcervo>> task = new Task<>() {
             @Override
@@ -60,7 +59,6 @@ public class LivroFormController {
         task.setOnSucceeded(e -> {
             List<TipoItemAcervo> tipos = task.getValue();
             comboTipo.setItems(FXCollections.observableArrayList(tipos));
-            // tenta selecionar "Livro" automaticamente (se existir)
             tipos.stream()
                     .filter(t -> t.getNome() != null && t.getNome().equalsIgnoreCase("livro"))
                     .findFirst().ifPresent(comboTipo::setValue);
@@ -101,21 +99,17 @@ public class LivroFormController {
 
         ObservableList<Editora> items = comboEditora.getItems();
         if (items == null || items.isEmpty()) {
-            // ainda não carregou; quando carregarEditoras terminar ele chamará esse método novamente.
             return;
         }
 
-        // procura por correspondência de id e seleciona
         for (Editora ed : items) {
             if (Objects.equals(ed.getId(), idEditora)) {
                 Platform.runLater(() -> comboEditora.setValue(ed));
                 return;
             }
         }
-        // se não achar por id, tenta por nome (fallback)
         for (Editora ed : items) {
             if (ed.getNome() != null && editingLivro.getIdEditora() != null) {
-                // só como fallback: se id não bate e nomes coincidem (raro), seleciona
                 if (Objects.equals(ed.getNome(), findEditoraNomeById(idEditora))) {
                     Platform.runLater(() -> comboEditora.setValue(ed));
                     return;
@@ -123,7 +117,6 @@ public class LivroFormController {
             }
         }
     }
-    // utilitário que consulta DB para obter nome da editora por id (usado só no fallback de nomes)
     private String findEditoraNomeById(Integer id) {
         if (id == null) return null;
         try {
@@ -137,17 +130,14 @@ public class LivroFormController {
     public void setEditing(ItemAcervo item, Livro livro) {
         this.editingItem = item;
         this.editingLivro = livro;
-
         Platform.runLater(() -> {
             if (item != null) {
                 tituloField.setText(nullSafe(item.getTitulo()));
                 subtituloField.setText(nullSafe(item.getSubtitulo()));
-                // item.getAno() é int primitivo — usamos 0 como "ausente"
                 anoField.setText(item.getAno() == 0 ? "" : String.valueOf(item.getAno()));
                 idiomaField.setText(nullSafe(item.getIdioma()));
                 descricaoField.setText(nullSafe(item.getDescricao()));
 
-                // seleciona tipo se já carregado (idTipo é int primitivo — 0 = ausente)
                 if (item.getIdTipo() != 0 && comboTipo.getItems() != null) {
                     comboTipo.getItems().stream()
                             .filter(t -> Objects.equals(t.getIdTipo(), item.getIdTipo()))
@@ -161,7 +151,6 @@ public class LivroFormController {
                 paginasField.setText(livro.getNumeroPaginas() == null ? "" : String.valueOf(livro.getNumeroPaginas()));
 
                 if (livro.getIdEditora() != null && comboEditora.getItems() != null) {
-                    // aqui usamos getId() do model Editora (ajustado ao model que você tem)
                     comboEditora.getItems().stream()
                             .filter(ed -> Objects.equals(ed.getId(), livro.getIdEditora()))
                             .findFirst().ifPresent(comboEditora::setValue);
@@ -172,24 +161,18 @@ public class LivroFormController {
 
     @FXML
     public void onSalvar() {
-
-
-        // validações mínimas
         String titulo = tituloField.getText();
         if (titulo == null || titulo.isBlank()) {
             showAlert(Alert.AlertType.ERROR, "Título obrigatório");
             return;
         }
-
         TipoItemAcervo tipoSel = comboTipo.getValue();
         if (tipoSel == null) {
             showAlert(Alert.AlertType.ERROR, "Selecione o tipo (ex: Livro)");
             return;
         }
-
         Editora editoraSel = comboEditora.getValue();
 
-        // montar objetos
         ItemAcervo item = (editingItem != null) ? editingItem : new ItemAcervo();
         item.setTitulo(titulo.trim());
         item.setSubtitulo(emptyToNull(subtituloField.getText()));
@@ -206,43 +189,35 @@ public class LivroFormController {
         livro.setNumeroPaginas(paginasParsed != null ? paginasParsed : 0);
         livro.setIdEditora(editoraSel == null ? null : editoraSel.getId()); // usa getId()
 
-        // operação em background (criar ou atualizar)
         Task<Void> task = new Task<>() {
             @Override
             protected Void call() throws Exception {
                 if (editingLivro == null) {
-                    // criação: LivroService cria ItemAcervo + Livro em transação
                     livroService.criarLivroComItem(item, livro);
                 } else {
-                    // atualização: atualiza item e livro
                     livroService.atualizarLivroComItem(item, livro);
                 }
                 return null;
             }
         };
-
         task.setOnSucceeded(e -> {
             showAlert(Alert.AlertType.INFORMATION, "Salvo com sucesso");
             SceneManager.show("itemacervo_list.fxml", "Gerenciar Acervo");
         });
-
         task.setOnFailed(e -> {
             Throwable ex = task.getException();
             String msg = ex == null ? "Erro desconhecido" : ex.getMessage();
             showAlert(Alert.AlertType.ERROR, "Erro ao salvar: " + msg);
             ex.printStackTrace();
         });
-
         new Thread(task).start();
     }
-
     @FXML
     public void onExcluir() {
         if (editingItem == null) {
             showAlert(Alert.AlertType.ERROR, "Só é possível excluir um item já existente.");
             return;
         }
-
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "Confirma exclusão do item \"" + editingItem.getTitulo() + "\"?", ButtonType.YES, ButtonType.NO);
         confirm.setHeaderText(null);
         confirm.showAndWait().ifPresent(bt -> {
@@ -255,29 +230,25 @@ public class LivroFormController {
                         return null;
                     }
                 };
-
                 task.setOnSucceeded(ev -> {
                     showAlert(Alert.AlertType.INFORMATION, "Item excluído com sucesso.");
                     SceneManager.show("itemacervo_list.fxml", "Gerenciar Acervo");
                 });
-
                 task.setOnFailed(ev -> {
                     Throwable ex = task.getException();
                     showAlert(Alert.AlertType.ERROR, "Erro ao excluir: " + (ex == null ? "Erro desconhecido" : ex.getMessage()));
                     if (ex != null) ex.printStackTrace();
                 });
-
                 new Thread(task).start();
             }
         });
     }
-
     @FXML
     public void onCancelar() {
         SceneManager.show("itemacervo_list.fxml", "Gerenciar Acervo");
     }
 
-    // --- utilidades ---
+    //AJUDA DA IA
     private Integer parseIntegerOrNull(String s) {
         if (s == null) return null;
         s = s.trim();
@@ -291,7 +262,6 @@ public class LivroFormController {
         return s.isEmpty() ? null : s;
     }
 
-    // adiciona nullSafe que retorna "" quando for null (usado para preencher campos)
     private String nullSafe(String s) {
         return s == null ? "" : s;
     }

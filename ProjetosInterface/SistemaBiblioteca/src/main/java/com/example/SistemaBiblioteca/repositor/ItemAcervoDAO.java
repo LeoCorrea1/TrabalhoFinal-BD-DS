@@ -8,6 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+//AQUI ESTÁ O DAO DO ITEM ACERVO QUE CRIEI NO INICIO, TROQUEI PARA REPOSITOR, POREM DEPOIS CONTINUEI COM PACOTE DAO PARA MANTER PADRÃO ( ESSE AINDA É USADO )
 public class ItemAcervoDAO {
 
     public void inserir(ItemAcervo item) {

@@ -31,7 +31,6 @@ public class EmprestimoFormController {
 
         comboExemplar.setItems(FXCollections.observableArrayList(exemplares));
         comboUsuario.setItems(FXCollections.observableArrayList(usuarios));
-
         comboExemplar.setConverter(new StringConverter<>() {
             @Override
             public String toString(Exemplar e) {
@@ -42,7 +41,6 @@ public class EmprestimoFormController {
             @Override
             public Exemplar fromString(String s) { return null; }
         });
-
         comboUsuario.setConverter(new StringConverter<>() {
             @Override
             public String toString(Usuario u) {
@@ -54,34 +52,27 @@ public class EmprestimoFormController {
 
         choiceStatus.setDisable(true);
     }
-
     public void setEmprestimo(Emprestimo e) {
         this.atual = e;
         choiceStatus.setDisable(false);
 
         Platform.runLater(() -> {
-            // Selecionar o exemplar correto
             for (Exemplar ex : comboExemplar.getItems()) {
                 if (ex.getIdExemplar().equals(e.getIdExemplar())) {
                     comboExemplar.setValue(ex);
                     break;
                 }
             }
-
-            // Selecionar o usuário correto
             for (Usuario us : comboUsuario.getItems()) {
                 if (us.getIdUsuario().equals(e.getIdUsuario())) {
                     comboUsuario.setValue(us);
                     break;
                 }
             }
-
-            // Preencher data prevista
             if (e.getDataPrevistaDevolucao() != null) {
                 datePrevista.setValue(e.getDataPrevistaDevolucao().toLocalDate());
             }
 
-            // Preencher status
             choiceStatus.setValue(e.getStatus());
         });
     }
@@ -96,29 +87,23 @@ public class EmprestimoFormController {
                 showError("Selecione exemplar e usuário.");
                 return;
             }
-
             if (datePrevista.getValue() == null) {
                 showError("Selecione a data prevista de devolução.");
                 return;
             }
-
             boolean isNovo = (atual == null || atual.getIdEmprestimo() == null);
 
             if (isNovo) {
-                // Verificar reserva apenas para novo empréstimo
                 if (new ReservaDAO().existeReservaAtivaOuValida(ex.getIdExemplar())) {
                     showError("Este exemplar possui uma reserva ativa.");
                     return;
                 }
                 atual = new Emprestimo();
             }
-
             atual.setIdExemplar(ex.getIdExemplar());
             atual.setIdUsuario(us.getIdUsuario());
             atual.setDataPrevistaDevolucao(LocalDateTime.of(datePrevista.getValue(), LocalTime.NOON));
-
             MovimentacaoDAO movDAO = new MovimentacaoDAO();
-
             if (isNovo) {
                 atual.setStatus("ativo");
                 atual.setDataEmprestimo(LocalDateTime.now());
@@ -135,30 +120,24 @@ public class EmprestimoFormController {
                 }
                 dao.update(atual);
             }
-
             showInfo("Empréstimo salvo com sucesso!");
             SceneManager.show("emprestimo_list.fxml", "Empréstimos");
-
         } catch (Exception ex) {
             showError("Erro ao salvar: " + ex.getMessage());
             ex.printStackTrace();
         }
     }
-
     @FXML
     private void onCancelar() {
         SceneManager.show("emprestimo_list.fxml", "Empréstimos");
     }
-
     @FXML
     public void onVoltar() {
         SceneManager.show("emprestimo_list.fxml", "Empréstimos");
     }
-
     private void showError(String msg) {
         Platform.runLater(() -> new Alert(Alert.AlertType.ERROR, msg).showAndWait());
     }
-
     private void showInfo(String msg) {
         Platform.runLater(() -> new Alert(Alert.AlertType.INFORMATION, msg).showAndWait());
     }

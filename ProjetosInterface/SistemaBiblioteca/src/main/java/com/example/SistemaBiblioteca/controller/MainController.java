@@ -18,7 +18,6 @@ public class MainController {
             e.printStackTrace();
         }
     }
-
     public void fechar() {
         System.exit(0);
     }

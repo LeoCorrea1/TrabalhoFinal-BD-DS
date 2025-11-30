@@ -7,6 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+//AJUDA DA IA
 public class TipoItemAcervoDAO {
 
     public List<TipoItemAcervo> findAll() throws SQLException {
@@ -26,7 +27,6 @@ public class TipoItemAcervoDAO {
         }
         return lista;
     }
-
     public TipoItemAcervo findById(int id) throws SQLException {
         String sql = "SELECT id_tipo, nome, descricao FROM TipoItemAcervo WHERE id_tipo = ?";
         try (Connection conn = Db.getConnection();
@@ -43,7 +43,6 @@ public class TipoItemAcervoDAO {
             }
         }
     }
-
     public int insert(TipoItemAcervo tipo) throws SQLException {
         String sql = "INSERT INTO TipoItemAcervo (nome, descricao) VALUES (?, ?)";
         try (Connection conn = Db.getConnection();

@@ -20,11 +20,12 @@ public class LivroControllerFX {
     private ItemAcervoDAO acervoDAO = new ItemAcervoDAO();
     private LivroDAO livroDAO = new LivroDAO();
 
+
+    //PRECISEI D AJUDA DA IA
     @FXML
     public void initialize() {
         comboAcervo.setItems(FXCollections.observableArrayList(acervoDAO.listarTodos()));
     }
-
     @FXML
     private void salvar() {
         try {
@@ -33,7 +34,6 @@ public class LivroControllerFX {
                 mostrarErro("Selecione um ItemAcervo!");
                 return;
             }
-
             Livro livro = new Livro();
             livro.setId(item.getId());
             livro.setIsbn(txtIsbn.getText());
@@ -50,7 +50,6 @@ public class LivroControllerFX {
             mostrarErro("Erro ao salvar: " + e.getMessage());
         }
     }
-
     @FXML
     private void buscarPorISBN() {
         Livro livro = livroDAO.buscarPorISBN(txtIsbn.getText());
@@ -62,32 +61,27 @@ public class LivroControllerFX {
 
         preencherCampos(livro);
     }
-
     @FXML
     private void buscarPorID() {
         try {
             int id = comboAcervo.getValue().getId();
             Livro livro = livroDAO.buscarPorId(id);
-
             if (livro == null) {
                 mostrarErro("Livro não encontrado para este ItemAcervo.");
                 return;
             }
-
             preencherCampos(livro);
 
         } catch (Exception e) {
             mostrarErro("Erro: " + e.getMessage());
         }
     }
-
     private void preencherCampos(Livro livro) {
         txtIsbn.setText(livro.getIsbn());
         txtEdicao.setText(livro.getEdicao());
         txtPaginas.setText(String.valueOf(livro.getNumeroPaginas()));
         txtIdEditora.setText(String.valueOf(livro.getIdEditora()));
     }
-
     @FXML
     private void deletar() {
         try {
@@ -102,19 +96,16 @@ public class LivroControllerFX {
             mostrarErro("Erro ao deletar: " + e.getMessage());
         }
     }
-
     private void limpar() {
         txtIsbn.clear();
         txtEdicao.clear();
         txtPaginas.clear();
         txtIdEditora.clear();
     }
-
     private void mostrarErro(String msg) {
         Alert a = new Alert(Alert.AlertType.ERROR, msg);
         a.show();
     }
-
     private void mostrarInfo(String msg) {
         Alert a = new Alert(Alert.AlertType.INFORMATION, msg);
         a.show();

@@ -87,7 +87,6 @@ public class LocalizacaoDAO {
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            // provavelmente FK violada (Exemplar aponta para ela)
             return false;
         }
     }

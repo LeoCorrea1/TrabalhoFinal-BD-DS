@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovimentacaoDAO {
-
-    /** Registra qualquer tipo de movimentação */
+    //AJUDA DA IA
     public void registrar(Integer idItemAcervo, Integer idExemplar, Integer idUsuario,
                           String tipo, String descricao) {
         String sql = """
@@ -28,8 +27,6 @@ public class MovimentacaoDAO {
             ps.executeUpdate();
         } catch (SQLException e) { e.printStackTrace(); }
     }
-
-    /** Lista todas as movimentações com nomes e códigos de barra */
     public List<Movimentacao> findAll() {
         List<Movimentacao> lista = new ArrayList<>();
         String sql = """
@@ -56,7 +53,6 @@ public class MovimentacaoDAO {
                 try { m.setCodigoExemplar(rs.getString("codigo_barras")); } catch (SQLException ignored) {}
                 lista.add(m);
             }
-
         } catch (SQLException e) { e.printStackTrace(); }
         return lista;
     }

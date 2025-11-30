@@ -7,6 +7,7 @@ import java.sql.*;
 
 public class LivroDAO {
 
+    //MESMA COISA AQUI. AINDA ESTA SENDO USADO
     public void inserir(Livro livro) {
         String sql = """
         INSERT INTO Livro (id_livro, isbn, edicao, numero_paginas, id_editora)

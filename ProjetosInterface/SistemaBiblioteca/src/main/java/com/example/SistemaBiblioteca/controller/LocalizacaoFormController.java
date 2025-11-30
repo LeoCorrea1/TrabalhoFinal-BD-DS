@@ -23,7 +23,6 @@ public class LocalizacaoFormController {
         txtPrateleira.setText(l.getPrateleira());
         txtCaixa.setText(l.getCaixa());
     }
-
     @FXML
     public void onVoltar() {
         SceneManager.show("localizacao_list.fxml", "Localizações");
@@ -40,13 +39,12 @@ public class LocalizacaoFormController {
         l.setSetor(setor.trim());
         l.setPrateleira(emptyToNull(txtPrateleira.getText()));
         l.setCaixa(emptyToNull(txtCaixa.getText()));
-
+        //AJUDA DA IA
         boolean ok = (editing == null) ? dao.insert(l) : dao.update(l);
         if (!ok) {
             showAlert(Alert.AlertType.ERROR, "Erro ao salvar localização");
             return;
         }
-        // fecha modal
         ((Stage) txtSetor.getScene().getWindow()).close();
     }
 
@@ -54,7 +52,7 @@ public class LocalizacaoFormController {
     public void onCancelar() {
         ((Stage) txtSetor.getScene().getWindow()).close();
     }
-
+    //AJUDA DA IA
     private void showAlert(Alert.AlertType t, String msg) {
         Alert a = new Alert(t, msg, ButtonType.OK);
         a.setHeaderText(null);

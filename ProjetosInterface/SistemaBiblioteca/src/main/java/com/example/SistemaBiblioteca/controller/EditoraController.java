@@ -44,24 +44,19 @@ public class EditoraController {
 
         carregarDados();
     }
-
     @FXML
     public void onRefresh() { carregarDados(); }
-
     @FXML
     public void onVoltar() { SceneManager.show("dashboard.fxml","Painel"); }
 
-
     @FXML
     public void onPesquisar() { carregarDados(); }
-
     @FXML
     public void onNova() {
 
         SceneManager.showModalWithController("editoras_form.fxml", "Nova Editora", controller -> {});
         carregarDados();
     }
-
     @FXML
     public void onEditar() {
         Editora sel = tableView.getSelectionModel().getSelectedItem();
@@ -74,7 +69,6 @@ public class EditoraController {
         });
         carregarDados();//s
     }
-
     @FXML
     public void onExcluir() {
         Editora sel = tableView.getSelectionModel().getSelectedItem();
@@ -90,7 +84,6 @@ public class EditoraController {
             }
         });
     }
-
     private void carregarDados() {
         Task<ObservableList<Editora>> task = new Task<>() {
             @Override

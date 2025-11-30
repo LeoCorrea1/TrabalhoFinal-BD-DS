@@ -9,7 +9,6 @@ public class Exemplar {
     private Boolean disponivel;
     private Integer idLocalizacao;
 
-    // novo campo para mostrar o nome/descrição da localização
     private String nomeLocalizacao;
 
     public Integer getIdExemplar() { return idExemplar; }

@@ -21,6 +21,7 @@ public class ReservaFormController {
     private Reserva atual;
     private final ReservaDAO dao = new ReservaDAO();
 
+    //AJUDA DA IA
     @FXML
     public void initialize() {
         choiceStatus.getItems().addAll("ativa", "cancelada", "expirada", "convertida");
@@ -74,13 +75,9 @@ public class ReservaFormController {
                     break;
                 }
             }
-
-            // Preencher data de expiração
             if (r.getDataExpiracao() != null) {
                 dateExpiracao.setValue(r.getDataExpiracao().toLocalDate());
             }
-
-            // Preencher status
             choiceStatus.setValue(r.getStatus());
         });
     }

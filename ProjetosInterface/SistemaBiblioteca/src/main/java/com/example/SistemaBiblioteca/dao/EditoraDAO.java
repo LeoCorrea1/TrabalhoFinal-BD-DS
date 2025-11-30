@@ -13,9 +13,6 @@ public class EditoraDAO {
         return search("");
     }
 
-    /**
-     * Procura por editoras cujo nome contenha a string (LIKE %nome%).
-     */
     public List<Editora> search(String nome) {
         List<Editora> list = new ArrayList<>();
         String sql = "SELECT id_editora, nome, contato, endereco FROM Editora WHERE nome LIKE ? ORDER BY nome";
@@ -39,7 +36,6 @@ public class EditoraDAO {
         }
         return list;
     }
-
     public boolean insert(Editora e) {
         String sql = "INSERT INTO Editora (nome, contato, endereco) VALUES (?, ?, ?)";
         try (Connection conn = Db.getConnection();
@@ -59,7 +55,6 @@ public class EditoraDAO {
         }
         return false;
     }
-
     public boolean update(Editora e) {
         String sql = "UPDATE Editora SET nome = ?, contato = ?, endereco = ? WHERE id_editora = ?";
         try (Connection conn = Db.getConnection();
@@ -75,9 +70,6 @@ public class EditoraDAO {
         }
     }
 
-    /**
-     * Tenta deletar; se houver dependências (FK) o método captura SQLException e retorna false.
-     */
     public boolean delete(int id) {
         String sql = "DELETE FROM Editora WHERE id_editora = ?";
         try (Connection conn = Db.getConnection();
@@ -90,10 +82,6 @@ public class EditoraDAO {
             return false;
         }
     }
-
-    /**
-     * Busca uma editora por id.
-     */
     public Editora findById(int id) {
         String sql = "SELECT id_editora, nome, contato, endereco FROM Editora WHERE id_editora = ?";
         try (Connection conn = Db.getConnection();

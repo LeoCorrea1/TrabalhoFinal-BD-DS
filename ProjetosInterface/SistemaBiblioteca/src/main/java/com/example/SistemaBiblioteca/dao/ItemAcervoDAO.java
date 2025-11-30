@@ -7,6 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+//PRECISEI MUIT AJUDA DA IA
 public class ItemAcervoDAO {
 
     private ItemAcervo map(ResultSet rs) throws SQLException {
@@ -21,8 +22,6 @@ public class ItemAcervoDAO {
         int idTipo = rs.getInt("id_tipo");
         it.setIdTipo(rs.wasNull() ? null : idTipo);
         it.setTipoNome(rs.getString("tipo_nome"));
-
-        // campos de livro/editora (LEFT JOIN, podem ser null)
         try {
             it.setIsbn(rs.getString("isbn"));
         } catch (SQLException ignore) {}
@@ -36,9 +35,6 @@ public class ItemAcervoDAO {
         return it;
     }
 
-    /**
-     * Retorna itens com dados de Livro/Editora (quando existirem).
-     */
     public List<ItemAcervo> findAll() {
         String sql = """
                 SELECT ia.id_item_acervo, ia.titulo, ia.subtitulo, ia.ano, ia.idioma, ia.descricao,
@@ -88,9 +84,6 @@ public class ItemAcervoDAO {
         }
         return null;
     }
-
-    // --- CRUD básicos (mantive métodos compatíveis) ---
-
     public int insert(ItemAcervo it) {
         String sql = "INSERT INTO ItemAcervo (titulo, subtitulo, ano, idioma, descricao, id_tipo) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = Db.getConnection();
@@ -118,7 +111,6 @@ public class ItemAcervoDAO {
         }
         return -1;
     }
-
     public boolean update(ItemAcervo it) {
         String sql = "UPDATE ItemAcervo SET titulo=?, subtitulo=?, ano=?, idioma=?, descricao=?, id_tipo=? WHERE id_item_acervo=?";
         try (Connection conn = Db.getConnection();
@@ -150,14 +142,6 @@ public class ItemAcervoDAO {
             return false;
         }
     }
-
-    /**
-     * Tenta deletar o item. Retorna:
-     *  - true  -> deletado com sucesso
-     *  - false -> não deletado (provavelmente restrição de FK / dependências)
-     *
-     * Use este método quando quiser verificar dependências sem lançar exceção no controller.
-     */
     public boolean deleteIfNoDependencies(int id) {
         String sql = "DELETE FROM ItemAcervo WHERE id_item_acervo = ?";
         try (Connection conn = Db.getConnection();
@@ -172,8 +156,6 @@ public class ItemAcervoDAO {
             return false;
         }
     }
-
-    // métodos com Connection para transação (usados pelo LivroService)
     public int insertWithConnection(Connection conn, ItemAcervo it) throws SQLException {
         String sql = "INSERT INTO ItemAcervo (titulo, subtitulo, ano, idioma, descricao, id_tipo) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -190,7 +172,6 @@ public class ItemAcervoDAO {
         }
         return -1;
     }
-
     public boolean updateWithConnection(Connection conn, ItemAcervo it) throws SQLException {
         String sql = "UPDATE ItemAcervo SET titulo=?, subtitulo=?, ano=?, idioma=?, descricao=?, id_tipo=? WHERE id_item_acervo=?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {

@@ -23,6 +23,7 @@ public class ItemAcervoControllerFX {
     private ItemAcervoDAO dao = new ItemAcervoDAO();
     private ObservableList<ItemAcervo> lista;
 
+    //AJUDA DA IA
     @FXML
     public void initialize() {
         colId.setCellValueFactory(a -> a.getValue().idProperty().asObject());
@@ -31,12 +32,10 @@ public class ItemAcervoControllerFX {
 
         carregarTabela();
     }
-
     private void carregarTabela() {
         lista = FXCollections.observableArrayList(dao.listarTodos());
         tabela.setItems(lista);
     }
-
     @FXML
     private void salvar() {
         try {
@@ -57,7 +56,6 @@ public class ItemAcervoControllerFX {
             mostrarErro("Erro ao salvar: " + e.getMessage());
         }
     }
-
     @FXML
     private void atualizar() {
         ItemAcervo selecionado = tabela.getSelectionModel().getSelectedItem();
@@ -66,7 +64,6 @@ public class ItemAcervoControllerFX {
             mostrarErro("Selecione um item!");
             return;
         }
-
         try {
             selecionado.setTitulo(txtTitulo.getText());
             selecionado.setSubtitulo(txtSubtitulo.getText());
@@ -84,7 +81,6 @@ public class ItemAcervoControllerFX {
             mostrarErro("Erro ao atualizar: " + e.getMessage());
         }
     }
-
     @FXML
     private void deletar() {
         ItemAcervo selecionado = tabela.getSelectionModel().getSelectedItem();
@@ -100,7 +96,6 @@ public class ItemAcervoControllerFX {
         carregarTabela();
         limpar();
     }
-
     @FXML
     private void selecionarDaTabela() {
         ItemAcervo item = tabela.getSelectionModel().getSelectedItem();
@@ -112,7 +107,6 @@ public class ItemAcervoControllerFX {
         txtIdioma.setText(item.getIdioma());
         txtDescricao.setText(item.getDescricao());
     }
-
     private void limpar() {
         txtTitulo.clear();
         txtSubtitulo.clear();
@@ -120,12 +114,10 @@ public class ItemAcervoControllerFX {
         txtIdioma.clear();
         txtDescricao.clear();
     }
-
     private void mostrarErro(String msg) {
         Alert a = new Alert(Alert.AlertType.ERROR, msg);
         a.show();
     }
-
     private void mostrarInfo(String msg) {
         Alert a = new Alert(Alert.AlertType.INFORMATION, msg);
         a.show();

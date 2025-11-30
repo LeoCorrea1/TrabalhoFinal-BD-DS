@@ -9,7 +9,6 @@ import java.util.List;
 
 public class EmprestimoDAO {
 
-    /* ---------- Mapeamento de um registro ---------- */
     private Emprestimo map(ResultSet rs) throws SQLException {
         Emprestimo e = new Emprestimo(
                 rs.getInt("id_emprestimo"),
@@ -26,7 +25,6 @@ public class EmprestimoDAO {
         return e;
     }
 
-    /* ---------- Listagem com JOINs para exibir nomes ---------- */
     public List<Emprestimo> findAllComNomes() {
         List<Emprestimo> list = new ArrayList<>();
         String sql = """
@@ -44,8 +42,6 @@ public class EmprestimoDAO {
         } catch (SQLException ex) { ex.printStackTrace(); }
         return list;
     }
-
-    /* ---------- INSERT ---------- */
     public boolean insert(Emprestimo e) {
         String sql = """
             INSERT INTO Emprestimo
@@ -71,8 +67,6 @@ public class EmprestimoDAO {
         } catch (SQLException ex) { ex.printStackTrace(); }
         return false;
     }
-
-    /* ---------- UPDATE ---------- */
     public boolean update(Emprestimo e) {
         String sql = """
             UPDATE Emprestimo
@@ -99,8 +93,6 @@ public class EmprestimoDAO {
             return ps.executeUpdate() > 0;
         } catch (SQLException ex) { ex.printStackTrace(); return false; }
     }
-
-    /* ---------- DELETE ---------- */
     public boolean delete(int id) {
         String sql = "DELETE FROM Emprestimo WHERE id_emprestimo=?";
         try (Connection c = Db.getConnection();

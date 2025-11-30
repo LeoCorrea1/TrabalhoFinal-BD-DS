@@ -30,18 +30,13 @@ public class ExemplarFormController {
         // carrega localizacoes inicialmente
         refreshLocalizacoes();
     }
-
-    /** chamado pelo ExemplarListController quando for novo */
     public void setItemAcervo(int idItem) {
         this.idItemAcervo = idItem;
     }
-
-    /** chamado pelo ExemplarListController quando for edição */
     public void setEditing(Exemplar e) {
         this.editing = e;
         if (e == null) return;
 
-        // garante que localizacoes estejam carregadas antes de selecionar
         refreshLocalizacoes();
 
         txtCodigo.setText(nullSafe(e.getCodigoBarras()));
@@ -55,10 +50,8 @@ public class ExemplarFormController {
                     .ifPresent(comboLocalizacao::setValue);
         }
 
-        // garantir idItemAcervo também (caso precise)
         this.idItemAcervo = e.getIdItemAcervo();
     }
-
     @FXML
     public void onSalvar() {
         String codigo = txtCodigo.getText();
@@ -66,7 +59,6 @@ public class ExemplarFormController {
             showAlert(Alert.AlertType.ERROR, "Código de barras é obrigatório");
             return;
         }
-
         Exemplar e = (editing != null) ? editing : new Exemplar();
         e.setCodigoBarras(codigo.trim());
         e.setEstadoConservacao(emptyToNull(txtEstado.getText()));
@@ -94,8 +86,6 @@ public class ExemplarFormController {
                 return;
             }
         }
-
-        // fecha modal
         Stage st = (Stage) txtCodigo.getScene().getWindow();
         st.close();
     }
@@ -111,12 +101,9 @@ public class ExemplarFormController {
 
     @FXML
     public void onOpenLocalizacao() {
-        // abre modal de localizacao; ao fechar, recarrega a combo
         SceneManager.showModalWithController("localizacao_form.fxml", "Localização", controller -> {
-            // nada a inicializar aqui
         });
 
-        // recarrega lista de localizacoes (caso tenha sido criada nova)
         refreshLocalizacoes();
     }
 
