@@ -1,16 +1,8 @@
 # ERS -- Sistema de Gestão do Acervo e Biblioteca (JavaFX)
 
-## Versão
-
-1.1 -- Adaptada ao sistema atual
-
 ## Plataforma
 
-Java 17 + JavaFX + Scene Builder + Maven
-
-## Data
-
-01/12/2025
+IntelliJ - Java 17 + JavaFX + Scene Builder + Maven
 
 ------------------------------------------------------------------------
 
@@ -19,14 +11,14 @@ Java 17 + JavaFX + Scene Builder + Maven
 ## 1.1 Propósito
 
 Este documento especifica os requisitos do sistema desktop JavaFX
-utilizado pelo Museu Treze de Maio para gerenciar: - Acervo da
-biblioteca - Usuários - Exemplares - Empréstimos e devoluções
+que será Utiliazdo pelo Museu Treze de Maio para gerenciar: 
+- Acervo da biblioteca - Usuários - Exemplares - Empréstimos - Movimentaçoes e devoluções
 
 ## 1.2 Escopo
 
-O sistema é local e offline, com telas JavaFX e conexão ao banco SQL
-Server. Inclui: - CRUD de usuários - CRUD de livros - CRUD de
-exemplares - Controle de empréstimos
+O sistema é local e offline, com telas JavaFX e conexão ao banco MySQL
+Inclui: - CRUD de usuários - CRUD de itensAcervo - CRUD de
+exemplares - Controle de empréstimos e Muito mais
 
 ------------------------------------------------------------------------
 
@@ -35,28 +27,29 @@ exemplares - Controle de empréstimos
 ## 2.1 Perspectiva do Produto
 
 Software desktop executado em Windows, com formulários, tabelas JavaFX e
-integração com banco relacional.
+integração com banco de dados ( De acordo com as especificaçoes da disciplina Implementaçao de banco de dados )
 
 ## 2.2 Funcionalidades Existentes
 
 -   Cadastro de usuários
--   Cadastro de livros
+-   Cadastro de Itens no Acervo , Editoras ( Gestao Total )
 -   Cadastro de exemplares
 -   Empréstimos
 -   Devoluções
--   Pesquisas simples
+-   Reservas
+-   Pesquisas simples ( itensAcervo, Editoras, Exemplares de um ItemSelecionado e etc )
 
 ## 2.3 Usuários
 
--   Administrador
--   Bibliotecário
--   Visitante (consulta, opcional)
+-   Tecnico
+-   publico
+-   Professor
+-   Funcionario
 
 ## 2.4 Restrições
 
 -   JavaFX obrigatório
--   Banco SQL Server atual
--   Execução offline
+-   Banco MySQL Atual
 -   Ambiente Windows
 
 ------------------------------------------------------------------------
@@ -69,13 +62,13 @@ integração com banco relacional.
 
 Permitir cadastrar, editar, excluir e listar usuários.
 
-### RF002 -- Cadastro de Livros
+### RF002 -- Cadastro de Itens do Acervo
 
-Registrar título, autor, categoria, ano, ISBN, editora.
+Registrar título, tipoAcervo , categoria, ano, ISBN, editora e etc.
 
 ### RF003 -- Cadastro de Exemplares
 
-Vincular a um livro, registrar estado e disponibilidade.
+Vincular a um livro ( itemAcervo ), registrar estado e disponibilidade.
 
 ### RF004 -- Empréstimos
 
@@ -87,15 +80,11 @@ Marcar empréstimo como devolvido e atualizar disponibilidade.
 
 ### RF006 -- Pesquisa
 
-Buscar livros, usuários, empréstimos e exemplares.
+Buscar ItensAcervo,  usuários, empréstimos, Reservas e exemplares.
 
-### RF007 -- Login (Opcional)
+### RF007 -- Logs 
 
-Sistema simples com senha armazenada no banco.
-
-### RF008 -- Logs (Opcional)
-
-Registrar alterações realizadas.
+Registrar alterações realizadas ( Movimentaçoes ).
 
 ------------------------------------------------------------------------
 
@@ -107,21 +96,13 @@ Interface clara com JavaFX e Scene Builder.
 
 ### RNF002 -- Desempenho
 
-Abertura da aplicação em até 5--10 segundos.
+Abertura da aplicação em até 2--5 segundos.
 
 ### RNF003 -- Armazenamento
 
-Tabelas: Usuario, Livro, Exemplar, Emprestimo.
+Tabelas: Usuario, itenAcervo, Exemplar, Emprestimo , Reserva , Editora e Movimentaçoes ... .
 
-### RNF004 -- Segurança
-
-Senhas com hash caso login seja usado.
-
-### RNF005 -- Confiabilidade
-
-Operação totalmente offline.
-
-### RNF006 -- Portabilidade
+### RNF004 -- Portabilidade
 
 Compatível com Windows 10+.
 
@@ -129,49 +110,56 @@ Compatível com Windows 10+.
 
 # 4. Modelagem do Sistema
 
-## 4.1 Entidades
+## 4.1 Entidades (principais do sistema)
 
--   Usuario(id, nome, email, telefone)
--   Livro(id, titulo, autor, categoria, isbn, editora, ano)
--   Exemplar(id, idLivro, estado, disponibilidade)
--   Emprestimo(id, idExemplar, idUsuario, datas, status)
+-   ItemAcervo(id_item_acervo, titulo, subtitulo, ano, idioma, descricao, id_tipo)
+-   TipoItemAcervo(id_tipo, nome)
+-   Editora(id_editora, nome, contato)
+-   Livro(id_livro = ItemAcervo.id_item_acervo, isbn, edicao, numero_paginas, id_editora)
+-   Localizacao(id_localizacao, setor, prateleira, caixa)
+-   Exemplar(id_exemplar, id_item_acervo, codigo_barras, estado_conservacao, disponivel, id_localizacao)
+-   Usuario(id_usuario, nome, email, telefone, tipo_usuario, ativo)
+-   Emprestimo(id_emprestimo, id_exemplar, id_usuario, datas, status)
+-   Reserva(id_reserva, id_exemplar, id_usuario, data_reserva, data_expiracao, status)
+-   Movimentacao(id_mov, id_item_acervo, id_exemplar, id_usuario, tipo, descricao, data_hora)
 
 ## 4.2 Relacionamentos
 
--   Livro 1:N Exemplar\
--   Exemplar 1:N Empréstimo\
--   Usuario 1:N Empréstimo
-
+-   ItemAcervo 1:N Exemplar
+-   ItemAcervo 1:N ItemAssunto
+-   ItemAcervo 1:1 Livro (quando o item é um livro)
+-   Exemplar 1:N Emprestimo
+-   Exemplar 1:N Reserva
+-   Usuario 1:N Emprestimo
+-   Usuario 1:N Reserva
+-   Usuario 1:N Movimentacao ( Para Log )
+-   Localizacao 1:N Exemplar
+  
 ------------------------------------------------------------------------
 
 # 5. Interfaces
 
 ## 5.1 Telas
 
--   Login (opcional)
--   Menu Principal
--   Usuários
--   Livros
+-   DashBoard
+-   ItensAcervo
 -   Exemplares
 -   Empréstimos
 -   Devoluções
--   Pesquisa/Listagem
+-   Movimentaçoes
+-   Usuários
+-   Editoras
+-   E muito mais...
 
 ------------------------------------------------------------------------
 
 # 6. Critérios de Aceitação
 
 -   Todos os CRUDs funcionando.
--   Empréstimos atualizam disponibilidade.
+-   Empréstimos registrados corretamente.
 -   Devoluções registradas corretamente.
 -   Tabelas JavaFX exibem dados corretamente.
 -   Banco conectado e persistindo dados.
 -   Projeto compila via Maven.
 
 ------------------------------------------------------------------------
-
-# 7. Anexos
-
--   Script SQL atual
--   Estrutura de pacotes Java
--   Protótipos de telas (opcional)
