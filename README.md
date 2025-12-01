@@ -14,11 +14,11 @@ Feitos em **Java + JavaFX**, com banco **MySQL**.
 
 Fornecer um sistema simples e local para:
 
-- **Sistema da Biblioteca Comunitária**
-- Gerenciar itens da biblioteca (itensAcervo)
+**Sistema da Biblioteca Comunitária**
+-  Gerenciar itens da biblioteca (itensAcervo)
 - Controlar usuários, exemplares, empréstimos, reservas e movimentações
 
-- **Sistema do Acervo Histórico**
+ **Sistema do Acervo Histórico**
 - Registrar itens do acervo histórico (atas, cartas, fotos, objetos, relatos)
 
 ---
