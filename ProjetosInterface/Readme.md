@@ -1,48 +1,78 @@
-📚 Sistema de Gestão da Biblioteca e do Acervo Histórico
+# 📚 Sistema da Biblioteca e do Acervo Histórico  
+Museu Treze de Maio 
 
-Este documento descreve, de forma resumida, os principais requisitos do sistema desktop desenvolvido para o Museu Treze de Maio, integrando tanto a Biblioteca Comunitária quanto o Acervo Histórico.
-O sistema foi construído em JavaFX, com persistência em MySQL, seguindo o padrão MVC utilizado no projeto.
+Este documento apresenta um resumo dos dois sistemas desenvolvidos para o Museu Treze de Maio:
 
-1. Introdução
-1.1 Propósito
+- **Sistema da Biblioteca Comunitária**
+- **Sistema do Acervo Histórico**
 
-Registrar e gerenciar todos os itens do acervo (biblioteca + histórico), além de usuários, exemplares, empréstimos, reservas e movimentações.
+Feitos em **Java + JavaFX**, com banco **MySQL**.
 
-1.2 Escopo
+---
 
-Aplicação local e offline, com telas JavaFX e CRUD completo para:
+## 🎯 Objetivo
 
-Biblioteca (livros, revistas, jornais)
+Fornecer um sistema simples e local para:
 
-Acervo histórico (atas, cartas, fotos, relatos, objetos históricos)
+- **Sistema da Biblioteca Comunitária**
+- Gerenciar itens da biblioteca (itensAcervo)
+- Controlar usuários, exemplares, empréstimos, reservas e movimentações
 
-Usuários, exemplares, empréstimos, reservas e editoras
+- **Sistema do Acervo Histórico**
+- Registrar itens do acervo histórico (atas, cartas, fotos, objetos, relatos)
 
-2. Descrição Geral
-2.1 Perspectiva
+---
 
-Software desktop para Windows, com formulários e tabelas JavaFX, integrado ao banco definido na disciplina.
+## 🏗 Arquitetura
 
-2.2 Funcionalidades
+- `model/` — classes de domínio  
+- `controller/` — lógica das telas  
+- `fxml/` — FXML + JavaFX  
+- `dao/` — DAOs  
+- `conexao/` — conexão MySQL  
 
-Cadastro de usuários
+Tecnologias: **Java, JavaFX, MySQL, JDBC, SceneBuilder , Maven**
 
-Cadastro geral de ItemAcervo e especializações
+---
 
-Editoras, assuntos, autores
+## 📘 Biblioteca — Funcionalidades
 
-Exemplares e localizações
+- Itens de Acervo  
+- Editoras  
+- Exemplares + Localização  
+- Reservas  
+- Empréstimos
+- Usuarios
+- Visualizaçao de Movimentaçoes
 
-Empréstimos, devoluções e reservas
+Inclui CRUD completo, validação e listagens.
 
-Movimentações (log)
+---
 
-Pesquisas simples em todas as entidades
+## 🗂 Acervo Histórico — Funcionalidades
 
-2.3 Usuários
+- Atas  
+- Cartas  
+- Fotografias  
+- Relatos orais  
+- Objetos históricos  
+- Jornais históricos  
 
-Técnico, Funcionário, Professor e Público.
+Baseados na entidade comum **ItemAcervo**.
 
-2.4 Restrições
+---
 
-JavaFX, MySQL e ambiente Windows.
+## 🗄 Banco de Dados
+
+Principais entidades:
+
+- ItemAcervo  
+- Livro / Revista / Jornal  
+- Exemplar / Localização  
+- Empréstimo / Reserva  
+- Autor / Assunto  
+- Ata / Carta / Foto / Relato / Objeto  
+- Movimentações  
+- TipoItemAcervo  
+
+---
