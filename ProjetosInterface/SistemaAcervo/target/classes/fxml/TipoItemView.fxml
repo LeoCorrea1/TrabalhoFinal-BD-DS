@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox spacing="8" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.SistemaAcervo.controller.TipoItemController" prefWidth="600" prefHeight="400">
+    <HBox spacing="6" padding="6">
+        <Button text="Novo" onAction="#onNovo"/>
+        <Button text="Editar" onAction="#onEditar"/>
+        <Button text="Remover" onAction="#onRemover"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Atualizar" onAction="#onRefresh"/>
+    </HBox>
+    <TableView fx:id="tableTipos" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colId" text="ID" prefWidth="80"/>
+            <TableColumn fx:id="colNome" text="Nome" prefWidth="220"/>
+            <TableColumn fx:id="colDesc" text="Descrição" prefWidth="300"/>
+        </columns>
+    </TableView>
+</VBox>

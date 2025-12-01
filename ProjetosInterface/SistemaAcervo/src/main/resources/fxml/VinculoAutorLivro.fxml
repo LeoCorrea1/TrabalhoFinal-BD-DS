@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<?import java.lang.String?>
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.SistemaAcervo.controller.VinculoAutorLivroController"
+      spacing="15" prefWidth="700" prefHeight="500">
+
+    <padding>
+        <Insets top="15" right="15" bottom="15" left="15"/>
+    </padding>
+
+    <!-- Seleção de Livro -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Selecione o Livro:" prefWidth="120"/>
+        <ComboBox fx:id="cmbLivros" prefWidth="400" promptText="Escolha um livro..."/>
+        <Button text="Atualizar" onAction="#onRefresh"/>
+    </HBox>
+
+    <!-- Área principal dividida -->
+    <HBox spacing="15" VBox.vgrow="ALWAYS">
+
+        <!-- Autores do Livro (vinculados) -->
+        <VBox spacing="10" HBox.hgrow="ALWAYS">
+            <Label text="Autores do Livro:" style="-fx-font-weight: bold;"/>
+            <ListView fx:id="listAutoresVinculados" VBox.vgrow="ALWAYS"/>
+            <Button text="Remover Vínculo" onAction="#onRemoverVinculo" prefWidth="150"/>
+        </VBox>
+
+        <!-- Botões centrais -->
+        <VBox spacing="10" alignment="CENTER">
+            <Button text="&lt;&lt; Vincular" onAction="#onVincular" prefWidth="100"/>
+        </VBox>
+
+        <!-- Todos os Autores (disponíveis) -->
+        <VBox spacing="10" HBox.hgrow="ALWAYS">
+            <Label text="Autores Disponíveis:" style="-fx-font-weight: bold;"/>
+            <ListView fx:id="listTodosAutores" VBox.vgrow="ALWAYS"/>
+        </VBox>
+
+    </HBox>
+
+    <!-- Info do vínculo -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Papel:"/>
+        <ComboBox fx:id="cmbPapel" prefWidth="150">
+            <items>
+                <javafx.collections.FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Autor"/>
+                    <String fx:value="Coautor"/>
+                    <String fx:value="Organizador"/>
+                    <String fx:value="Tradutor"/>
+                </javafx.collections.FXCollections>
+            </items>
+        </ComboBox>
+    </HBox>
+
+</VBox>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox spacing="8" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.SistemaAcervo.controller.DetalheItemController" prefWidth="600" prefHeight="450">
+    <Label fx:id="lblTitulo" style="-fx-font-size:16px; -fx-font-weight:bold"/>
+    <GridPane hgap="6" vgap="6">
+        <Label text="Subtítulo:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <Label fx:id="lblSub" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+        <Label text="Ano:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <Label fx:id="lblAno" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        <Label text="Idioma:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <Label fx:id="lblIdioma" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        <Label text="Tipo:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="cmbTipo" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+        <Label text="Descrição:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <TextArea fx:id="txtDesc" editable="false" wrapText="true" prefRowCount="4" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+    </GridPane>
+    <HBox spacing="6">
+        <Button text="Salvar Tipo" onAction="#onSalvarTipo"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Vincular Autor" onAction="#onVincularAutor"/>
+        <Button text="Remover Vínculo" onAction="#onRemoverVinculo"/>
+    </HBox>
+    <Label text="Autores vinculados:"/>
+    <ListView fx:id="listAutores" VBox.vgrow="ALWAYS"/>
+</VBox>

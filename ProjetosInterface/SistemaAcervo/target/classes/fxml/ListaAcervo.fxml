@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<HBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.SistemaAcervo.controller.ListaAcervoController"
+      spacing="15" prefWidth="1000" prefHeight="600">
+
+    <padding>
+        <Insets top="15" right="15" bottom="15" left="15"/>
+    </padding>
+
+    <!-- LADO ESQUERDO: Lista de Itens -->
+    <VBox spacing="10" prefWidth="450">
+
+        <Label text="Acervo da Biblioteca" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+        <!-- Filtros -->
+        <HBox spacing="10">
+            <TextField fx:id="txtBusca" promptText="Buscar título..." HBox.hgrow="ALWAYS"/>
+            <ComboBox fx:id="cmbTipo" promptText="Tipo"/>
+            <Button text="Filtrar" onAction="#onFiltrar"/>
+        </HBox>
+
+        <!-- Tabela -->
+        <TableView fx:id="tableItens" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="40"/>
+                <TableColumn fx:id="colTitulo" text="Título" prefWidth="250"/>
+                <TableColumn fx:id="colTipo" text="Tipo" prefWidth="80"/>
+                <TableColumn fx:id="colAno" text="Ano" prefWidth="60"/>
+            </columns>
+        </TableView>
+
+        <Button text="Atualizar Lista" onAction="#onRefresh" prefWidth="150"/>
+    </VBox>
+
+    <!-- Separador -->
+    <Separator orientation="VERTICAL"/>
+
+    <!-- LADO DIREITO: Detalhes do Item -->
+    <VBox fx:id="painelDetalhes" spacing="10" HBox.hgrow="ALWAYS">
+
+        <Label text="Detalhes do Item" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+            <VBox spacing="15" style="-fx-padding: 10;">
+
+                <!-- Informações Básicas -->
+                <TitledPane text="Informações Básicas" expanded="true" collapsible="false">
+                    <GridPane hgap="10" vgap="8" style="-fx-padding: 10;">
+                        <Label text="Título:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                        <Label fx:id="lblTitulo" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                        <Label text="Subtítulo:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                        <Label fx:id="lblSubtitulo" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                        <Label text="Tipo:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                        <Label fx:id="lblTipo" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                        <Label text="Ano:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                        <Label fx:id="lblAno" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+                        <Label text="Idioma:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                        <Label fx:id="lblIdioma" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+                        <Label text="Descrição:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                        <Label fx:id="lblDescricao" wrapText="true" prefWidth="300" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                    </GridPane>
+                </TitledPane>
+
+                <!-- Informações do Livro (só aparece para livros) -->
+                <TitledPane fx:id="paneLivro" text="Informações do Livro" expanded="true" collapsible="false">
+                    <GridPane hgap="10" vgap="8" style="-fx-padding: 10;">
+                        <Label text="ISBN:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                        <Label fx:id="lblIsbn" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                        <Label text="Edição:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                        <Label fx:id="lblEdicao" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                        <Label text="Nº Páginas:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                        <Label fx:id="lblPaginas" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                        <Label text="Editora:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                        <Label fx:id="lblEditora" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                    </GridPane>
+                </TitledPane>
+
+                <!-- Autores -->
+                <TitledPane fx:id="paneAutores" text="Autores" expanded="true" collapsible="false">
+                    <VBox spacing="5" style="-fx-padding: 10;">
+                        <ListView fx:id="listAutores" prefHeight="120"/>
+                        <Label fx:id="lblSemAutores" text="Nenhum autor vinculado" style="-fx-text-fill: gray;"/>
+                    </VBox>
+                </TitledPane>
+
+            </VBox>
+        </ScrollPane>
+
+        <!-- Mensagem quando nenhum item selecionado -->
+        <Label fx:id="lblSelecioneItem" text="Selecione um item da lista para ver os detalhes"
+               style="-fx-font-size: 14px; -fx-text-fill: gray;"/>
+
+    </VBox>
+
+</HBox>
