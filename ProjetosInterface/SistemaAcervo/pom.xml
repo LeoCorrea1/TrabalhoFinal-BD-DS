@@ -1,27 +1,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.museu</groupId>
-  <artifactId>acervo-module</artifactId>
+
+  <groupId>com.example</groupId>
+  <artifactId>SistemaBiblioteca</artifactId>
   <version>1.0-SNAPSHOT</version>
+  <name>ProjetoFXcomBD</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
-    <javafx.version>20</javafx.version>
+    <!-- ajuste aqui para 17 se sua JDK for 17, ou 23 se realmente estiver usando JDK 23 -->
+    <maven.compiler.source>23</maven.compiler.source>
+    <maven.compiler.target>23</maven.compiler.target>
+
+    <javafx.version>17.0.6</javafx.version>
+    <junit.version>5.10.2</junit.version>
   </properties>
 
   <dependencies>
-    <!-- JDBC driver: troque caso use outro SGBD -->
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <version>8.1.0</version>
-    </dependency>
-
     <!-- JavaFX -->
     <dependency>
       <groupId>org.openjfx</groupId>
@@ -33,17 +30,54 @@
       <artifactId>javafx-fxml</artifactId>
       <version>${javafx.version}</version>
     </dependency>
+
+    <!-- MySQL connector -->
+    <dependency>
+      <groupId>com.mysql</groupId>
+      <artifactId>mysql-connector-j</artifactId>
+      <version>8.3.0</version>
+    </dependency>
+
+
+    <!-- Testes -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
   <build>
     <plugins>
-      <!-- Add javafx plugin if you run from Maven -->
+      <!-- Compiler -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+        <configuration>
+          <source>${maven.compiler.source}</source>
+          <target>${maven.compiler.target}</target>
+        </configuration>
+      </plugin>
+
+
+
+      <!-- JavaFX Maven plugin -->
       <plugin>
         <groupId>org.openjfx</groupId>
         <artifactId>javafx-maven-plugin</artifactId>
         <version>0.0.8</version>
         <configuration>
-          <mainClass>com.museu.acervo.AppMain</mainClass>
+          <!-- MAIN CLASS - ajuste para o seu package/class -->
+          <mainClass>com.example.SistemaBiblioteca.app.Main</mainClass>
         </configuration>
       </plugin>
     </plugins>
