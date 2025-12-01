@@ -19,7 +19,9 @@ Fornecer um sistema simples e local para:
 - Controlar usuários, exemplares, empréstimos, reservas e movimentações
 
  **Sistema do Acervo Histórico**
-- Registrar itens do acervo histórico (atas, cartas, fotos, objetos, relatos)
+- CRUD de Tipos de Item (TipoItemAcervo), classificação dos itens por tipo histórico, e vínculo de Autores a Livros (tabela LivroAutor).
+-  A interface inclui uma galeria/listagem de itens e uma tela de detalhe que exibe metadados.
+
 
 ---
 
