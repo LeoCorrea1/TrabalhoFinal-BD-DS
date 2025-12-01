@@ -1,97 +1,48 @@
-# 📚 Sistema de Gestão da Biblioteca e do Acervo Histórico  
-Museu Treze de Maio — Projeto Acadêmico
+📚 Sistema de Gestão da Biblioteca e do Acervo Histórico
 
-Este repositório contém a implementação completa dos dois sistemas solicitados no trabalho final da disciplina **Laboratório de Desenvolvimento de Software**:
+Este documento descreve, de forma resumida, os principais requisitos do sistema desktop desenvolvido para o Museu Treze de Maio, integrando tanto a Biblioteca Comunitária quanto o Acervo Histórico.
+O sistema foi construído em JavaFX, com persistência em MySQL, seguindo o padrão MVC utilizado no projeto.
 
-- **Sistema de Gestão da Biblioteca Comunitária**
-- **Sistema de Gestão do Acervo Histórico**
+1. Introdução
+1.1 Propósito
 
-Ambos foram desenvolvidos em Java, utilizando JavaFX para interface gráfica e MySQL para persistência dos dados.
+Registrar e gerenciar todos os itens do acervo (biblioteca + histórico), além de usuários, exemplares, empréstimos, reservas e movimentações.
 
----
+1.2 Escopo
 
-## 🎯 Objetivo do Projeto
+Aplicação local e offline, com telas JavaFX e CRUD completo para:
 
-Atender às necessidades do Museu Treze de Maio, permitindo:
+Biblioteca (livros, revistas, jornais)
 
-- Catalogação dos itens da biblioteca (livros, revistas, jornais)
-- Catalogação do acervo histórico (atas, cartas, fotos, relatos, objetos históricos)
-- Consulta e gerenciamento por equipe interna, pesquisadores e comunidade
+Acervo histórico (atas, cartas, fotos, relatos, objetos históricos)
 
----
+Usuários, exemplares, empréstimos, reservas e editoras
 
-## 🏗 Arquitetura do Sistema
+2. Descrição Geral
+2.1 Perspectiva
 
-O projeto segue o padrão **MVC**, conforme recomendado no PDF:
+Software desktop para Windows, com formulários e tabelas JavaFX, integrado ao banco definido na disciplina.
 
-- model/ → Classes de domínio
-- controller/ → Lógica das telas
-- view/ → Interfaces JavaFX (FXML)
-- repositor/ → DAOs e acesso ao banco
-- conexao/ → Classe de conexão MySQL
+2.2 Funcionalidades
 
-Tecnologias utilizadas:
+Cadastro de usuários
 
-- Java  
-- JavaFX + Scene Builder  
-- MySQL  
-- JDBC  
-- Maven  
+Cadastro geral de ItemAcervo e especializações
 
----
+Editoras, assuntos, autores
 
-## 📘 Funcionalidades — Biblioteca Comunitária
+Exemplares e localizações
 
-**Módulos implementados:**
+Empréstimos, devoluções e reservas
 
-- Cadastro de Itens de Acervo
-- Cadastro de Livros
-- Cadastro de Revistas
-- Cadastro de Jornais
-- Editoras
-- Assuntos relacionados
-- Exemplares e Localização
-- Reservas
-- Empréstimos
+Movimentações (log)
 
-Inclui:
+Pesquisas simples em todas as entidades
 
-- CRUD completo  
-- Validações  
-- Tabelas com listagem  
-- Movimentação de itens  
+2.3 Usuários
 
----
+Técnico, Funcionário, Professor e Público.
 
-## 🗂 Funcionalidades — Acervo Histórico
+2.4 Restrições
 
-**Módulos implementados:**
-
-- Atas
-- Cartas
-- Fotografias
-- Relatos orais
-- Objetos históricos
-- Jornais históricos
-
-Todos vinculados à estrutura base **ItemAcervo**.
-
----
-
-## 🗄 Banco de Dados
-
-O banco segue o modelo proposto na disciplina, incluindo:
-
-- ItemAcervo (classe base)
-- Livro, Revista, Jornal
-- Autor / LivroAutor
-- Assunto / ItemAssunto
-- Exemplar / Localização
-- Empréstimo / Reserva
-- Ata, Carta, Foto, Relato Oral, Objeto Histórico
-- Movimentações
-- TipoItemAcervo para classificação
-
-O script SQL completo está em: biblioteca.sql
-
-
+JavaFX, MySQL e ambiente Windows.
