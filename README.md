@@ -53,14 +53,12 @@ Inclui CRUD completo, validação e listagens.
 
 ##  Acervo Histórico — Funcionalidades
 
-- Atas  
-- Cartas  
-- Fotografias  
-- Relatos orais  
-- Objetos históricos  
-- Jornais históricos  
+- Galeria do Acervo (visualização detalhada)
+- Tipos de Itens Acervo
+- Autores
+- Vinculação Autor ↔ Livro
 
-Baseados na entidade comum **ItemAcervo**.
+Inclui CRUD completo, filtros e listagens..
 
 ---
 
