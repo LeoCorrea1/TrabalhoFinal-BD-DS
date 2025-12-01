@@ -1,4 +1,4 @@
--- TipoItemAcervo
+-- TipoItemAcervoo
 INSERT INTO TipoItemAcervo (nome, descricao) VALUES
 ('Livro', 'Publicações impressas'),
 ('Jornal', 'Publicações periódicas'),
@@ -92,3 +92,4 @@ INSERT INTO Movimentacao (id_item_acervo, id_exemplar, id_usuario, tipo, descric
 VALUES
 (1, 1, 1, 'emprestimo', 'Empréstimo realizado'),
 (4, 3, 3, 'consulta', 'Consulta de fotografia');
+
