@@ -1,0 +1,142 @@
+# Especificação de Requisitos de Software (ERS)
+
+## 1. Introdução
+
+Este documento apresenta a Especificação de Requisitos do Software (ERS) do **Sistema de Acervo Histórico**, descrevendo seus requisitos funcionais, não funcionais e os casos de uso que orientam o desenvolvimento.
+
+### 1.1 Objetivo
+
+O objetivo deste documento é detalhar todas as funcionalidades e restrições do sistema, garantindo entendimento comum entre desenvolvedores, stakeholders e usuários finais.
+
+### 1.2 Escopo do Sistema
+
+O sistema tem como finalidade gerenciar o acervo histórico, permitindo cadastro, consulta, edição e exclusão de itens do acervo.
+
+---
+
+## 2. Descrição Geral
+
+### 2.1 Usuários do Sistema
+
+* Administrador
+* Usuário comum (consulta)
+
+### 2.2 Ambiente Operacional
+
+* Linguagem: Java
+* Interface: JavaFX
+* Banco de dados: MySQL
+
+### 2.3 Requisitos de Alto Nível
+
+* Permitir cadastro e gerenciamento de itens do acervo.
+
+* Apresentar interface gráfica intuitiva.
+
+---
+
+## 3. Requisitos Funcionais (RF)
+
+
+### RF01 - Cadastrar Item do Acervo
+
+O sistema deve permitir adicionar novos itens ao acervo, contendo título, descrição, categoria, data e idioma.
+
+### RF02 - Editar Item do Acervo
+
+O sistema deve possibilitar modificar informações de um item já cadastrado.
+
+### RF03 - Excluir Item do Acervo
+
+O sistema deve permitir remover um item do acervo.
+
+### RF04 - Consultar Itens
+
+O sistema deve permitir busca por itens via filtros como título, categoria e data.
+
+### RF05 - Visualizar Detalhes de Itens
+
+O sistema deve exibir informações completas de um item selecionado.
+
+### RF06 - Navegação pelo Menu Principal
+
+O sistema deve apresentar menu inicial carregado a partir do arquivo main.fxml.
+
+---
+
+## 4. Requisitos Não Funcionais (RNF)
+
+### RNF01 - Usabilidade
+
+A interface deve ser intuitiva e compatível com padrões modernos de UI.
+
+### RNF02 - Desempenho
+
+Consultas ao banco devem ocorrer em menos de 10 segundos.
+
+### RNF03 - Confiabilidade
+
+O sistema deve continuar funcionando mesmo em casos de falha de conexão momentânea.
+
+### RNF04 - Portabilidade
+
+O sistema deve ser compatível com Windows.
+
+### RNF05 - Manutenibilidade
+
+O código deve seguir boas práticas de organização (MVC/DAO).
+
+---
+
+## 5. Casos de Uso
+
+
+### UC01 - Cadastrar Item do Acervo
+
+**Ator:** Administrador
+**Fluxo Principal:**
+
+1. Administrador seleciona opção de cadastro.
+2. Preenche dados do item.
+3. Sistema salva no banco.
+
+### UC02 - Consultar Itens
+
+**Ator:** Usuário
+**Fluxo Principal:**
+
+1. Usuário acessa tela de consulta.
+2. Digita termo de busca.
+3. Sistema exibe resultados filtrados.
+
+### UC03 - Editar Item do Acervo
+
+**Ator:** Administrador
+**Fluxo Principal:**
+
+1. Administrador seleciona item já existente.
+2. Modifica informações.
+3. Sistema salva alterações.
+
+### UC04 - Excluir Item do Acervo
+
+**Ator:** Administrador
+**Fluxo Principal:**
+
+1. Administrador seleciona item.
+2. Confirma exclusão.
+3. Sistema remove do banco.
+
+### UC05 - Visualizar Detalhes de Itens
+
+**Ator:** Usuário
+**Fluxo Principal:**
+
+1. Usuário seleciona item.
+2. Sistema exibe todas as informações.
+
+---
+
+## 6. Conclusão
+
+Este documento define de forma clara os requisitos funcionais, não funcionais e casos de uso que norteiam o desenvolvimento do Sistema de Acervo Histórico, garantindo precisão e alinhamento entre toda a equipe.
