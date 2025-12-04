@@ -1,2 +1,1 @@
-- A PARTE DE PROJETAR O BANCO COMO FLEXIVEL... GARANTIR INTEGRIDADE REFERENCIAL ( ATIVIDADES 1 E 2 DA FASE 2 ) FORAM APLICADAS NO DESENVOLVIMENTO DO BANCO ( FASE 3 )
-
+-   Os requisitos das Atividades 1 e 2 (Fase 2) — flexibilidade do banco e integridade referencial — foram implementados na prática durante a Fase 3 do desenvolvimento.
