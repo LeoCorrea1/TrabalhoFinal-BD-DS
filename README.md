@@ -58,7 +58,7 @@ Inclui CRUD completo, validação e listagens.
 - Autores
 - Vinculação Autor ↔ Livro
 
-Inclui CRUD completo, filtros e listagens..
+Inclui CRUD completo de Itens, filtros e listagens..
 
 ---
 
