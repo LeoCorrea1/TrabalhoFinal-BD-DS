@@ -154,7 +154,7 @@ BEFORE DELETE ON Usuario
 FOR EACH ROW
 BEGIN
     SIGNAL SQLSTATE '45000'
-    SET MESSAGE_TEXT = 'Usuario com dependencias nao pode ser deletado, apenas desativado';
+    SET MESSAGE_TEXT = 'Usuario nao pode ser deletado, apenas desativado';
 END$$
 
 DELIMITER ;
